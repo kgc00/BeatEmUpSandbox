@@ -10,5 +10,7 @@ namespace StateMachines.Jumping {
         [SerializeField] public float maxVelocity;
         [SerializeField] public float fallMultiplier;
         [SerializeField] public float lowJumpMultiplier;
+        [SerializeField] public float groundedLinearDrag;
+        [SerializeField] public float aerialLinearDrag;
     }
 }

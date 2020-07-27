@@ -13,7 +13,8 @@ namespace StateMachines.Jumping {
             Jump.ChangeState(new JumpLaunchingFS(Behaviour, Jump, Config));
         }
         public override void Enter() {
-            Rig.gravityScale = 1f;            
+            Rig.gravityScale = 1f;    
+            Rig.drag = Config.groundedLinearDrag;
         }
     }
 }

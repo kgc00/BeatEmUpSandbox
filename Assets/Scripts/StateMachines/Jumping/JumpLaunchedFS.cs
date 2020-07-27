@@ -15,11 +15,10 @@ namespace StateMachines.Jumping {
 
         public override void Enter() => Rig.gravityScale = Config.lowJumpMultiplier;
 
-        public override FSMState Update() {
+        public override void Update() {
             if (Rig.velocity.y < 0 || timeLapsed >= Config.jumpDuration) Jump.ChangeState(new JumpFallingFS(Behaviour, Jump, Config));
 
             timeLapsed += Time.deltaTime;
-            return null;
         }
         public override float Force() => Mathf.Abs(Rig.velocity.y) >= Config.maxVelocity ? 0 : Config.jumpVelocity;
     }

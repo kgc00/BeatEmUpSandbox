@@ -20,6 +20,7 @@ namespace StateMachines.Jumping {
         }
 
         public void Update() => state.Update();
+
         public void OnCollisionEnter2D(Collision2D other) => state.OnCollisionEnter2D(other);
         public void AcceptJumpInput(InputAction.CallbackContext context) => state.AcceptJumpInput(context);
     }

@@ -3,7 +3,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Jumping {
-    public abstract class JumpFS : FSMState {
+    /// <summary>
+    /// States for jump object.  Not inhereting from FSM because
+    /// this is a callback based state machine, and FSMState
+    /// requires update return an FSMState (which we would ignore
+    /// and would be confusing)
+    /// </summary>
+    public abstract class JumpFS {
         protected readonly Animator Animator;
         protected readonly Rigidbody2D Rig;
         protected readonly GameObject Behaviour;
@@ -26,5 +32,9 @@ namespace StateMachines.Jumping {
             if (AnimatorStateJumping() || AnimatorStateFalling()) Animator.SetTrigger(Grounded);
         }
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);
+        
+        public virtual void Enter(){}
+        public virtual void Update() {}
+        public virtual void Exit(){}
     }
 }

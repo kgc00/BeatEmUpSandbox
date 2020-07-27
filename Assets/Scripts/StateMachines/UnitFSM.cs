@@ -13,6 +13,8 @@ namespace StateMachines {
         [SerializeField]private RunConfig runConfig;
         [SerializeField] private Rigidbody2D rig;
         
+        // TODO refactor to use the interfaces InputProvider / CollisionEnter
+        // TODO Potentially refactor to a combined "movment" object
         private JumpFSM jump;
         private Run run;
         private Vector2 relativeForce;
