@@ -32,12 +32,13 @@ namespace StateMachines {
 
             relativeForce.x = run.Force();
             relativeForce.y = jump.Force();
-
+            
             rig.AddRelativeForce(relativeForce);
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
             jump.OnCollisionEnter2D(other);
+            run.OnCollisionEnter2D(other);
         }
     }
 }
