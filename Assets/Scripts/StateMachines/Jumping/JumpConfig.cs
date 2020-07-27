@@ -7,6 +7,7 @@ namespace StateMachines.Jumping {
     public class JumpConfig : ScriptableObject {
         [SerializeField] public float jumpDuration;
         [SerializeField] public float jumpVelocity;
+        [SerializeField] public float maxVelocity;
         [SerializeField] public float fallMultiplier;
         [SerializeField] public float lowJumpMultiplier;
     }

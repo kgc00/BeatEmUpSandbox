@@ -27,6 +27,6 @@ namespace StateMachines.Jumping {
             Rig.drag = 0f;
         }
 
-        public override float Force() => Mathf.Abs(Rig.velocity.y) >= 3.25f ? 0 : Config.jumpVelocity;
+        public override float Force() => Mathf.Abs(Rig.velocity.y) >= Config.maxVelocity ? 0 : Config.jumpVelocity;
     }
 }
