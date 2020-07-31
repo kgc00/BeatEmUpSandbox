@@ -29,12 +29,14 @@ namespace StateMachines.Jumping {
         public bool AnimatorStateFalling() => Animator.GetCurrentAnimatorStateInfo(0).IsName("player_fall");
         public virtual float Force() => 0f;
         public virtual void OnCollisionEnter2D(Collision2D other) {
+            // if (!other.gameObject.CompareTag("Board")) return;
+            
             if (AnimatorStateJumping() || AnimatorStateFalling()) Animator.SetTrigger(Grounded);
         }
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);
         
         public virtual void Enter(){}
-        public virtual void Update() {}
+        public virtual void Update(){}
         public virtual void Exit(){}
     }
 }

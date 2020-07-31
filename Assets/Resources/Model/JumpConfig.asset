@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe8843b515a4f66b06529fb1089a7d5, type: 3}
   m_Name: JumpConfig
   m_EditorClassIdentifier: 
-  jumpDuration: 0
-  jumpVelocity: 0
-  fallMultiplier: 0
-  lowJumpMultiplier: 0
-  acceleration: 0
-  maxSpeed: 0
+  jumpDuration: 0.3
+  jumpVelocity: 60
+  maxVelocity: 3.25
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 8
+  groundedLinearDrag: 20
+  aerialLinearDrag: 3

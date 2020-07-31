@@ -42,5 +42,9 @@ namespace StateMachines {
             jump.OnCollisionEnter2D(other);
             run.OnCollisionEnter2D(other);
         }
+
+        private void OnGUI() {
+            GUILayout.Box(run.inputLocked.ToString());
+        }
     }
 }

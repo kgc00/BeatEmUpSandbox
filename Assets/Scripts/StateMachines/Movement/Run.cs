@@ -16,17 +16,36 @@ namespace StateMachines.Movement {
 
         private float moveDir;
         private bool moving;
+        public bool inputLocked;
 
         public Run(GameObject behaviour, RunConfig runConfig) {
             animator = behaviour.GetComponent<Animator>();
             transform = behaviour.GetComponent<Transform>();
             rig = behaviour.GetComponent<Rigidbody2D>();
             config = runConfig;
+            Observer.LockInput += LockInput;
+            Observer.UnlockInput += UnlockInput;
+        }
+
+        ~Run() {
+            Observer.LockInput -= LockInput;
+            Observer.UnlockInput -= UnlockInput;
+        }
+
+        private void LockInput() {
+            inputLocked = true;
+        }
+
+        private void UnlockInput() {
+            inputLocked = false;
+            UpdateAnimations();
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
             moveDir = context.ReadValue<Single>();
             moving = Math.Abs(moveDir) > .01f;
+            if(inputLocked) return;
+            
             UpdateAnimations();
         }
 
@@ -43,6 +62,8 @@ namespace StateMachines.Movement {
         }
 
         public float Force() {
+            if (inputLocked) return 0;
+            
             var rigX = rig.velocity.x;
 
             return HitSpeedCap(rigX) && IsSameSign(rigX) ? CappedMoveVelocity() : NormalMoveVelocity();
@@ -62,6 +83,10 @@ namespace StateMachines.Movement {
             return bothPositive || bothNegative;;
         }
 
-        public void OnCollisionEnter2D(Collision2D other) => UpdateAnimations();
+        public void OnCollisionEnter2D(Collision2D other) {
+            // if (!other.gameObject.CompareTag("Board")) return;
+            
+            UpdateAnimations();
+        }
     }
 }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508fadcdb60840b58f8f0f7f2d2aebbc, type: 3}
   m_Name: RunConfig
   m_EditorClassIdentifier: 
-  runVelocity: 0
-  maxVelocity: 0
+  runVelocity: 70
+  maxVelocity: 3.25
