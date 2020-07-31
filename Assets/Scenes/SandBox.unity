@@ -543,7 +543,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 351735387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ad3403e8554902bdfc7313a21207e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 440120377}
@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpConfig: {fileID: 11400000, guid: 2549337ff31fed64bad3f61046b55809, type: 2}
-  runConfig: {fileID: 11400000, guid: bcf29bd0bd68afc46adfcfed8360748c, type: 2}
+  runConfig: {fileID: 11400000, guid: 38f5abd834fe30740ae4f116700e7f9d, type: 2}
   rig: {fileID: 440120374}
 --- !u!212 &440120372
 SpriteRenderer:
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 440120368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c7bfc15ad9740b9b8c6c8b8e9c30a9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 48b4ab881a08bc548bcdf0df25b06471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 440120373}
@@ -2651,7 +2651,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1523181087}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ad3403e8554902bdfc7313a21207e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 440120377}
@@ -3617,7 +3617,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1941808178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ad3403e8554902bdfc7313a21207e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 440120377}
