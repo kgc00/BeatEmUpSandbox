@@ -4,4 +4,24 @@
 PresetManager:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_DefaultPresets: {}
+  m_DefaultPresets:
+  - first:
+      m_NativeTypeID: 114
+      m_ManagedTypePPtr: {fileID: 11500000, guid: 0e5f112559fe84241a0cb71b374c6066,
+        type: 3}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: 91cd5ff37c2330a43812033314a77fdf,
+        type: 2}
+      m_Filter: Reg
+      m_Disabled: 0
+  - first:
+      m_NativeTypeID: 114
+      m_ManagedTypePPtr: {fileID: 11500000, guid: abe8843b515a4f66b06529fb1089a7d5,
+        type: 3}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: a523d9efe7eed7144a55f6406fe398bf,
+        type: 2}
+      m_Filter: Reg
+      m_Disabled: 0

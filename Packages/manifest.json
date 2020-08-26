@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.unity.2d.animation": "4.2.2",
     "com.unity.2d.pixel-perfect": "3.0.2",
     "com.unity.2d.psdimporter": "3.1.4",
@@ -14,7 +15,7 @@
     "com.unity.inputsystem": "1.0.0",
     "com.unity.searcher": "4.3.1",
     "com.unity.test-framework": "1.1.14",
-    "com.unity.textmeshpro": "3.0.0-preview.1",
+    "com.unity.textmeshpro": "3.0.1",
     "com.unity.timeline": "1.2.15",
     "com.unity.ugui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",

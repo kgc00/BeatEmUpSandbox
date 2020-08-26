@@ -48,7 +48,7 @@ namespace StateMachines.Attacks {
 
         public void ToggleAttack1Hitbox(int newStatus) {
             attacks[0].SetActive(newStatus == 1);
-            if (newStatus == 1) Observer.LockInput();
+            // if (newStatus == 1) Observer.LockInput();
         }
 
         public void ToggleAttack2Hitbox(int newStatus) {
@@ -62,7 +62,8 @@ namespace StateMachines.Attacks {
         public (GameObject, Action) AssignAttack(AnimatorStateInfo stateInfo) {
             if (stateInfo.IsTag("Attack1")) return (attacks[0], () => { });
             else if (stateInfo.IsTag("Attack2")) return (attacks[1], () => { });
-            else if (stateInfo.IsTag("Attack3")) return (attacks[2], () => Observer.UnlockInput());
+            else if (stateInfo.IsTag("Attack3")) return (attacks[2], () => {});
+            // else if (stateInfo.IsTag("Attack3")) return (attacks[2], () => Observer.UnlockInput());
 
             print("Unable to assign hitbox to " + stateInfo);
             return (null, () => {});

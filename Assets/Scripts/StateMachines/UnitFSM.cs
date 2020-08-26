@@ -1,28 +1,42 @@
 ﻿using System;
-using System.Collections;
-using System.Globalization;
-using Common.Extensions;
-using StateMachines.Jumping;
+using System.Collections.Generic;
+using StateMachines.KeyLogger;
+using StateMachines.Messages;
 using StateMachines.Movement;
+using StateMachines.Movement.Horizontal.Run;
+using StateMachines.Movement.Vertical.Jumping;
+using StateMachines.Observer;
+using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines {
     public class UnitFSM : MonoBehaviour {
-        [SerializeField]private JumpConfig jumpConfig;
-        [SerializeField]private RunConfig runConfig;
+        [SerializeField] private JumpConfig jumpConfig;
+        [SerializeField] private RunConfig runConfig;
         [SerializeField] private Rigidbody2D rig;
-        
+
         // TODO refactor to use the interfaces InputProvider / CollisionEnter
         // TODO Potentially refactor to a combined "movment" object
         private JumpFSM jump;
-        private Run run;
+        private RunFSM run;
         private Vector2 relativeForce;
+        public InputEventObserver inputEventObserver;
 
         private void Awake() {
             jump = new JumpFSM(gameObject, jumpConfig);
             // ReSharper disable once Unity.InefficientPropertyAccess
-            run = new Run(gameObject, runConfig);
+            run = new RunFSM(gameObject, runConfig);
+            inputEventObserver = new InputEventObserver();
+        }
+
+        private void Start() {
+            inputEventObserver.OnInputEvent += SomeTest;
+        }
+
+        private void SomeTest(List<InputEvent> obj) {
+            print(obj);
+            print(obj.Count);
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) => run.AcceptMoveInput(context);
@@ -34,8 +48,8 @@ namespace StateMachines {
 
             relativeForce.x = run.Force();
             relativeForce.y = jump.Force();
-            
-            rig.AddRelativeForce(relativeForce);
+
+            rig.AddForce(relativeForce, ForceMode2D.Force);
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
@@ -44,7 +58,8 @@ namespace StateMachines {
         }
 
         private void OnGUI() {
-            GUILayout.Box(run.inputLocked.ToString());
+            GUILayout.Box(rig.velocity.ToString());
+            GUILayout.Box(run.State.GetType().ToString());
         }
     }
 }

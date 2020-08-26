@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.neuecc.unirx": {
+      "version": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "284d5c50d3f1ddd9fa7df3d382ea904732a9c2ff"
+    },
     "com.unity.2d.animation": {
       "version": "4.2.2",
       "depth": 0,
@@ -149,7 +156,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.0-preview.1",
+      "version": "3.0.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
