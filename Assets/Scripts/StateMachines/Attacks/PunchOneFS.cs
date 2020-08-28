@@ -21,13 +21,16 @@ namespace StateMachines.Attacks {
             stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine));
         }
 
-        protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
+        protected override void _HandleAttackAnimationEnter(
+            Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) { }
 
-        protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
+        protected override void _HandleAttackAnimationExit(
+            Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack1") ||
-                !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack2"))
+            if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") )
                 stateMachine.ChangeState(new IdleFS(behaviour, stateMachine));
 
             // Debug.Log(animator.GetNextAnimatorClipInfo(0));

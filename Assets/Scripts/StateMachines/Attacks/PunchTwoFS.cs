@@ -27,8 +27,9 @@ namespace StateMachines.Attacks {
 
         protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack3") ||
-                !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack2")) {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ){
                 // Debug.Log("CURRENT STATE INFO --- ");
                 // Debug.Log(animator.GetCurrentAnimatorClipInfo(0));
                 // Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip);
