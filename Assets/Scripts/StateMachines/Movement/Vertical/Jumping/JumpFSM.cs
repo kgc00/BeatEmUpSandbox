@@ -1,9 +1,10 @@
-﻿using StateMachines.Movement.Interfaces;
+﻿using StateMachines.Interfaces;
+using StateMachines.Movement.Horizontal.Run;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
-    public class JumpFSM : IProvideForce, IAcceptCollisionEnter, IAcceptJumpInput {
+    public class JumpFSM : IProvideForce, IAcceptCollisionEnter, IAcceptJumpInput, IChangeState<JumpFS> {
         private JumpFS state;
 
         public JumpFSM(GameObject behaviour, JumpConfig jumpConfig) {

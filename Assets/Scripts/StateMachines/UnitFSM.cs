@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using StateMachines.KeyLogger;
+using StateMachines.Attacks;
+using StateMachines.Interfaces;
 using StateMachines.Messages;
 using StateMachines.Movement;
 using StateMachines.Movement.Horizontal.Run;
@@ -11,37 +12,30 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines {
-    public class UnitFSM : MonoBehaviour {
+    public class UnitFSM : MonoBehaviour, IAcceptAttackInput, IAcceptRunInput, IAcceptJumpInput,
+        IHandleAttackAnimationEnter, IHandleAttackAnimationExit {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
         [SerializeField] private Rigidbody2D rig;
 
-        // TODO refactor to use the interfaces InputProvider / CollisionEnter
-        // TODO Potentially refactor to a combined "movment" object
+        private AttackFSM attack;
         private JumpFSM jump;
         private RunFSM run;
         private Vector2 relativeForce;
-        public InputEventObserver inputEventObserver;
 
         private void Awake() {
+            // ReSharper disable twice Unity.InefficientPropertyAccess
             jump = new JumpFSM(gameObject, jumpConfig);
-            // ReSharper disable once Unity.InefficientPropertyAccess
             run = new RunFSM(gameObject, runConfig);
-            inputEventObserver = new InputEventObserver();
-        }
-
-        private void Start() {
-            inputEventObserver.OnInputEvent += SomeTest;
-        }
-
-        private void SomeTest(List<InputEvent> obj) {
-            print(obj);
-            print(obj.Count);
+            attack = new AttackFSM(gameObject);
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) => run.AcceptMoveInput(context);
-
         public void AcceptJumpInput(InputAction.CallbackContext context) => jump.AcceptJumpInput(context);
+        public void AcceptAttackInput(InputAction.CallbackContext context) => attack.AcceptAttackInput(context);
+        public void ToggleAttack1Hitbox(int newState) { }
+        public void ToggleAttack2Hitbox(int newState) { }
+        public void ToggleAttack3Hitbox(int newState) { }
 
         private void FixedUpdate() {
             jump.Update();
@@ -59,7 +53,17 @@ namespace StateMachines {
 
         private void OnGUI() {
             GUILayout.Box(rig.velocity.ToString());
-            GUILayout.Box(run.State.GetType().ToString());
+            GUILayout.Box(attack.State.GetType().ToString());
         }
+
+        public void HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+            attack.HandleAttackAnimationEnter(animator,
+                stateInfo,
+                layerIndex);
+
+        public void HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+            attack.HandleAttackAnimationExit(animator,
+                stateInfo,
+                layerIndex);
     }
 }

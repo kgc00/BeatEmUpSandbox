@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 3391143012090137384}
+  parent: {fileID: 0}
 --- !u!1 &3391143012090137377
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,8 +85,6 @@ GameObject:
   - component: {fileID: 3391143012090137380}
   - component: {fileID: 3391143012090137381}
   - component: {fileID: 3391143012090137383}
-  - component: {fileID: 3391143012090137384}
-  - component: {fileID: 3391143012090137387}
   - component: {fileID: 3391143012090137382}
   m_Layer: 0
   m_Name: Player
@@ -212,20 +210,8 @@ MonoBehaviour:
     m_ActionName: Menus/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3391143012090137384}
-        m_TargetAssemblyTypeName: StateMachines.Attacks.Attack, StateMachines
-        m_MethodName: AcceptAttackInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3391143012090137387}
-        m_TargetAssemblyTypeName: StateMachines.KeyLogger.Logger, StateMachines
+      - m_Target: {fileID: 3391143012090137378}
+        m_TargetAssemblyTypeName: StateMachines.UnitFSM, StateMachines
         m_MethodName: AcceptAttackInput
         m_Mode: 0
         m_Arguments:
@@ -349,35 +335,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3391143012090137384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3391143012090137377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48b4ab881a08bc548bcdf0df25b06471, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 3391143012090137380}
-  punch1: {fileID: 3391143013175269646}
-  punch2: {fileID: 3391143012001313098}
-  punch3: {fileID: 3391143012517567267}
-  attacks: []
---- !u!114 &3391143012090137387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3391143012090137377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 750cd0ded6e431c44b5f49fae367849c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!70 &3391143012090137382
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -464,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 3391143012090137384}
+  parent: {fileID: 0}
 --- !u!1 &3391143013175269646
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,4 +492,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 3391143012090137384}
+  parent: {fileID: 0}

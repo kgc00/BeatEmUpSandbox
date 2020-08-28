@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StateMachines.Movement.Interfaces {
+namespace StateMachines.Interfaces {
     public interface IAcceptCollisionEnter {
         void OnCollisionEnter2D(Collision2D other);
     }

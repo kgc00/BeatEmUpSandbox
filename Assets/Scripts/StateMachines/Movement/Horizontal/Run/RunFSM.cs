@@ -1,12 +1,12 @@
 ﻿using System;
-using StateMachines.Movement.Interfaces;
+using StateMachines.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
     
 
-    public class RunFSM : IAcceptRunInput, IProvideForce, IAcceptCollisionEnter {
+    public class RunFSM : IAcceptRunInput, IProvideForce, IAcceptCollisionEnter, IChangeState<RunFS> {
         private readonly Animator animator;
         private readonly Transform transform;
         private readonly RunConfig config;
@@ -19,7 +19,7 @@ namespace StateMachines.Movement.Horizontal.Run {
         private bool moving;
         public bool inputLocked;
 
-        public RunFS State { get; protected set; }
+        public RunFS State { get; private set; }
 
         public RunFSM(GameObject behaviour, RunConfig runConfig) {
             animator = behaviour.GetComponent<Animator>();

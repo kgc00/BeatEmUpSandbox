@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using StateMachines.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Attacks {
-    public class Attack : MonoBehaviour {
+namespace StateMachines.Attacks.Legacy {
+    public class Attack : MonoBehaviour, IAcceptAttackInput {
         [SerializeField] private Animator animator;
         [SerializeField] private GameObject punch1;
         [SerializeField] private GameObject punch2;
@@ -54,7 +55,7 @@ namespace StateMachines.Attacks {
         public void ToggleAttack2Hitbox(int newStatus) {
             attacks[1].SetActive(newStatus == 1);
         }
-
+        
         public void ToggleAttack3Hitbox(int newStatus) {
             attacks[2].SetActive(newStatus == 1);
         }

@@ -6,7 +6,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public JumpFallingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(behaviour, jump, jumpConfig) { }
         public override void AcceptJumpInput(InputAction.CallbackContext context) { }
 
-        public override void Update() {
+        public override void Update() {    
             if (Rig.velocity.y < 0) Rig.gravityScale = Config.fallMultiplier;
             else Rig.gravityScale = Config.lowJumpMultiplier;
         }

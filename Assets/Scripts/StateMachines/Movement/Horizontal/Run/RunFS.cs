@@ -1,4 +1,4 @@
-﻿using StateMachines.Movement.Interfaces;
+﻿using StateMachines.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

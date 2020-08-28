@@ -1,6 +1,6 @@
 ﻿using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Interfaces {
+namespace StateMachines.Interfaces {
     public interface IAcceptJumpInput {
         void AcceptJumpInput(InputAction.CallbackContext context);
     }

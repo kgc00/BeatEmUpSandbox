@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace StateMachines.Attacks {
+namespace StateMachines.Attacks.Legacy {
     public class HitBox : MonoBehaviour {
         [SerializeField] private Attack parent;
 
