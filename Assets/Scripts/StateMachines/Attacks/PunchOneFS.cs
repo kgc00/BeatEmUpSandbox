@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using StateMachines.Actions;
-using StateMachines.Messages;
-using StateMachines.Observer;
+﻿
 using UnityEngine;
 using UnityEngine.InputSystem;
 

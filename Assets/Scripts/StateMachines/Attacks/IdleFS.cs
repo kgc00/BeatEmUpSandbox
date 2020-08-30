@@ -1,5 +1,4 @@
-﻿using StateMachines.Movement.Vertical.Jumping;
-using StateMachines.Observer;
+﻿using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

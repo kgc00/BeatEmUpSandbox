@@ -1,6 +1,4 @@
-﻿using StateMachines.Attacks.Legacy;
-using StateMachines.Interfaces;
-using StateMachines.Movement.Horizontal.Run;
+﻿using StateMachines.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
