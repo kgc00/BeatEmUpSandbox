@@ -7,10 +7,7 @@ namespace StateMachines.Movement.Horizontal.Run {
         public MovingFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir) 
             : base(behaviour, runConfig, runFsm, dir) { }
 
-        public override void Enter() {
-            base.Enter();
-            UpdateAnimations();
-        }
+        public override void Enter() => UpdateAnimations();
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
             if (context.phase == InputActionPhase.Started) return;
@@ -21,10 +18,11 @@ namespace StateMachines.Movement.Horizontal.Run {
             if (!moving) StateMachine.ChangeState(new IdleFS(Behaviour, Config, StateMachine, MoveDir));
         }
 
-        private void UpdateAnimations() {
-            Animator.ResetTrigger(Idle);
+        protected override void UpdateAnimations() {
             Animator.SetTrigger(Running);
             Transform.localScale = MoveDir > 0 ? Vector3.one : new Vector3(-1, 1, 1);
+            
+            if(Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run"))Animator.ResetTrigger(Running);
         }
 
         private static int CappedMoveVelocity() => 0;
@@ -43,5 +41,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
             return HitSpeedCap(rigX) && IsForwardMovement(rigX) ? CappedMoveVelocity() : NormalMoveVelocity();
         }
+
+        protected override void _AcceptUnlockInput() { }
     }
 }

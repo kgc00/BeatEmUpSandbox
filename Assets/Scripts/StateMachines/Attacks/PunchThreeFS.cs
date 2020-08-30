@@ -5,8 +5,8 @@ namespace StateMachines.Attacks {
     public class PunchThreeFS : AttackFS {
         private GameObject punch3;
         private readonly int attack3 = Animator.StringToHash("Attack3");
-        
-        public PunchThreeFS(GameObject behaviour, AttackFSM stateMachine) : base(behaviour, stateMachine) {}
+
+        public PunchThreeFS(GameObject behaviour, AttackFSM stateMachine) : base(behaviour, stateMachine) { }
 
         public override void Enter() {
             animator.SetTrigger(attack3);
@@ -17,11 +17,14 @@ namespace StateMachines.Attacks {
         }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
-        protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        }
 
-        protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            stateMachine.ChangeState(new IdleFS(behaviour, stateMachine));
+        protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
+            int layerIndex) { }
+
+        protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
+            int layerIndex) {
+            if (IsExitingAttackState(animator))
+                stateMachine.ChangeState(new IdleFS(behaviour, stateMachine));
         }
     }
 }

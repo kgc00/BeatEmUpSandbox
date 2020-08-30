@@ -14,5 +14,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Rig.gravityScale = 1f;    
             Rig.drag = Config.groundedLinearDrag;
         }
+
+        public override void AcceptLockInput() => Jump.ChangeState(new LockedFS(Behaviour,Jump,Config));
     }
 }

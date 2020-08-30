@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
-    public abstract class RunFS : FSMState<RunFS>, IProvideForce, IAcceptRunInput, IAcceptCollisionEnter {
+    public abstract class RunFS : FSMState<RunFS>, IProvideForce, IAcceptRunInput, IAcceptCollisionEnter, IAcceptLockedInput {
         protected readonly Animator Animator;
         protected readonly Transform Transform;
         protected readonly RunConfig Config;
@@ -15,8 +15,6 @@ namespace StateMachines.Movement.Horizontal.Run {
         protected float MoveDir;
         protected readonly RunFSM StateMachine;
         protected readonly GameObject Behaviour;
-
-        protected bool inputLocked;
         protected RunFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir) {
             StateMachine = runFsm;
             Animator = behaviour.GetComponent<Animator>();
@@ -44,5 +42,13 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
         protected abstract float _Force();
+        public void AcceptLockInput() => _AcceptLockInput();
+
+        protected virtual void _AcceptLockInput() => StateMachine.ChangeState(new LockedFS(Behaviour,Config,StateMachine, MoveDir));
+
+        public void AcceptUnlockInput() => _AcceptUnlockInput();
+
+        protected abstract void _AcceptUnlockInput();
+        protected virtual void UpdateAnimations() {}
     }
 }

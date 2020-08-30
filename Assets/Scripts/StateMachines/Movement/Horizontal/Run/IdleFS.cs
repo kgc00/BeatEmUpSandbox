@@ -8,12 +8,6 @@ namespace StateMachines.Movement.Horizontal.Run {
             : base(behaviour, runConfig, runFsm, dir) { }
 
         public override void Enter() {
-            base.Enter();
-            UpdateAnimations();
-        }
-
-        public override void Exit() {
-            base.Exit();
             UpdateAnimations();
         }
 
@@ -26,9 +20,11 @@ namespace StateMachines.Movement.Horizontal.Run {
             if (moving) StateMachine.ChangeState(new MovingFS(Behaviour, Config, StateMachine, MoveDir));
         }
 
-        private void UpdateAnimations() {
+        protected override void UpdateAnimations() {
             Animator.ResetTrigger(Running);
             Animator.SetTrigger(Idle);
+            
+            if(Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"))Animator.ResetTrigger(Idle);
         }
 
         protected override void _OnCollisionEnter2D(Collision2D other) {
@@ -38,5 +34,6 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
         protected override float _Force() => 0;
+        protected override void _AcceptUnlockInput() { }
     }
 }

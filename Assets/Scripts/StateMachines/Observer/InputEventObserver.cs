@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using StateMachines.Messages;
-using UniRx;
-using UnityEngine;
 
 namespace StateMachines.Observer {
     public class InputEventObserver {

@@ -1,10 +1,11 @@
 ﻿using StateMachines.Actions;
+using UnityEngine;
 
 namespace StateMachines.Messages {
     public class AttackActionOccuredMessage : ActionOccuredMessage {
-        public AttackActionOccuredMessage(UnitFSM unit, IAction action) {
+        public AttackActionOccuredMessage(GameObject behaviour, IAction action) {
+            Behaviour = behaviour;
             Action = action;
-            UnitFsm = unit;
         }
     }
 }

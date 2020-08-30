@@ -8,7 +8,6 @@ namespace StateMachines.Attacks {
     public class AttackFSM : IAcceptAttackInput, IChangeState<AttackFS>, IHandleAttackAnimationEnter, IHandleAttackAnimationExit {
         private GameObject behaviour;
         public AttackFS State { get; private set; }
-
         public AttackFSM(GameObject behaviour) {
             this.behaviour = behaviour;
             State = new IdleFS(behaviour, this);
@@ -16,8 +15,6 @@ namespace StateMachines.Attacks {
 
         public void AcceptAttackInput(InputAction.CallbackContext context) => State.AcceptAttackInput(context);
         
-        
-
         public void ChangeState(AttackFS newState) {
             State.Exit();
             State = newState;

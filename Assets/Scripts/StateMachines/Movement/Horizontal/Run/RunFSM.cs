@@ -1,12 +1,13 @@
-﻿using System;
+﻿using StateMachines.Attacks.Legacy;
 using StateMachines.Interfaces;
+using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
     
 
-    public class RunFSM : IAcceptRunInput, IProvideForce, IAcceptCollisionEnter, IChangeState<RunFS> {
+    public class RunFSM : IAcceptRunInput, IProvideForce, IAcceptCollisionEnter, IChangeState<RunFS>, IAcceptLockedInput {
         private readonly Animator animator;
         private readonly Transform transform;
         private readonly RunConfig config;
@@ -17,7 +18,6 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         private float moveDir;
         private bool moving;
-        public bool inputLocked;
 
         public RunFS State { get; private set; }
 
@@ -27,23 +27,24 @@ namespace StateMachines.Movement.Horizontal.Run {
             rig = behaviour.GetComponent<Rigidbody2D>();
             config = runConfig;
             State = new IdleFS(behaviour, runConfig, this);
+            InputLockObserver.LockInput += AcceptLockInput;
+            InputLockObserver.UnlockInput += AcceptUnlockInput;
         }
-        
+
+        ~RunFSM() {
+            InputLockObserver.LockInput -= AcceptLockInput;
+            InputLockObserver.UnlockInput -= AcceptUnlockInput;
+        }
         
         public void ChangeState(RunFS newState) {
             State.Exit();
             State = newState;
             State.Enter();
         }
-        
-        private void LockInput() {
-        }
-
-        private void UnlockInput() {
-        }
-
         public void AcceptMoveInput(InputAction.CallbackContext context) => State.AcceptMoveInput(context);
         public float Force() => State.Force();
         public void OnCollisionEnter2D(Collision2D other) => State.OnCollisionEnter2D(other);
+        public void AcceptLockInput() => State.AcceptLockInput();
+        public void AcceptUnlockInput() => State.AcceptUnlockInput();
     }
 }
