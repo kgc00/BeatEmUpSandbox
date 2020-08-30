@@ -12,8 +12,7 @@ namespace StateMachines.Attacks {
         public override void Exit() => InputLockObserver.LockInput();
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (context.phase != InputActionPhase.Performed) return;
-            if (behaviour.GetComponent<UnitFSM>()?.Jump.State.GetType() != typeof(JumpGroundedFS)) return;
+            if (context.phase != InputActionPhase.Performed || IsJumpState()) return;
             stateMachine.ChangeState(new PunchOneFS(behaviour, stateMachine));
         }
 

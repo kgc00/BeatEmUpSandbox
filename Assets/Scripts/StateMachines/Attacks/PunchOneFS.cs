@@ -31,11 +31,11 @@ namespace StateMachines.Attacks {
         protected override void _HandleAttackAnimationExit(
             Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {
-            if (IsExitingAttackState(animator))
+            if (IsExitingAttackState())
                 stateMachine.ChangeState(new IdleFS(behaviour, stateMachine));
         }
 
-        private void LogInfo(Animator animator) {
+        private void LogInfo() {
             Debug.Log(animator.GetNextAnimatorClipInfo(0));
             Debug.Log(animator.GetNextAnimatorClipInfo(0)[0].clip);
             Debug.Log(animator.GetNextAnimatorClipInfo(0)[0].clip.name);

@@ -27,7 +27,7 @@ namespace StateMachines.Attacks {
 
         protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {
-            if (IsExitingAttackState(animator)){
+            if (IsExitingAttackState()){
                 stateMachine.ChangeState(new IdleFS(behaviour, stateMachine));
             }
         }

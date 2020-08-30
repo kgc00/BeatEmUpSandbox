@@ -15,7 +15,12 @@ namespace StateMachines.Attacks {
             this.stateMachine = stateMachine;
         }
 
-        protected bool IsExitingAttackState(Animator animator) =>
+        
+        protected bool IsJumpState() =>
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
+        
+        protected bool IsExitingAttackState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");

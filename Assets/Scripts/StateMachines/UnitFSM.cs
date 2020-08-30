@@ -58,7 +58,7 @@ namespace StateMachines {
             GUILayout.Box(rig.velocity.ToString());
             GUILayout.Box("attack: " + Attack.State.GetType());
             GUILayout.Box("run: " + Run.State.GetType());
-            GUILayout.Box("run: " + Jump.State.GetType());
+            GUILayout.Box("jump: " + Jump.State.GetType());
         }
 
         public void HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
