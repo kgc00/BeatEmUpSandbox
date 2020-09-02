@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +8,12 @@ namespace StateMachines.Attacks {
     public class PunchOneFS : AttackFS {
         private GameObject punch1;
         private readonly int attack1 = Animator.StringToHash("Attack1");
+        private bool chainingEnabled;
+        private bool bufferEnabled;
+        private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
+
         public PunchOneFS(GameObject behaviour, AttackFSM stateMachine) : base(behaviour, stateMachine) { }
+
 
         public override void Enter() {
             animator.SetTrigger(attack1);
@@ -16,9 +23,31 @@ namespace StateMachines.Attacks {
             animator.ResetTrigger(attack1);
         }
 
+        protected override void _EnableChaining() {
+            chainingEnabled = true;
+            if (bufferedActions.Count > 0) {
+                // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
+
+                // Note: The contents of the structure are only valid for the duration of the callback.
+                // In particular, it isn't safe to store the received context and later access its properties from outside the callback.
+                
+                // var context = bufferedActions.Dequeue();
+                // _AcceptAttackInput(context);
+                stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine));
+            }
+        }
+
+        protected override void _EnableAttackBuffer() => bufferEnabled = true;
+
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed) return;
-            stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine));
+
+            if (chainingEnabled) {
+                stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine));
+                return;
+            }
+
+            if (bufferEnabled) bufferedActions.Enqueue(context);
         }
 
         protected override void _HandleAttackAnimationEnter(

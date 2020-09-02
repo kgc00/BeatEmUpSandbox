@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks {
-    public class AttackFSM : IAcceptAttackInput, IChangeState<AttackFS>, IHandleAttackAnimationEnter, IHandleAttackAnimationExit {
+    public class AttackFSM : IAcceptAttackInput, IChangeState<AttackFS>, IHandleAttackAnimationEnter, IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer {
         private GameObject behaviour;
         public AttackFS State { get; private set; }
         public AttackFSM(GameObject behaviour) {
@@ -26,5 +26,8 @@ namespace StateMachines.Attacks {
         public void HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             State.HandleAttackAnimationExit(animator, stateInfo, layerIndex);
         }
+
+        public void EnableChaining() => State.EnableChaining();
+        public void EnableAttackBuffer() => State.EnableAttackBuffer();
     }
 }

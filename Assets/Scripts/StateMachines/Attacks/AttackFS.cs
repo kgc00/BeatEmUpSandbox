@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks {
     public abstract class AttackFS : FSMState<AttackFS>, IAcceptAttackInput, IHandleAttackAnimationEnter,
-        IHandleAttackAnimationExit {
+        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer {
         protected readonly GameObject behaviour;
         protected readonly AttackFSM stateMachine;
         protected Animator animator;
@@ -40,6 +40,11 @@ namespace StateMachines.Attacks {
         }
 
         protected abstract void _HandleAttackAnimationExit(Animator animator1, AnimatorStateInfo stateInfo, int layerIndex);
+
+        public void EnableChaining() => _EnableChaining();
+        protected virtual void _EnableChaining() { }
+        public void EnableAttackBuffer() => _EnableAttackBuffer();
+        protected virtual void _EnableAttackBuffer() { }
 
     }
 }

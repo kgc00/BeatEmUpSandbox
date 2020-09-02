@@ -34,10 +34,11 @@ namespace StateMachines {
         public void AcceptJumpInput(InputAction.CallbackContext context) => Jump.AcceptJumpInput(context);
         public void AcceptAttackInput(InputAction.CallbackContext context) => Attack.AcceptAttackInput(context);
 
+        public void EnableComboChaining() => Attack.EnableChaining();
+        public void EnableAttackBuffer() => Attack.EnableAttackBuffer();
+        
         public void ToggleAttack1Hitbox(int newState) { }
-
         public void ToggleAttack2Hitbox(int newState) { }
-
         public void ToggleAttack3Hitbox(int newState) { }
 
         private void FixedUpdate() {
