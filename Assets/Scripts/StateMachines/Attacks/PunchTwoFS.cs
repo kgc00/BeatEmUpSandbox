@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using StateMachines.Attacks.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,8 +10,10 @@ namespace StateMachines.Attacks {
         private bool chainingEnabled;
         private bool bufferEnabled;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
+        private readonly GameObject hitbox;
 
-        public PunchTwoFS(GameObject behaviour, AttackFSM stateMachine) : base(behaviour, stateMachine) { }
+        public PunchTwoFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine, kit) { 
+            hitbox = HitboxFromKit(GetType());}
 
         public override void Enter() {
             animator.SetTrigger(attack2);
@@ -20,6 +23,8 @@ namespace StateMachines.Attacks {
             animator.ResetTrigger(attack2);
         }
 
+        protected override void _EnableHitbox() => hitbox.SetActive(true);
+        protected override void _DisableHitbox() => hitbox.SetActive(false);
         protected override void _EnableChaining() {
             chainingEnabled = true;
             if (bufferedActions.Count > 0) {
@@ -31,7 +36,7 @@ namespace StateMachines.Attacks {
                 // var context = bufferedActions.Dequeue();
                 // _AcceptAttackInput(context);
                 
-                stateMachine.ChangeState(new PunchThreeFS(behaviour, stateMachine));
+                stateMachine.ChangeState(new PunchThreeFS(behaviour, stateMachine, kit));
             }
         }
         
@@ -41,7 +46,7 @@ namespace StateMachines.Attacks {
             if (context.phase != InputActionPhase.Performed) return;
             
             if (chainingEnabled) {
-                stateMachine.ChangeState(new PunchThreeFS(behaviour, stateMachine));
+                stateMachine.ChangeState(new PunchThreeFS(behaviour, stateMachine, kit));
                 return;
             }
 
@@ -54,7 +59,7 @@ namespace StateMachines.Attacks {
         protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {
             if (IsExitingAttackState()) {
-                stateMachine.ChangeState(new IdleFS(behaviour, stateMachine));
+                stateMachine.ChangeState(new IdleFS(behaviour, stateMachine, kit));
             }
         }
     }

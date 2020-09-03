@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using StateMachines.Attacks.Models;
+using StateMachines.Observer;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,7 +14,12 @@ namespace StateMachines.Attacks {
         private bool bufferEnabled;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
 
-        public PunchOneFS(GameObject behaviour, AttackFSM stateMachine) : base(behaviour, stateMachine) { }
+        private readonly GameObject hitbox;
+
+        public PunchOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine,
+            kit) {
+            hitbox = HitboxFromKit(GetType());
+        }
 
 
         public override void Enter() {
@@ -25,16 +32,16 @@ namespace StateMachines.Attacks {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            if (bufferedActions.Count > 0) {
-                // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
+            if (bufferedActions.Count <= 0) return;
+            
+            // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
 
-                // Note: The contents of the structure are only valid for the duration of the callback.
-                // In particular, it isn't safe to store the received context and later access its properties from outside the callback.
-                
-                // var context = bufferedActions.Dequeue();
-                // _AcceptAttackInput(context);
-                stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine));
-            }
+            // Note: The contents of the structure are only valid for the duration of the callback.
+            // In particular, it isn't safe to store the received context and later access its properties from outside the callback.
+
+            // var context = bufferedActions.Dequeue();
+            // _AcceptAttackInput(context);
+            stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine, kit));
         }
 
         protected override void _EnableAttackBuffer() => bufferEnabled = true;
@@ -43,7 +50,7 @@ namespace StateMachines.Attacks {
             if (context.phase != InputActionPhase.Performed) return;
 
             if (chainingEnabled) {
-                stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine));
+                stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine, kit));
                 return;
             }
 
@@ -58,8 +65,11 @@ namespace StateMachines.Attacks {
             Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {
             if (IsExitingAttackState())
-                stateMachine.ChangeState(new IdleFS(behaviour, stateMachine));
+                stateMachine.ChangeState(new IdleFS(behaviour, stateMachine, kit));
         }
+
+        protected override void _EnableHitbox() => hitbox.SetActive(true);
+        protected override void _DisableHitbox() => hitbox.SetActive(false);
 
         private void LogInfo() {
             Debug.Log(animator.GetNextAnimatorClipInfo(0));

@@ -12,13 +12,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines {
-    public class UnitFSM : MonoBehaviour, IAcceptAttackInput, IAcceptRunInput, IAcceptJumpInput,
-        IHandleAttackAnimationEnter, IHandleAttackAnimationExit {
+    public class UnitFSM : MonoBehaviour, IAcceptRunInput, IAcceptJumpInput {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
         [SerializeField] private Rigidbody2D rig;
-
-        public AttackFSM Attack {get; private set;}
         public JumpFSM Jump {get; private set;}
         public RunFSM Run {get; private set;}
         private Vector2 relativeForce;
@@ -27,19 +24,10 @@ namespace StateMachines {
             // ReSharper disable twice Unity.InefficientPropertyAccess
             Jump = new JumpFSM(gameObject, jumpConfig);
             Run = new RunFSM(gameObject, runConfig);
-            Attack = new AttackFSM(gameObject);
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) => Run.AcceptMoveInput(context);
         public void AcceptJumpInput(InputAction.CallbackContext context) => Jump.AcceptJumpInput(context);
-        public void AcceptAttackInput(InputAction.CallbackContext context) => Attack.AcceptAttackInput(context);
-
-        public void EnableComboChaining() => Attack.EnableChaining();
-        public void EnableAttackBuffer() => Attack.EnableAttackBuffer();
-        
-        public void ToggleAttack1Hitbox(int newState) { }
-        public void ToggleAttack2Hitbox(int newState) { }
-        public void ToggleAttack3Hitbox(int newState) { }
 
         private void FixedUpdate() {
             Jump.Update();
@@ -56,20 +44,9 @@ namespace StateMachines {
         }
 
         private void OnGUI() {
-            GUILayout.Box(rig.velocity.ToString());
-            GUILayout.Box("attack: " + Attack.State.GetType());
+            GUILayout.Box("rig velocity: " + rig.velocity);
             GUILayout.Box("run: " + Run.State.GetType());
             GUILayout.Box("jump: " + Jump.State.GetType());
         }
-
-        public void HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
-            Attack.HandleAttackAnimationEnter(animator,
-                stateInfo,
-                layerIndex);
-
-        public void HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
-            Attack.HandleAttackAnimationExit(animator,
-                stateInfo,
-                layerIndex);
     }
 }

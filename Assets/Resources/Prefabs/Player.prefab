@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 3391143012090137376}
   - component: {fileID: 3391143012090137379}
   - component: {fileID: 3391143012090137378}
+  - component: {fileID: 6355981329050731560}
   - component: {fileID: 3391143012090137380}
   - component: {fileID: 3391143012090137381}
   - component: {fileID: 3391143012090137383}
@@ -210,8 +211,8 @@ MonoBehaviour:
     m_ActionName: Menus/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3391143012090137378}
-        m_TargetAssemblyTypeName: StateMachines.UnitFSM, StateMachines
+      - m_Target: {fileID: 6355981329050731560}
+        m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
         m_MethodName: AcceptAttackInput
         m_Mode: 0
         m_Arguments:
@@ -244,6 +245,35 @@ MonoBehaviour:
   jumpConfig: {fileID: 11400000, guid: 2549337ff31fed64bad3f61046b55809, type: 2}
   runConfig: {fileID: 11400000, guid: 38f5abd834fe30740ae4f116700e7f9d, type: 2}
   rig: {fileID: 3391143012090137383}
+--- !u!114 &6355981329050731560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391143012090137377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464b14cca16c44918c83becda18f7ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kit:
+    attacks:
+    - HitboxObject: {fileID: 3391143013175269646}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.PunchOneFS, StateMachines
+        _GUID: 0109c739cf024c45a6dc332df844b461
+    - HitboxObject: {fileID: 3391143012001313098}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.PunchTwoFS, StateMachines
+        _GUID: ee7944f640c345b1884e9e7f2bef9747
+    - HitboxObject: {fileID: 3391143012517567267}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.PunchThreeFS, StateMachines
+        _GUID: 16797eea5d994eb68ec235bb8f763042
 --- !u!95 &3391143012090137380
 Animator:
   serializedVersion: 3
