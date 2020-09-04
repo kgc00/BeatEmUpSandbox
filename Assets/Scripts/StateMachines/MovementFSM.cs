@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines {
-    public class UnitFSM : MonoBehaviour, IAcceptRunInput, IAcceptJumpInput {
+    public class MovementFSM : MonoBehaviour, IAcceptRunInput, IAcceptJumpInput {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
         [SerializeField] private Rigidbody2D rig;

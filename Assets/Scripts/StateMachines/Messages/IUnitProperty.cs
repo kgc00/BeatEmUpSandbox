@@ -1,5 +1,5 @@
 ﻿namespace StateMachines.Messages {
     public interface IUnitProperty {
-        UnitFSM UnitFsm { get; }
+        MovementFSM MovementFSM { get; }
     }
 }

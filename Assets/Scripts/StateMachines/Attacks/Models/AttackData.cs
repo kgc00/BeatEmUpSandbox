@@ -6,6 +6,6 @@ namespace StateMachines.Attacks.Models {
     [Serializable]
     public class AttackData {
         [SerializeField] public GameObject HitboxObject;
-        [SerializeField] public TypeReference AttckFS;
+        [SerializeField, Inherits(typeof(AttackFS))] public TypeReference AttckFS;
     }
 }
