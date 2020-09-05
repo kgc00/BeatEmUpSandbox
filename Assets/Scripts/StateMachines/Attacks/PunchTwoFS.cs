@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using StateMachines.Attacks.Models;
+using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,7 @@ namespace StateMachines.Attacks {
         protected override void _DisableHitbox() => hitbox.SetActive(false);
         protected override void _EnableChaining() {
             chainingEnabled = true;
+            InputLockObserver.UnlockJumpInput();
             if (bufferedActions.Count > 0) {
                 // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
 

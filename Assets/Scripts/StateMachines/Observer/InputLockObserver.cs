@@ -5,10 +5,27 @@ using UnityEngine;
 
 namespace StateMachines.Observer {
     public static class InputLockObserver {
-        public static Action LockInput = delegate { };
-        public static Action UnlockInput = delegate { };
-        public static void OnLockInput() => LockInput();
-        public static void OnUnlockInput() => UnlockInput();
+        public static Action LockMovementInput = delegate { };
+        public static Action UnlockMovementInput = delegate { };
+        public static void OnLockMovementInput() => LockMovementInput();
+        public static void OnUnlockMovementInput() => UnlockMovementInput();
+
+        public static Action LockJumpInput = delegate { };
+        public static Action UnlockJumpInput = delegate { };
+        public static void OnLockJumpInput() => LockJumpInput();
+        public static void OnUnlockJumpInput() => UnlockJumpInput();
+        
+        
+        public static Action LockRunInput = delegate { };
+        public static Action UnlockRunInput = delegate { };
+        public static void OnLockRunInput() => LockRunInput();
+        public static void OnUnlockRunInput() => UnlockRunInput();
+        
+        
+        public static Action LockAttackInput = delegate { };
+        public static Action UnlockAttackInput = delegate { };
+        public static void OnLockAttackInput() => LockAttackInput();
+        public static void OnUnlockAttackInput() => UnlockAttackInput();
     }
     
     // public static class AttackActionObserver {

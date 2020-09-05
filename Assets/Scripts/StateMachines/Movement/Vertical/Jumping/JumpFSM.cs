@@ -6,18 +6,18 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpFSM : IProvideForce, IAcceptCollisionEnter, IAcceptJumpInput, IChangeState<JumpFS>,
-        IAcceptLockedInput {
+        IHandleLockedMovementInput {
         public JumpFS State { get; private set; }
 
         public JumpFSM(GameObject behaviour, JumpConfig jumpConfig) {
             State = new JumpGroundedFS(behaviour, this, jumpConfig);
-            InputLockObserver.LockInput += AcceptLockInput;
-            InputLockObserver.UnlockInput += AcceptUnlockInput;
+            InputLockObserver.LockMovementInput += AcceptLockMovementInput;
+            InputLockObserver.UnlockMovementInput += AcceptUnlockMovementInput;
         }
 
         ~JumpFSM() {
-            InputLockObserver.LockInput -= AcceptLockInput;
-            InputLockObserver.UnlockInput -= AcceptUnlockInput;
+            InputLockObserver.LockMovementInput -= AcceptLockMovementInput;
+            InputLockObserver.UnlockMovementInput -= AcceptUnlockMovementInput;
         }
 
         public float Force() => State.Force();
@@ -34,8 +34,8 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public void AcceptJumpInput(InputAction.CallbackContext context) => State.AcceptJumpInput(context);
 
 
-        public void AcceptLockInput() => State.AcceptLockInput();
+        public void AcceptLockMovementInput() => State.AcceptLockMovementInput();
 
-        public void AcceptUnlockInput() => State.AcceptUnlockInput();
+        public void AcceptUnlockMovementInput() => State.AcceptUnlockMovementInput();
     }
 }
