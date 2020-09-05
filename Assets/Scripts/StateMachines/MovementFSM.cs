@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using StateMachines.Attacks;
 using StateMachines.Interfaces;
 using StateMachines.Messages;
@@ -12,7 +13,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines {
-    public class MovementFSM : MonoBehaviour, IAcceptRunInput, IAcceptJumpInput {
+    public class MovementFSM : MonoBehaviourPun, IAcceptRunInput, IAcceptJumpInput {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
         [SerializeField] private Rigidbody2D rig;

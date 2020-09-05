@@ -1,11 +1,12 @@
 ﻿using System;
+using Photon.Pun;
 using StateMachines.Attacks.Models;
 using StateMachines.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks {
-    public class AttackFSM : MonoBehaviour, IAcceptAttackInput, IChangeState<AttackFS>, IHandleAttackAnimationEnter,
+    public class AttackFSM : MonoBehaviourPun, IAcceptAttackInput, IChangeState<AttackFS>, IHandleAttackAnimationEnter,
         IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes {
         public AttackFS State { get; private set; }
         [SerializeField] private AttackKit kit;
