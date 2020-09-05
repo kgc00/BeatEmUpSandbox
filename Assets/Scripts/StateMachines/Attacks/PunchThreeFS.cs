@@ -24,7 +24,7 @@ namespace StateMachines.Attacks {
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
 
-        protected override void _EnableChaining() => InputLockObserver.UnlockJumpInput();
+        protected override void _EnableChaining() { }
 
         protected override void _EnableHitbox() => hitbox.SetActive(true);
         protected override void _DisableHitbox() => hitbox.SetActive(false);

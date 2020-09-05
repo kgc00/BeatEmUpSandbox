@@ -7,7 +7,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             base(behaviour, jump, jumpConfig) { }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) { }
-        public override void AcceptUnlockMovementInput() => Jump.ChangeState(new JumpGroundedFS(Behaviour, Jump, Config));
+        public override void AcceptLockJumpInput() => Jump.ChangeState(new JumpGroundedFS(Behaviour, Jump, Config));
         public override void AcceptUnlockJumpInput() => Jump.ChangeState(new JumpGroundedFS(Behaviour, Jump, Config));
     }
 }

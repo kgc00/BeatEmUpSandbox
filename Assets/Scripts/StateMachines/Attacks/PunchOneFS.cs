@@ -32,7 +32,6 @@ namespace StateMachines.Attacks {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            InputLockObserver.UnlockJumpInput();
             if (bufferedActions.Count <= 0) return;
             
             // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions

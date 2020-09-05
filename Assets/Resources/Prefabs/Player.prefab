@@ -80,13 +80,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3391143012090137376}
-  - component: {fileID: 3391143012090137379}
-  - component: {fileID: 3391143012090137378}
-  - component: {fileID: 6355981329050731560}
   - component: {fileID: 3391143012090137380}
   - component: {fileID: 3391143012090137381}
   - component: {fileID: 3391143012090137383}
   - component: {fileID: 3391143012090137382}
+  - component: {fileID: 999955413}
+  - component: {fileID: 999955414}
+  - component: {fileID: 999955409}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -111,169 +111,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3391143012090137379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3391143012090137377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 69098e80ac572ee46b6002311427d84b,
-    type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3391143012090137378}
-        m_TargetAssemblyTypeName: StateMachines.UnitFSM, StateMachines
-        m_MethodName: AcceptMoveInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-    m_ActionId: 24252aa5-8bcb-4b6c-88d8-16b30921c257
-    m_ActionName: Gameplay/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3391143012090137378}
-        m_TargetAssemblyTypeName: StateMachines.UnitFSM, StateMachines
-        m_MethodName: AcceptJumpInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: d05fd07c-7d29-4e32-b172-f61b21b5e3ad
-    m_ActionName: Gameplay/Attack[/Keyboard/space,/Touchscreen/primaryTouch/tap]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 495ccf33-3a28-4903-ac8b-8dc28e9bd049
-    m_ActionName: Menus/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ef18fd27-9afc-414f-8e3f-316f12305bc5
-    m_ActionName: Menus/Submit[/Keyboard/enter]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e89aed55-7ae0-4e0e-89bd-eb98daf59e1c
-    m_ActionName: Menus/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 18bd8c1d-71a3-43bb-8a2d-f4cb3aa2db1d
-    m_ActionName: Menus/Point[/Mouse/position,/Touchscreen/touch0/position,/Touchscreen/touch1/position,/Touchscreen/touch2/position,/Touchscreen/touch3/position,/Touchscreen/touch4/position,/Touchscreen/touch5/position,/Touchscreen/touch6/position,/Touchscreen/touch7/position,/Touchscreen/touch8/position,/Touchscreen/touch9/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 11b3ca70-38f8-4adc-b87b-281e367c86d0
-    m_ActionName: Menus/Click[/Mouse/leftButton,/Touchscreen/touch0/press,/Touchscreen/touch1/press,/Touchscreen/touch2/press,/Touchscreen/touch3/press,/Touchscreen/touch4/press,/Touchscreen/touch5/press,/Touchscreen/touch6/press,/Touchscreen/touch7/press,/Touchscreen/touch8/press,/Touchscreen/touch9/press]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 772e468f-7340-43c7-973c-84a003d46980
-    m_ActionName: Menus/ScrollWheel[/Mouse/scroll]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 7ae29597-14c9-425d-80db-3801b295e82e
-    m_ActionName: Menus/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 00aab9a6-6f5b-4725-b699-d7fd12b13491
-    m_ActionName: Menus/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 26adb262-8247-4a28-8c1f-3e6774a3c276
-    m_ActionName: Menus/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: fcae94aa-f055-4e05-95fa-71ba17cdf32b
-    m_ActionName: Menus/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6355981329050731560}
-        m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
-        m_MethodName: AcceptAttackInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: e964dd41-6d3b-4212-a6a5-af416fb20e8b
-    m_ActionName: Gameplay/New action
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Gameplay
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &3391143012090137378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3391143012090137377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62b0721dc1c875f43bfaf0cdca1a4e33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpConfig: {fileID: 11400000, guid: 2549337ff31fed64bad3f61046b55809, type: 2}
-  runConfig: {fileID: 11400000, guid: 38f5abd834fe30740ae4f116700e7f9d, type: 2}
-  rig: {fileID: 3391143012090137383}
---- !u!114 &6355981329050731560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3391143012090137377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464b14cca16c44918c83becda18f7ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kit:
-    attacks:
-    - HitboxObject: {fileID: 3391143013175269646}
-      AttckFS:
-        GuidAssignmentFailed: 0
-        _typeNameAndAssembly: StateMachines.Attacks.PunchOneFS, StateMachines
-        _GUID: 0109c739cf024c45a6dc332df844b461
-    - HitboxObject: {fileID: 3391143012001313098}
-      AttckFS:
-        GuidAssignmentFailed: 0
-        _typeNameAndAssembly: StateMachines.Attacks.PunchTwoFS, StateMachines
-        _GUID: ee7944f640c345b1884e9e7f2bef9747
-    - HitboxObject: {fileID: 3391143012517567267}
-      AttckFS:
-        GuidAssignmentFailed: 0
-        _typeNameAndAssembly: StateMachines.Attacks.PunchThreeFS, StateMachines
-        _GUID: 16797eea5d994eb68ec235bb8f763042
 --- !u!95 &3391143012090137380
 Animator:
   serializedVersion: 3
@@ -381,6 +218,169 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.06}
   m_Size: {x: 0.25, y: 0.6}
   m_Direction: 0
+--- !u!114 &999955413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391143012090137377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19634bea9e40d3e49b79c33dc7f145d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpConfig: {fileID: 11400000, guid: 2549337ff31fed64bad3f61046b55809, type: 2}
+  runConfig: {fileID: 11400000, guid: 38f5abd834fe30740ae4f116700e7f9d, type: 2}
+  rig: {fileID: 3391143012090137383}
+--- !u!114 &999955414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391143012090137377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 569363b427d7ba44a98b86713003db6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kit:
+    attacks:
+    - HitboxObject: {fileID: 3391143013175269646}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.PunchOneFS, StateMachines
+        _GUID: 0109c739cf024c45a6dc332df844b461
+    - HitboxObject: {fileID: 3391143012001313098}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.PunchTwoFS, StateMachines
+        _GUID: ee7944f640c345b1884e9e7f2bef9747
+    - HitboxObject: {fileID: 3391143012517567267}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.PunchThreeFS, StateMachines
+        _GUID: 16797eea5d994eb68ec235bb8f763042
+--- !u!114 &999955409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391143012090137377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 69098e80ac572ee46b6002311427d84b,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 999955413}
+        m_TargetAssemblyTypeName: StateMachines.MovementFSM, StateMachines
+        m_MethodName: AcceptMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 24252aa5-8bcb-4b6c-88d8-16b30921c257
+    m_ActionName: Gameplay/Move[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 999955413}
+        m_TargetAssemblyTypeName: StateMachines.MovementFSM, StateMachines
+        m_MethodName: AcceptJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d05fd07c-7d29-4e32-b172-f61b21b5e3ad
+    m_ActionName: Gameplay/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 999955414}
+        m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
+        m_MethodName: AcceptAttackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e964dd41-6d3b-4212-a6a5-af416fb20e8b
+    m_ActionName: Gameplay/Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 495ccf33-3a28-4903-ac8b-8dc28e9bd049
+    m_ActionName: Menus/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ef18fd27-9afc-414f-8e3f-316f12305bc5
+    m_ActionName: Menus/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e89aed55-7ae0-4e0e-89bd-eb98daf59e1c
+    m_ActionName: Menus/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 18bd8c1d-71a3-43bb-8a2d-f4cb3aa2db1d
+    m_ActionName: Menus/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 11b3ca70-38f8-4adc-b87b-281e367c86d0
+    m_ActionName: Menus/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 772e468f-7340-43c7-973c-84a003d46980
+    m_ActionName: Menus/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7ae29597-14c9-425d-80db-3801b295e82e
+    m_ActionName: Menus/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 00aab9a6-6f5b-4725-b699-d7fd12b13491
+    m_ActionName: Menus/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 26adb262-8247-4a28-8c1f-3e6774a3c276
+    m_ActionName: Menus/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fcae94aa-f055-4e05-95fa-71ba17cdf32b
+    m_ActionName: Menus/TrackedDeviceOrientation
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &3391143012517567267
 GameObject:
   m_ObjectHideFlags: 0
