@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
-    public abstract class RunFS : FSMState<RunFS>, IProvideForce, IAcceptRunInput, IAcceptCollisionEnter, IAcceptLockedInput {
+    public abstract class RunFS : FSMState, IProvideForce, IAcceptRunInput, IAcceptCollisionEnter, IAcceptLockedInput {
         protected readonly Animator Animator;
         protected readonly Transform Transform;
         protected readonly RunConfig Config;

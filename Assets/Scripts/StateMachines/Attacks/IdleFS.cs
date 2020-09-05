@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 namespace StateMachines.Attacks {
     public class IdleFS : AttackFS {
         private GameObject punch1;
-        public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine, kit) { }
+        public IdleFS(GameObject behaviour, UnitFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine, kit) { }
 
         public override void Enter() => InputLockObserver.UnlockInput();
         public override void Exit() => InputLockObserver.LockInput();

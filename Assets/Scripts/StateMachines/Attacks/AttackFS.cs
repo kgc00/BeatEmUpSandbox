@@ -5,20 +5,24 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks {
-    public abstract class AttackFS : FSMState<AttackFS>, IAcceptAttackInput, IHandleAttackAnimationEnter,
-        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes {
+    public abstract class AttackFS : FSMState, IAcceptAttackInput, IHandleAttackAnimationEnter,
+        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes, IUpdateAttackPhase {
         protected readonly GameObject behaviour;
-        protected readonly AttackFSM stateMachine;
+        protected readonly UnitFSM stateMachine;
         protected Animator animator;
         protected AttackKit kit;
 
-        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) {
+        protected AttackFS(GameObject behaviour, UnitFSM stateMachine, AttackKit kit) {
             animator = behaviour.GetComponent<Animator>();
             this.behaviour = behaviour;
             this.stateMachine = stateMachine;
             this.kit = kit;
         }
 
+        public AttackPhase Phase { get; protected set; } = AttackPhase.Startup;
+        public virtual void EnterStartup() => Phase = AttackPhase.Startup;
+        public virtual void EnterActive()  => Phase = AttackPhase.Active;
+        public virtual void EnterRecovery()  => Phase = AttackPhase.Recovery;
 
         protected bool IsJumpState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||

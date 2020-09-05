@@ -16,7 +16,7 @@ namespace StateMachines.Attacks {
 
         private readonly GameObject hitbox;
 
-        public PunchOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine,
+        public PunchOneFS(GameObject behaviour, UnitFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine,
             kit) {
             hitbox = HitboxFromKit(GetType());
         }
@@ -32,6 +32,7 @@ namespace StateMachines.Attacks {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
+            EnterRecovery();
             if (bufferedActions.Count <= 0) return;
             
             // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
@@ -44,7 +45,10 @@ namespace StateMachines.Attacks {
             stateMachine.ChangeState(new PunchTwoFS(behaviour, stateMachine, kit));
         }
 
-        protected override void _EnableAttackBuffer() => bufferEnabled = true;
+        protected override void _EnableAttackBuffer() {
+            EnterActive();
+            bufferEnabled = true;
+        }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed) return;
@@ -69,6 +73,7 @@ namespace StateMachines.Attacks {
         }
 
         protected override void _EnableHitbox() => hitbox.SetActive(true);
+
         protected override void _DisableHitbox() => hitbox.SetActive(false);
 
         private void LogInfo() {

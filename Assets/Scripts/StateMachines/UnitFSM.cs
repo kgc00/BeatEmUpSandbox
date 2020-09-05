@@ -1,24 +1,26 @@
-﻿using System;
+﻿using StateMachines.Attacks;
 using StateMachines.Attacks.Models;
 using StateMachines.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Attacks {
-    public class AttackFSM : MonoBehaviour, IAcceptAttackInput, IChangeState<AttackFS>, IHandleAttackAnimationEnter,
-        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes {
-        public AttackFS State { get; private set; }
+namespace StateMachines {
+    public class UnitFSM : MonoBehaviour, IChangeState<FSMState>, IAcceptAttackInput, IHandleAttackAnimationEnter,
+        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes, IExposeAttackPhase {
+        public FSMState State { get; private set; }
         [SerializeField] private AttackKit kit;
 
         private void Awake() {
             State = new IdleFS(gameObject, this, kit);
         }
 
-        public void ChangeState(AttackFS newState) {
+        public void ChangeState(FSMState newState) {
             State.Exit();
             State = newState;
             State.Enter();
         }
+
+        public AttackPhase CurrentPhase() => State.Phase; 
 
         public void AcceptAttackInput(InputAction.CallbackContext context) => State.AcceptAttackInput(context);
 
@@ -36,7 +38,7 @@ namespace StateMachines.Attacks {
         private void OnGUI() {
             GUILayout.BeginArea(new Rect(0, 81, 410, 80));    
             GUILayout.Box("attack: " + State.GetType());
+            GUILayout.Box("attack phase: " + CurrentPhase());
             GUILayout.EndArea();
         }
-    }
 }

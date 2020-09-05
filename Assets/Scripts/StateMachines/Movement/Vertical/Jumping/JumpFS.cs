@@ -9,7 +9,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
     /// requires update return an FSMState (which we would ignore
     /// and would be confusing)
     /// </summary>
-    public abstract class JumpFS : FSMState<JumpFS>, IAcceptLockedInput {
+    public abstract class JumpFS : FSMState, IAcceptLockedInput {
         protected readonly Animator Animator;
         protected readonly Rigidbody2D Rig;
         protected readonly GameObject Behaviour;

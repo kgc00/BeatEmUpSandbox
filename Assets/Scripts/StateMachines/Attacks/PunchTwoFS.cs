@@ -12,7 +12,7 @@ namespace StateMachines.Attacks {
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
         private readonly GameObject hitbox;
 
-        public PunchTwoFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine, kit) { 
+        public PunchTwoFS(GameObject behaviour, UnitFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine, kit) { 
             hitbox = HitboxFromKit(GetType());}
 
         public override void Enter() {
@@ -26,7 +26,8 @@ namespace StateMachines.Attacks {
         protected override void _EnableHitbox() => hitbox.SetActive(true);
         protected override void _DisableHitbox() => hitbox.SetActive(false);
         protected override void _EnableChaining() {
-            chainingEnabled = true;
+            chainingEnabled = true;          
+            EnterRecovery();
             if (bufferedActions.Count > 0) {
                 // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
 
@@ -40,8 +41,11 @@ namespace StateMachines.Attacks {
             }
         }
         
-        protected override void _EnableAttackBuffer() => bufferEnabled = true;
-        
+        protected override void _EnableAttackBuffer() {
+            EnterActive();
+            bufferEnabled = true;
+        }
+
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed) return;
             

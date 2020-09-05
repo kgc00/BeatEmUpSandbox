@@ -1,5 +1,5 @@
 ﻿namespace StateMachines {
-    public abstract class FSMState<T> where T : FSMState<T> {
+    public abstract class FSMState {
         public virtual void Enter(){}
         public virtual void Update() { }
         public virtual void LateUpdate() { }

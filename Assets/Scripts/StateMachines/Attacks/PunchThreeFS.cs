@@ -9,7 +9,7 @@ namespace StateMachines.Attacks {
         private readonly int attack3 = Animator.StringToHash("Attack3");
         private readonly GameObject hitbox;
 
-        public PunchThreeFS(GameObject behaviour, AttackFSM stateMachine, AttackKit attackKit) : base(behaviour,
+        public PunchThreeFS(GameObject behaviour, UnitFSM stateMachine, AttackKit attackKit) : base(behaviour,
             stateMachine, attackKit) {
             hitbox = HitboxFromKit(GetType());
         }
@@ -25,9 +25,14 @@ namespace StateMachines.Attacks {
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
 
         protected override void _EnableChaining() {
+            EnterRecovery();
         }
 
-        protected override void _EnableHitbox() => hitbox.SetActive(true);
+        protected override void _EnableHitbox() {
+            EnterActive();
+            hitbox.SetActive(true);
+        }
+
         protected override void _DisableHitbox() => hitbox.SetActive(false);
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,

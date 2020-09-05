@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StateMachines.Attacks.Legacy;
+using UnityEngine;
 
 namespace StateMachines.Attacks.StateMachineBehaviours {
     public class AttackStateMachineBehaviour : StateMachineBehaviour {

@@ -1,7 +1,7 @@
 ﻿using StateMachines.Movement.Horizontal.Run;
 
 namespace StateMachines.Interfaces {
-    public interface IChangeState<T> where T : FSMState<T> {
-        void ChangeState(T newState);
+    public interface IChangeState<in FSMState> {
+        void ChangeState(FSMState newState);
     }
 }

@@ -19,7 +19,7 @@ namespace StateMachines {
         public JumpFSM Jump {get; private set;}
         public RunFSM Run {get; private set;}
         private Vector2 relativeForce;
-
+        
         private void Awake() {
             // ReSharper disable twice Unity.InefficientPropertyAccess
             Jump = new JumpFSM(gameObject, jumpConfig);
