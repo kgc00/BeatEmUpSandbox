@@ -8,10 +8,9 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Photon.Pun;
 using UnityEngine;
 
-namespace Photon.PhotonUnityNetworking.Tutorial.Scripts
+namespace Photon.Pun.Demo.PunBasics
 {
 	public class PlayerAnimatorManager : MonoBehaviourPun 
 	{

@@ -1,0 +1,97 @@
+﻿using System;
+using StateMachines.Attacks.Models;
+using StateMachines.Interfaces;
+using StateMachines.Network;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace StateMachines.Attacks.States {
+    public abstract class AttackFS : FSMState<AttackFS>, IAcceptAttackInput, IHandleAttackAnimationEnter,
+        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes {
+        protected readonly GameObject behaviour;
+        protected readonly AttackFSM stateMachine;
+        protected Animator animator;
+        protected AttackKit kit;
+
+        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) {
+            animator = behaviour.GetComponent<Animator>();
+            this.behaviour = behaviour;
+            this.stateMachine = stateMachine;
+            this.kit = kit;
+        }
+        
+        protected bool IsJumpState() =>
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
+
+        protected bool IsExitingAttackState() =>
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
+
+        public void AcceptAttackInput(InputAction.CallbackContext context) => _AcceptAttackInput(context);
+        protected abstract void _AcceptAttackInput(InputAction.CallbackContext context);
+
+        public void HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _HandleAttackAnimationEnter(animator, stateInfo, layerIndex);
+        }
+
+        protected abstract void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
+            int layerIndex);
+
+        public void HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _HandleAttackAnimationExit(animator, stateInfo, layerIndex);
+        }
+
+        protected abstract void _HandleAttackAnimationExit(Animator animator1, AnimatorStateInfo stateInfo,
+            int layerIndex);
+
+        public void EnableChaining() => _EnableChaining();
+        protected virtual void _EnableChaining() { }
+        public void EnableAttackBuffer() => _EnableAttackBuffer();
+        protected virtual void _EnableAttackBuffer() { }
+        public void EnableHitbox() => _EnableHitbox();
+        protected virtual void _EnableHitbox() { }
+        public void DisableHitbox() => _DisableHitbox();
+        protected virtual void _DisableHitbox() { }
+        protected GameObject HitboxFromKit(Type fsType) => kit.attacks.Find(x => x.AttckFS == fsType).HitboxObject;
+
+        protected void HandleStateChange(AttackStates newState) {
+            // stateMachine.ChangeState(AttackStateFactory.FSFromEnum(newState, stateMachine));
+            // ChangeAttackStateEvent.SendChangeAttackStateEvent(AttackStates.PunchOne);
+            stateMachine.RaiseChangeStateEvent(newState);
+        }
+
+        private void LogInfo() {
+            Debug.Log(animator.GetNextAnimatorClipInfo(0));
+            Debug.Log(animator.GetNextAnimatorClipInfo(0)[0].clip);
+            Debug.Log(animator.GetNextAnimatorClipInfo(0)[0].clip.name);
+
+            Debug.Log("CURRENT STATE INFO --- ");
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0));
+            Debug.Log("Logging Attack1");
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack1"));
+            Debug.Log("Logging Attack2");
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack2"));
+            Debug.Log("Logging Idle");
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
+            Debug.Log("Logging Jump");
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump"));
+            Debug.Log("Logging Run");
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsTag("Run"));
+
+            Debug.Log("NEXT STATE INFO --- ");
+            Debug.Log(animator.GetNextAnimatorStateInfo(0));
+            Debug.Log("Logging Attack1");
+            Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Attack1"));
+            Debug.Log("Logging Attack2");
+            Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Attack2"));
+            Debug.Log("Logging Idle");
+            Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Idle"));
+            Debug.Log("Logging Jump");
+            Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Jump"));
+            Debug.Log("Logging Run");
+            Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Run"));
+        }
+    }
+}

@@ -1,4 +1,6 @@
-﻿using StateMachines.Interfaces;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using StateMachines.Interfaces;
 using StateMachines.Movement.Horizontal.Run;
 using StateMachines.Observer;
 using UnityEngine;

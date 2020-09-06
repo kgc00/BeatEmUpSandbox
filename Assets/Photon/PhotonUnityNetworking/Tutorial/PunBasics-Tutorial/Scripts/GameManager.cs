@@ -8,12 +8,12 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Photon.PhotonUnityNetworking.Tutorial.Scripts
+using Photon.Realtime;
+
+namespace Photon.Pun.Demo.PunBasics
 {
 	#pragma warning disable 649
 
@@ -54,7 +54,7 @@ namespace Photon.PhotonUnityNetworking.Tutorial.Scripts
 			// in case we started this demo with the wrong scene being active, simply load the menu scene
 			if (!PhotonNetwork.IsConnected)
 			{
-				SceneManager.LoadScene("Launcher");
+				SceneManager.LoadScene("PunBasics-Launcher");
 
 				return;
 			}
@@ -70,7 +70,7 @@ namespace Photon.PhotonUnityNetworking.Tutorial.Scripts
 				    Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
 
 					// we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-					PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-4f,-2.6f,0f), Quaternion.identity, 0);
+					PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,5f,0f), Quaternion.identity, 0);
 				}else{
 
 					Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
@@ -80,18 +80,18 @@ namespace Photon.PhotonUnityNetworking.Tutorial.Scripts
 			}
 
 		}
-        
-		// /// <summary>
-		// /// MonoBehaviour method called on GameObject by Unity on every frame.
-		// /// </summary>
-		// void Update()
-		// {
-		// 	// "back" button of phone equals "Escape". quit app if that's pressed
-		// 	if (Input.GetKeyDown(KeyCode.Escape))
-		// 	{
-		// 		QuitApplication();
-		// 	}
-		// }
+
+		/// <summary>
+		/// MonoBehaviour method called on GameObject by Unity on every frame.
+		/// </summary>
+		void Update()
+		{
+			// "back" button of phone equals "Escape". quit app if that's pressed
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				QuitApplication();
+			}
+		}
 
         #endregion
 
@@ -134,7 +134,7 @@ namespace Photon.PhotonUnityNetworking.Tutorial.Scripts
 		/// </summary>
 		public override void OnLeftRoom()
 		{
-			SceneManager.LoadScene("Launcher");
+			SceneManager.LoadScene("PunBasics-Launcher");
 		}
 
 		#endregion
