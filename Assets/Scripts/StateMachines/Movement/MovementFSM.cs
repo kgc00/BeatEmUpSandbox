@@ -23,12 +23,12 @@ namespace StateMachines.Movement {
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine) return;
+            if (!photonView.IsMine || context.phase != InputActionPhase.Performed && context.phase != InputActionPhase.Canceled) return;
             Run.AcceptMoveInput(context);
         }
 
         public void AcceptJumpInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine) return;
+            if (!photonView.IsMine || context.phase != InputActionPhase.Performed && context.phase != InputActionPhase.Canceled) return;
             Jump.AcceptJumpInput(context);
         }
 

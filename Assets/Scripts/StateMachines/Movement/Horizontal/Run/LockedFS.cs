@@ -8,8 +8,6 @@ namespace StateMachines.Movement.Horizontal.Run {
             runFsm, dir) { }
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
-            if (context.phase == InputActionPhase.Started) return;
-
             MoveDir = context.ReadValue<Single>();
         }
 

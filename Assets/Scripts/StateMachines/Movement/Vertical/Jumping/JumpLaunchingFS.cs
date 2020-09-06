@@ -14,8 +14,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
-            if (context.phase != InputActionPhase.Canceled) return;
-
             Jump.ChangeState(new JumpLaunchedFS(Behaviour, Jump, Config, timeLapsed));
         }
 

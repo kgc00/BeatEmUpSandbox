@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
 using Photon.Realtime;
 using StateMachines.Interfaces;
 using StateMachines.Movement.Horizontal.Run;
@@ -8,7 +9,7 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpFSM : IProvideForce, IAcceptCollisionEnter, IAcceptJumpInput, IChangeState<JumpFS>,
-        IHandleLockedMovementInput, IHandleLockedJumpInput {
+        IHandleLockedMovementInput, IHandleLockedJumpInput, IOnEventCallback {
         public JumpFS State { get; private set; }
 
         public JumpFSM(GameObject behaviour, JumpConfig jumpConfig) {
@@ -18,6 +19,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             
             InputLockObserver.LockJumpInput += AcceptLockJumpInput;
             InputLockObserver.UnlockJumpInput += AcceptUnlockJumpInput;
+            PhotonNetwork.AddCallbackTarget(this);
         }
 
         ~JumpFSM() {
@@ -26,6 +28,11 @@ namespace StateMachines.Movement.Vertical.Jumping {
             
             InputLockObserver.LockJumpInput -= AcceptLockJumpInput;
             InputLockObserver.UnlockJumpInput -= AcceptUnlockJumpInput;
+            PhotonNetwork.RemoveCallbackTarget(this);
+        }
+
+        public void OnEvent(EventData photonEvent) {
+            throw new System.NotImplementedException();
         }
 
         public float Force() => State.Force();

@@ -48,8 +48,6 @@ namespace StateMachines.Attacks.States {
         protected override void _EnableAttackBuffer() => bufferEnabled = true;
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (context.phase != InputActionPhase.Performed) return;
-
             if (chainingEnabled) {
                 HandleStateChange(AttackStates.PunchThree);
                 return;

@@ -29,7 +29,12 @@ namespace StateMachines.Attacks.States {
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
 
-        public void AcceptAttackInput(InputAction.CallbackContext context) => _AcceptAttackInput(context);
+        public void AcceptAttackInput(InputAction.CallbackContext context) {
+            if (context.phase != InputActionPhase.Performed) return;
+            
+            _AcceptAttackInput(context);
+        }
+
         protected abstract void _AcceptAttackInput(InputAction.CallbackContext context);
 
         public void HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
