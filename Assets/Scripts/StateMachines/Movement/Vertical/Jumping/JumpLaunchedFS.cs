@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StateMachines.Movement.Models;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
@@ -15,7 +16,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void Enter() => Rig.gravityScale = Config.lowJumpMultiplier;
 
         public override void Update() {
-            if (Rig.velocity.y < 0 || timeLapsed >= Config.jumpDuration) Jump.ChangeState(new JumpFallingFS(Behaviour, Jump, Config));
+            if (Rig.velocity.y < 0 || timeLapsed >= Config.jumpDuration) Jump.RaiseChangeStateEvent(JumpStates.Falling);
 
             timeLapsed += Time.deltaTime;
         }

@@ -27,7 +27,7 @@ namespace StateMachines.Attacks {
         [PunRPC]
         public void ChangeState(AttackStates newState) {
             State.Exit();
-            State = AttackStateFactory.FSFromEnum(newState, this);
+            State = StateFactory.AttackFSFromEnum(newState, this);
             State.Enter();
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using StateMachines.Movement.Models;
+using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,31 +9,31 @@ namespace StateMachines.Movement.Horizontal.Run {
         public IdleFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir = 0f) 
             : base(behaviour, runConfig, runFsm, dir) { }
 
-        public override void Enter() {
-            UpdateAnimations();
-        }
+        public override void Enter() => UpdateAnimations();
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
             MoveDir = context.ReadValue<Single>();
             var moving = Math.Abs(MoveDir) > .01f;
 
-            if (moving) StateMachine.ChangeState(new MovingFS(Behaviour, Config, StateMachine, MoveDir));
+            if (moving) StateMachine.RaiseChangeStateEvent(RunStates.Moving, MoveDir);
         }
 
         protected override void UpdateAnimations() {
-            Animator.ResetTrigger(Running);
-            Animator.SetTrigger(Idle);
+            if(!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.SetTrigger(Idle);
             
-            if(Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"))Animator.ResetTrigger(Idle);
+            Animator.ResetTrigger(Running);
         }
 
-        protected override void _OnCollisionEnter2D(Collision2D other) {
-            if (!other.gameObject.CompareTag("Board")) return;
-
+        protected override void _OnCollisionEnter2D_RPC() {
             UpdateAnimations();
         }
 
-        protected override float _Force() => 0;
+        protected override float _Force() {
+            // helps with serializing aniamtion states across the network
+            UpdateAnimations();
+            return 0;
+        }
+
         protected override void _AcceptUnlockInput() { }
     }
 }

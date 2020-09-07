@@ -25,12 +25,11 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Rig = behaviour.GetComponent<Rigidbody2D>();
         }
         
-        public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsName("player_jump");
-        public bool AnimatorStateFalling() => Animator.GetCurrentAnimatorStateInfo(0).IsName("player_fall");
+        public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsName("Jump");
+        public bool AnimatorStateFalling() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
+        
         public virtual float Force() => 0f;
-        public virtual void OnCollisionEnter2D(Collision2D other) {
-            if (!other.gameObject.CompareTag("Board")) return;
-            
+        public virtual void OnCollisionEnter2D_RPC() {
             if (AnimatorStateJumping() || AnimatorStateFalling()) Animator.SetTrigger(Grounded);
         }
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);

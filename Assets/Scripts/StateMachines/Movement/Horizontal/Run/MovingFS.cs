@@ -1,4 +1,5 @@
 ﻿using System;
+using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,14 +14,13 @@ namespace StateMachines.Movement.Horizontal.Run {
             MoveDir = context.ReadValue<Single>();
             var moving = Math.Abs(MoveDir) > .01f;
 
-            if (!moving) StateMachine.ChangeState(new IdleFS(Behaviour, Config, StateMachine, MoveDir));
+            if (!moving) StateMachine.RaiseChangeStateEvent(RunStates.Idle, MoveDir);
         }
 
         protected override void UpdateAnimations() {
-            Animator.SetTrigger(Running);
             Transform.localScale = MoveDir > 0 ? Vector3.one : new Vector3(-1, 1, 1);
             
-            if(Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run"))Animator.ResetTrigger(Running);
+            if(!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) Animator.SetTrigger(Running);
         }
 
         private static int CappedMoveVelocity() => 0;
@@ -28,15 +28,16 @@ namespace StateMachines.Movement.Horizontal.Run {
         private bool HitSpeedCap(float rigX) => Mathf.Abs(rigX) >= Config.maxVelocity;
         private bool IsForwardMovement(float rigX) => Mathf.Sign(MoveDir) == Mathf.Sign(rigX);
 
-        protected override void _OnCollisionEnter2D(Collision2D other) {
-            if (!other.gameObject.CompareTag("Board")) return;
-
+        protected override void _OnCollisionEnter2D_RPC() {
             UpdateAnimations();
         }
 
         protected override float _Force() {
             var rigX = Rig.velocity.x;
-
+            
+            // helps with serializing aniamtion states across the network
+            UpdateAnimations();
+            
             return HitSpeedCap(rigX) && IsForwardMovement(rigX) ? CappedMoveVelocity() : NormalMoveVelocity();
         }
 

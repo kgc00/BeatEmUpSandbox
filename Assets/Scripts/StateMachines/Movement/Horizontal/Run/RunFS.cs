@@ -1,4 +1,5 @@
 ﻿using StateMachines.Interfaces;
+using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,25 +27,19 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
 
-        public void AcceptMoveInput(InputAction.CallbackContext context) {
-            _AcceptMoveInput(context);
-        }
+        public void AcceptMoveInput(InputAction.CallbackContext context) => _AcceptMoveInput(context);
 
         protected abstract void _AcceptMoveInput(InputAction.CallbackContext context);
-        public void OnCollisionEnter2D(Collision2D other) {
-            _OnCollisionEnter2D(other);
-        }
+        public void OnCollisionEnter2D_RPC() => _OnCollisionEnter2D_RPC();
 
-        protected abstract void _OnCollisionEnter2D(Collision2D other);
+        protected abstract void _OnCollisionEnter2D_RPC();
 
-        public float Force() {
-            return _Force();
-        }
+        public float Force() => _Force();
 
         protected abstract float _Force();
         public void AcceptLockRunInput() => _AcceptLockInput();
 
-        protected virtual void _AcceptLockInput() => StateMachine.ChangeState(new LockedFS(Behaviour,Config,StateMachine, MoveDir));
+        protected virtual void _AcceptLockInput() => StateMachine.RaiseChangeStateEvent(RunStates.Locked, MoveDir);
 
         public void AcceptUnlockRunInput() => _AcceptUnlockInput();
 

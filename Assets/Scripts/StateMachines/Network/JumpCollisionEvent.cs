@@ -2,19 +2,20 @@
 using Photon.Pun;
 using Photon.Realtime;
 using StateMachines.Movement.Models;
+using UnityEngine;
 
 namespace StateMachines.Network {
-    public static class ChangeJumpStateEvent {
+    public static class JumpCollisionEvent {
         // If you have multiple custom events, it is recommended to define them in the used class
-        public const byte ChangeJumpStateEventCode = 2;
+        public const byte JumpCollisionEventCode = 5;
 
-        public static void SendChangeJumpStateEvent(JumpStates newState, float timeLapsed = 0f) {
-            // Array contains the target position and the IDs of the selected units
-            var content = new object[] {newState, timeLapsed};
+        public static void SendJumpCollisionEvent(Collision2D other) {
+            var content = other;
+            
             // You would have to set the Receivers to All in order to receive this event on the local client as well
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.Others};
         
-            PhotonNetwork.RaiseEvent(ChangeJumpStateEventCode, content, raiseEventOptions, SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent(JumpCollisionEventCode, content, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 }

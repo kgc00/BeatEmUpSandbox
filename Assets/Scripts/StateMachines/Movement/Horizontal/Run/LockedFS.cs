@@ -1,4 +1,5 @@
 ﻿using System;
+using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,9 +12,12 @@ namespace StateMachines.Movement.Horizontal.Run {
             MoveDir = context.ReadValue<Single>();
         }
 
-        protected override void _OnCollisionEnter2D(Collision2D other) { }
+        protected override void _OnCollisionEnter2D_RPC() { }
 
-        protected override float _Force() => 0;
+        protected override float _Force() {
+            if(!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.SetTrigger(Idle);
+            return 0;
+        }
 
 
         protected override void _AcceptLockInput() { }
@@ -21,8 +25,8 @@ namespace StateMachines.Movement.Horizontal.Run {
         protected override void _AcceptUnlockInput() {
             var moving = Math.Abs(MoveDir) > .01f;
             
-            if (moving) StateMachine.ChangeState(new MovingFS(Behaviour, Config, StateMachine, MoveDir));
-            else StateMachine.ChangeState(new IdleFS(Behaviour, Config, StateMachine, MoveDir));
+            if (moving) StateMachine.RaiseChangeStateEvent(RunStates.Moving, MoveDir);
+            else StateMachine.RaiseChangeStateEvent(RunStates.Idle, MoveDir);
         }
     }
 }

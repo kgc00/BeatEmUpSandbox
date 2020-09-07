@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StateMachines.Movement.Models;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
@@ -11,12 +12,10 @@ namespace StateMachines.Movement.Vertical.Jumping {
             else Rig.gravityScale = Config.lowJumpMultiplier;
         }
 
-        public override void OnCollisionEnter2D(Collision2D other) {
-            base.OnCollisionEnter2D(other);
+        public override void OnCollisionEnter2D_RPC() {
+            base.OnCollisionEnter2D_RPC();
 
-            if (!other.gameObject.CompareTag("Board")) return;
-
-            Jump.ChangeState(new JumpGroundedFS(Behaviour, Jump, Config));
+            Jump.RaiseChangeStateEvent(JumpStates.Grounded);
             Rig.drag = Config.groundedLinearDrag;
         }
     }

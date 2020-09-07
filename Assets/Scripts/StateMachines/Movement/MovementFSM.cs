@@ -23,12 +23,14 @@ namespace StateMachines.Movement {
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine || context.phase != InputActionPhase.Performed && context.phase != InputActionPhase.Canceled) return;
+            if (!photonView.IsMine || context.phase != InputActionPhase.Performed &&
+                context.phase != InputActionPhase.Canceled) return;
             Run.AcceptMoveInput(context);
         }
 
         public void AcceptJumpInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine || context.phase != InputActionPhase.Performed && context.phase != InputActionPhase.Canceled) return;
+            if (!photonView.IsMine || context.phase != InputActionPhase.Performed &&
+                context.phase != InputActionPhase.Canceled) return;
             Jump.AcceptJumpInput(context);
         }
 
@@ -42,15 +44,22 @@ namespace StateMachines.Movement {
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
-            Jump.OnCollisionEnter2D(other);
-            Run.OnCollisionEnter2D(other);
+            if(!other.gameObject.CompareTag("Board")) return;
+            
+            photonView.RPC("CollisionEnter2D_RPC", RpcTarget.All);
+        }
+
+        [PunRPC]
+        private void CollisionEnter2D_RPC() {
+            Jump.OnCollisionEnter2D_RPC();
+            Run.OnCollisionEnter2D_RPC();
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
             if (stream.IsWriting) {
                 // We own this player: send the others our data
                 stream.SendNext(relativeForce);
-                stream.SendNext( transform.localScale );
+                stream.SendNext(transform.localScale);
             }
             else {
                 // Network player, receive data

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StateMachines.Movement.Models;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
@@ -7,7 +8,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             base(behaviour, jump, jumpConfig) { }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) { }
-        public override void AcceptLockJumpInput() => Jump.ChangeState(new JumpGroundedFS(Behaviour, Jump, Config));
-        public override void AcceptUnlockJumpInput() => Jump.ChangeState(new JumpGroundedFS(Behaviour, Jump, Config));
+        public override void AcceptLockJumpInput() => Jump.RaiseChangeStateEvent(JumpStates.Grounded);
+        public override void AcceptUnlockJumpInput() => Jump.RaiseChangeStateEvent(JumpStates.Grounded);
     }
 }

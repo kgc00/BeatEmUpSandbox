@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StateMachines.Movement.Models;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
@@ -10,11 +11,13 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
             if (timeLapsed < Config.jumpDuration) return;
             
-            Jump.ChangeState(new JumpLaunchedFS(Behaviour, Jump, Config, timeLapsed));
+            Jump.RaiseChangeStateEvent(JumpStates.Launched, timeLapsed);
         }
 
-        public override void AcceptJumpInput(InputAction.CallbackContext context) {
-            Jump.ChangeState(new JumpLaunchedFS(Behaviour, Jump, Config, timeLapsed));
+        public override void AcceptJumpInput(InputAction.CallbackContext context) {           
+            if (context.phase != InputActionPhase.Canceled) return;
+
+            Jump.RaiseChangeStateEvent(JumpStates.Launched, timeLapsed);
         }
 
         public override void Enter() {

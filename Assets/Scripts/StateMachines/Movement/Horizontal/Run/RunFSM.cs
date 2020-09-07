@@ -1,5 +1,10 @@
-﻿using StateMachines.Attacks.Legacy;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
+using StateMachines.Attacks.Legacy;
 using StateMachines.Interfaces;
+using StateMachines.Movement.Models;
+using StateMachines.Network;
 using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,31 +12,31 @@ using UnityEngine.InputSystem;
 namespace StateMachines.Movement.Horizontal.Run {
     
 
-    public class RunFSM : IAcceptRunInput, IProvideForce, IAcceptCollisionEnter, IChangeState<RunFS>, IHandleLockedMovementInput, IHandleLockedRunInput {
+    public class RunFSM : IAcceptRunInput, IProvideForce, IAcceptCollisionEnter, 
+        IHandleLockedMovementInput, IHandleLockedRunInput, IOnEventCallback {
         private readonly Animator animator;
         private readonly Transform transform;
-        private readonly RunConfig config;
         private readonly Rigidbody2D rig;
 
-        private readonly int running = Animator.StringToHash("Running");
-        private readonly int idle = Animator.StringToHash("Idle");
-
-        private float moveDir;
-        private bool moving;
-
         public RunFS State { get; private set; }
+        public GameObject Behaviour { get; }
+        public RunConfig Config { get; }
 
         public RunFSM(GameObject behaviour, RunConfig runConfig) {
+            Behaviour = behaviour;
+            Config = runConfig;
             animator = behaviour.GetComponent<Animator>();
             transform = behaviour.GetComponent<Transform>();
             rig = behaviour.GetComponent<Rigidbody2D>();
-            config = runConfig;
             State = new IdleFS(behaviour, runConfig, this);
+            
             InputLockObserver.LockRunInput += AcceptLockRunInput;
             InputLockObserver.UnlockRunInput += AcceptUnlockRunInput;
             
             InputLockObserver.LockMovementInput += AcceptLockRunInput;
             InputLockObserver.UnlockMovementInput += AcceptUnlockRunInput;
+            
+            PhotonNetwork.AddCallbackTarget(this);
         }
 
         ~RunFSM() {
@@ -40,16 +45,45 @@ namespace StateMachines.Movement.Horizontal.Run {
             
             InputLockObserver.LockMovementInput -= AcceptLockRunInput;
             InputLockObserver.UnlockMovementInput -= AcceptUnlockRunInput;
+            
+            PhotonNetwork.RemoveCallbackTarget(this);
         }
         
-        public void ChangeState(RunFS newState) {
+        public void OnEvent(EventData photonEvent) {
+            byte eventCode = photonEvent.Code;
+
+            // if (eventCode == RunCollisionEvent.RunCollisionEventCode) {
+            //     if (Behaviour.GetPhotonView().IsMine) return;
+            //     
+            //     var other = (Collision2D) photonEvent.CustomData;
+            //     OnCollisionEnter2D(other);
+            // }
+            
+            if (eventCode == ChangeRunStateEvent.ChangeRunStateEventCode) {
+                if (Behaviour.GetPhotonView().IsMine) return;
+
+                var data = (object[]) photonEvent.CustomData;
+                var newState = (RunStates) data[0];
+                var moveDir = (float) data[1];
+                
+                ChangeState(newState, moveDir);
+            }
+        }
+        
+        public void RaiseChangeStateEvent(RunStates newState, float moveDir = 0f) {
+            ChangeState(newState, moveDir);
+            ChangeRunStateEvent.SendChangeRunStateEvent(newState, moveDir);
+        }
+
+        public void ChangeState(RunStates newState, float moveDir = 0f) {
             State.Exit();
-            State = newState;
+            State = StateFactory.RunFSFromEnum(newState, this, moveDir);
             State.Enter();
         }
+
         public void AcceptMoveInput(InputAction.CallbackContext context) => State.AcceptMoveInput(context);
         public float Force() => State.Force();
-        public void OnCollisionEnter2D(Collision2D other) => State.OnCollisionEnter2D(other);
+        public void OnCollisionEnter2D_RPC() => State.OnCollisionEnter2D_RPC();
         public void AcceptLockRunInput() => State.AcceptLockRunInput();
         public void AcceptUnlockRunInput() => State.AcceptUnlockRunInput();
         public void AcceptLockMovementInput() => State.AcceptLockRunInput();
