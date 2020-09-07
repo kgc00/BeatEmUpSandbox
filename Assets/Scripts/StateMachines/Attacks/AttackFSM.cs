@@ -63,6 +63,7 @@ namespace StateMachines.Attacks {
         [PunRPC]
         void DisableHitbox_RPC() => State.DisableHitbox();
 
+        
         private void OnGUI() {
             if (!photonView.IsMine) return;
             
