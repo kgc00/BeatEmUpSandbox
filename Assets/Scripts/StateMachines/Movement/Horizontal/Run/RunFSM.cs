@@ -90,5 +90,9 @@ namespace StateMachines.Movement.Horizontal.Run {
         public void AcceptUnlockRunInput() => State.AcceptUnlockRunInput();
         public void AcceptLockMovementInput() => State.AcceptLockRunInput();
         public void AcceptUnlockMovementInput() => State.AcceptUnlockRunInput();
+
+        public void Update() => State.Update();
+
+        public void FixedUpdate() => State.FixedUpdate();
     }
 }

@@ -36,8 +36,14 @@ namespace StateMachines.Movement {
             Jump.AcceptJumpInput(context);
         }
 
-        private void FixedUpdate() {
+        private void Update() {
             Jump.Update();
+            Run.Update();
+        }
+
+        private void FixedUpdate() {
+            Jump.FixedUpdate();
+            Run.FixedUpdate();
 
             relativeForce.x = Run.Force();
             relativeForce.y = Jump.Force();

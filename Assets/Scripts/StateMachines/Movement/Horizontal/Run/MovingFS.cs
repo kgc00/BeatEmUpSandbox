@@ -32,6 +32,12 @@ namespace StateMachines.Movement.Horizontal.Run {
             UpdateAnimations();
         }
 
+        public override void Update() {
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) return;
+            
+            UpdateAnimations();
+        }
+
         protected override float _Force() {
             var rigX = Rig.velocity.x;
             
