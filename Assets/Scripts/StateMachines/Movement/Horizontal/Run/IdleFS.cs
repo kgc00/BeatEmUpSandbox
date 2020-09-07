@@ -20,19 +20,15 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected override void UpdateAnimations() {
             if(!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.SetTrigger(Idle);
-            
-            Animator.ResetTrigger(Running);
+            //
+            // Animator.ResetTrigger(Running);
         }
 
         protected override void _OnCollisionEnter2D_RPC() {
             UpdateAnimations();
         }
 
-        protected override float _Force() {
-            // helps with serializing aniamtion states across the network
-            UpdateAnimations();
-            return 0;
-        }
+        protected override float _Force() => 0;
 
         protected override void _AcceptUnlockInput() { }
     }

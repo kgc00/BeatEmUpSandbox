@@ -23,13 +23,15 @@ namespace StateMachines.Movement {
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine || context.phase != InputActionPhase.Performed &&
+            if (!photonView.IsMine || 
+                context.phase != InputActionPhase.Performed &&
                 context.phase != InputActionPhase.Canceled) return;
             Run.AcceptMoveInput(context);
         }
 
         public void AcceptJumpInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine || context.phase != InputActionPhase.Performed &&
+            if (!photonView.IsMine || 
+                context.phase != InputActionPhase.Performed &&
                 context.phase != InputActionPhase.Canceled) return;
             Jump.AcceptJumpInput(context);
         }
@@ -69,6 +71,8 @@ namespace StateMachines.Movement {
         }
 
         private void OnGUI() {
+            if (!photonView.IsMine) return;
+            
             GUILayout.Box("rig velocity: " + rig.velocity);
             GUILayout.Box("run: " + Run.State.GetType());
             GUILayout.Box("jump: " + Jump.State.GetType());

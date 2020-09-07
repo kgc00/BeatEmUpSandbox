@@ -35,9 +35,6 @@ namespace StateMachines.Movement.Horizontal.Run {
         protected override float _Force() {
             var rigX = Rig.velocity.x;
             
-            // helps with serializing aniamtion states across the network
-            UpdateAnimations();
-            
             return HitSpeedCap(rigX) && IsForwardMovement(rigX) ? CappedMoveVelocity() : NormalMoveVelocity();
         }
 

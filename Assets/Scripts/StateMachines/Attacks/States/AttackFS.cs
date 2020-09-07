@@ -61,11 +61,7 @@ namespace StateMachines.Attacks.States {
         protected virtual void _DisableHitbox() { }
         protected GameObject HitboxFromKit(Type fsType) => kit.attacks.Find(x => x.AttckFS == fsType).HitboxObject;
 
-        protected void HandleStateChange(AttackStates newState) {
-            // stateMachine.ChangeState(AttackStateFactory.FSFromEnum(newState, stateMachine));
-            // ChangeAttackStateEvent.SendChangeAttackStateEvent(AttackStates.PunchOne);
-            stateMachine.RaiseChangeStateEvent(newState);
-        }
+        protected void HandleStateChange(AttackStates newState) => stateMachine.RaiseChangeStateEvent(newState);
 
         private void LogInfo() {
             Debug.Log(animator.GetNextAnimatorClipInfo(0));

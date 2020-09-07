@@ -14,18 +14,16 @@ namespace StateMachines.Attacks.States {
         public override void Exit() { }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if ( IsJumpState()) return;
+            if (IsJumpState()) return;
             InputLockObserver.LockMovementInput();
 
             HandleStateChange(AttackStates.PunchOne);
         }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex) {
-        }
+            int layerIndex) { }
 
         protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex) {
-        }
+            int layerIndex) { }
     }
 }

@@ -19,7 +19,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public JumpFSM(GameObject behaviour, JumpConfig jumpConfig) {
             Config = jumpConfig;
             Behaviour = behaviour;
-            State = new JumpGroundedFS(behaviour, this, jumpConfig);
             
             InputLockObserver.LockMovementInput += AcceptLockMovementInput;
             InputLockObserver.UnlockMovementInput += AcceptUnlockMovementInput;
@@ -28,6 +27,9 @@ namespace StateMachines.Movement.Vertical.Jumping {
             InputLockObserver.UnlockJumpInput += AcceptUnlockJumpInput;
             
             PhotonNetwork.AddCallbackTarget(this);
+            
+            State = new JumpGroundedFS(behaviour, this, jumpConfig);
+            State.Enter();
         }
 
         ~JumpFSM() {

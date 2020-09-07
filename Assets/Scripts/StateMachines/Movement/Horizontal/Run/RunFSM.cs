@@ -28,15 +28,17 @@ namespace StateMachines.Movement.Horizontal.Run {
             animator = behaviour.GetComponent<Animator>();
             transform = behaviour.GetComponent<Transform>();
             rig = behaviour.GetComponent<Rigidbody2D>();
-            State = new IdleFS(behaviour, runConfig, this);
-            
+
             InputLockObserver.LockRunInput += AcceptLockRunInput;
             InputLockObserver.UnlockRunInput += AcceptUnlockRunInput;
-            
+
             InputLockObserver.LockMovementInput += AcceptLockRunInput;
             InputLockObserver.UnlockMovementInput += AcceptUnlockRunInput;
-            
+
             PhotonNetwork.AddCallbackTarget(this);
+            
+            State = new IdleFS(behaviour, runConfig, this);
+            State.Enter();
         }
 
         ~RunFSM() {

@@ -14,10 +14,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected override void _OnCollisionEnter2D_RPC() { }
 
-        protected override float _Force() {
-            if(!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.SetTrigger(Idle);
-            return 0;
-        }
+        protected override float _Force() => 0;
 
 
         protected override void _AcceptLockInput() { }

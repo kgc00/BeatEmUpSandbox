@@ -19,6 +19,7 @@ namespace StateMachines.Attacks {
 
         private void Awake() {
             State = new IdleFS(gameObject, this, kit);
+            State.Enter();
         }
 
         public void RaiseChangeStateEvent(AttackStates newState) =>
@@ -42,10 +43,25 @@ namespace StateMachines.Attacks {
         public void HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
             State.HandleAttackAnimationExit(animator, stateInfo, layerIndex);
 
-        public void EnableChaining() => State.EnableChaining();
-        public void EnableAttackBuffer() => State.EnableAttackBuffer();
-        public void EnableHitbox() => State.EnableHitbox();
-        public void DisableHitbox() => State.DisableHitbox();
+        public void EnableChaining() => photonView.RPC("EnableChaining_RPC", RpcTarget.All);
+
+        [PunRPC]
+        void EnableChaining_RPC() => State.EnableChaining();
+
+        public void EnableAttackBuffer() => photonView.RPC("EnableAttackBuffer_RPC", RpcTarget.All);
+
+        [PunRPC]
+        void EnableAttackBuffer_RPC() => State.EnableAttackBuffer();
+
+        public void EnableHitbox() => photonView.RPC("EnableHitbox_RPC", RpcTarget.All);
+
+        [PunRPC]
+        void EnableHitbox_RPC() => State.EnableHitbox();
+
+        public void DisableHitbox() => photonView.RPC("DisableHitbox_RPC", RpcTarget.All);
+
+        [PunRPC]
+        void DisableHitbox_RPC() => State.DisableHitbox();
 
         private void OnGUI() {
             GUILayout.BeginArea(new Rect(0, 81, 410, 80));
