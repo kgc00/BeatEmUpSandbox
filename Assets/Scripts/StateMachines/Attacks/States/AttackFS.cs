@@ -19,6 +19,9 @@ namespace StateMachines.Attacks.States {
             this.stateMachine = stateMachine;
             this.kit = kit;
         }
+
+        protected bool IsDashState() =>
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Dash");
         
         protected bool IsJumpState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||

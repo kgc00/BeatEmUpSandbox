@@ -14,7 +14,7 @@ namespace StateMachines.Attacks.States {
         public override void Exit() { }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (IsJumpState()) return;
+            if (IsJumpState() || IsDashState()) return;
             InputLockObserver.LockMovementInput();
 
             HandleStateChange(AttackStates.PunchOne);

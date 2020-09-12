@@ -9,6 +9,7 @@ namespace StateMachines.Movement.Horizontal.Run {
             : base(behaviour, runConfig, runFsm, dir) { }
 
         public override void Enter() => UpdateAnimations();
+        public override void Exit() => Animator.ResetTrigger(Running);
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
             MoveDir = context.ReadValue<Single>();

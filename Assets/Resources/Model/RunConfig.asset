@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runVelocity: 70
   maxVelocity: 3.25
-  dashDuration: 0.5
+  dashDuration: 0.3
+  dashVelocity: 130

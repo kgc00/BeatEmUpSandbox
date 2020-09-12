@@ -11,6 +11,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         public override void Enter() => UpdateAnimations();
 
+        public override void Exit() => Animator.ResetTrigger(Idle);
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (IsJumpState()) return;
@@ -26,8 +27,6 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected override void UpdateAnimations() {
             if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.SetTrigger(Idle);
-            //
-            // Animator.ResetTrigger(Running);
         }
 
         protected override void _OnCollisionEnter2D_RPC() {
