@@ -22,6 +22,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "11a78f89-b6d1-4de0-b458-0cc30d7362f9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Attack",
                     "type": "Button",
                     "id": "e964dd41-6d3b-4212-a6a5-af416fb20e8b",
@@ -83,6 +91,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9adb326b-bb9c-41ea-bd90-98ddd58bcb19",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

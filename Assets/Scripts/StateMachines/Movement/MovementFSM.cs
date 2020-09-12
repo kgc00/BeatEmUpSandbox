@@ -8,7 +8,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement {
-    public class MovementFSM : MonoBehaviourPunCallbacks, IAcceptRunInput, IAcceptJumpInput, IPunObservable {
+    public class MovementFSM : MonoBehaviourPunCallbacks, IAcceptRunInput, IAcceptJumpInput,
+        IAcceptDashInput,
+        IPunObservable {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
         [SerializeField] private Rigidbody2D rig;
@@ -23,14 +25,14 @@ namespace StateMachines.Movement {
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine || 
+            if (!photonView.IsMine ||
                 context.phase != InputActionPhase.Performed &&
                 context.phase != InputActionPhase.Canceled) return;
             Run.AcceptMoveInput(context);
         }
 
         public void AcceptJumpInput(InputAction.CallbackContext context) {
-            if (!photonView.IsMine || 
+            if (!photonView.IsMine ||
                 context.phase != InputActionPhase.Performed &&
                 context.phase != InputActionPhase.Canceled) return;
             Jump.AcceptJumpInput(context);
@@ -51,9 +53,15 @@ namespace StateMachines.Movement {
             rig.AddForce(relativeForce, ForceMode2D.Force);
         }
 
+        public void AcceptDashInput(InputAction.CallbackContext context) {
+            if (!photonView.IsMine ||
+                context.phase != InputActionPhase.Performed) return;
+            Run.AcceptDashInput(context);
+        }
+
         private void OnCollisionEnter2D(Collision2D other) {
-            if(!other.gameObject.CompareTag("Board")) return;
-            
+            if (!other.gameObject.CompareTag("Board")) return;
+
             photonView.RPC("CollisionEnter2D_RPC", RpcTarget.All);
         }
 
@@ -78,7 +86,7 @@ namespace StateMachines.Movement {
 
         private void OnGUI() {
             if (!photonView.IsMine) return;
-            
+
             GUILayout.Box("rig velocity: " + rig.velocity);
             GUILayout.Box("run: " + Run.State.GetType());
             GUILayout.Box("jump: " + Jump.State.GetType());

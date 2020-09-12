@@ -7,5 +7,7 @@ namespace StateMachines.Movement {
     public class RunConfig : ScriptableObject {
         [SerializeField] public float runVelocity;
         [SerializeField] public float maxVelocity;
+        [SerializeField] public float dashDuration;
+        [SerializeField] public float dashVelocity;
     }
 }

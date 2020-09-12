@@ -40,6 +40,11 @@ MonoBehaviour:
   - RespawnSpaceship
   - Enter
   - ChangeState
+  - CollisionEnter2D_RPC
+  - DisableHitbox_RPC
+  - EnableAttackBuffer_RPC
+  - EnableChaining_RPC
+  - EnableHitbox_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

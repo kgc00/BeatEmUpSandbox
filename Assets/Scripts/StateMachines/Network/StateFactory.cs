@@ -28,6 +28,7 @@ namespace StateMachines.Network {
         public static RunFS RunFSFromEnum(RunStates state, RunFSM fsm, float moveDir = 0f) {
             if(state == RunStates.Idle) return new Movement.Horizontal.Run.IdleFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
             if(state == RunStates.Moving) return new Movement.Horizontal.Run.MovingFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
+            if(state == RunStates.Dash) return new Movement.Horizontal.Run.DashFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
             if(state == RunStates.Locked) return new Movement.Horizontal.Run.LockedFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
             return null;
         }

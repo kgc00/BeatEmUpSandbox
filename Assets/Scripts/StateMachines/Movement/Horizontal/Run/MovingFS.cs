@@ -23,6 +23,11 @@ namespace StateMachines.Movement.Horizontal.Run {
             if(!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) Animator.SetTrigger(Running);
         }
 
+        public override void AcceptDashInput(InputAction.CallbackContext context) {
+            if (IsJumpState()) return;
+            StateMachine.RaiseChangeStateEvent(RunStates.Dash, MoveDir);
+        }
+
         private static int CappedMoveVelocity() => 0;
         private float NormalMoveVelocity() => MoveDir * Config.runVelocity;
         private bool HitSpeedCap(float rigX) => Mathf.Abs(rigX) >= Config.maxVelocity;

@@ -27,6 +27,10 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
 
+        protected bool IsJumpState() =>
+            Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
+            Animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
+        
         public void AcceptMoveInput(InputAction.CallbackContext context) => _AcceptMoveInput(context);
 
         protected abstract void _AcceptMoveInput(InputAction.CallbackContext context);
@@ -45,5 +49,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected abstract void _AcceptUnlockInput();
         protected virtual void UpdateAnimations() {}
+        
+        public virtual void AcceptDashInput(InputAction.CallbackContext context) { }
     }
 }

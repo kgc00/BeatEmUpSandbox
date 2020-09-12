@@ -1,3 +1,5 @@
 ﻿- networking issues:
-    - when turning left => right (or vice versa), sometimes the animation stalls on idle when it should be running
+    - (fixed) when turning left => right (or vice versa), sometimes the animation stalls on idle when it should be running
     - when spamming attack, sometimes the hitboxes don't get deactivated when they should
+    - when spamming attack, sometimes the combo system prematurely enters next combo phase
+    

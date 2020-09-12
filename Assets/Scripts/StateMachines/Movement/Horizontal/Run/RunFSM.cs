@@ -13,7 +13,7 @@ namespace StateMachines.Movement.Horizontal.Run {
     
 
     public class RunFSM : IAcceptRunInput, IProvideForce, IAcceptCollisionEnter, 
-        IHandleLockedMovementInput, IHandleLockedRunInput, IOnEventCallback {
+        IHandleLockedMovementInput, IHandleLockedRunInput, IOnEventCallback, IAcceptDashInput {
         private readonly Animator animator;
         private readonly Transform transform;
         private readonly Rigidbody2D rig;
@@ -85,6 +85,8 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         public void AcceptMoveInput(InputAction.CallbackContext context) => State.AcceptMoveInput(context);
         public float Force() => State.Force();
+
+        public void AcceptDashInput(InputAction.CallbackContext context) => State.AcceptDashInput(context);
         public void OnCollisionEnter2D_RPC() => State.OnCollisionEnter2D_RPC();
         public void AcceptLockRunInput() => State.AcceptLockRunInput();
         public void AcceptUnlockRunInput() => State.AcceptUnlockRunInput();

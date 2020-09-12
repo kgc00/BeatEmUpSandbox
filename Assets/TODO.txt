@@ -1,0 +1,5 @@
+﻿- (DONE) dash
+- double jump
+- air dash
+- knockback on attacks
+- damage / health system

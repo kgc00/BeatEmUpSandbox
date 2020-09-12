@@ -9,8 +9,8 @@ namespace StateMachines.Attacks.States {
     public class PunchTwoFS : AttackFS {
         private GameObject punch2;
         private readonly int attack2 = Animator.StringToHash("Attack2");
-        private bool chainingEnabled;
-        private bool bufferEnabled;
+        private bool chainingEnabled = false;
+        private bool bufferEnabled = false;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
         private readonly GameObject hitbox;
 
