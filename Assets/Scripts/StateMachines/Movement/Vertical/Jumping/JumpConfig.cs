@@ -12,5 +12,9 @@ namespace StateMachines.Movement.Vertical.Jumping {
         [SerializeField] public float lowJumpMultiplier;
         [SerializeField] public float groundedLinearDrag;
         [SerializeField] public float aerialLinearDrag;
+        [SerializeField] public int maxJumps;
+        [SerializeField] public int jumpsLeft;
+        [SerializeField] public int maxDashes;
+        [SerializeField] public int dashesLeft;
     }
 }

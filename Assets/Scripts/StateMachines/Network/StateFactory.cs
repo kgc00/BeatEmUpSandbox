@@ -21,6 +21,7 @@ namespace StateMachines.Network {
             if(state == JumpStates.Launching) return new JumpLaunchingFS(fsm.Behaviour, fsm, fsm.Config);
             if(state == JumpStates.Launched) return new JumpLaunchedFS(fsm.Behaviour, fsm, fsm.Config, timeLapsed);
             if(state == JumpStates.Falling) return new JumpFallingFS(fsm.Behaviour, fsm, fsm.Config);
+            if(state == JumpStates.Dashing) return new JumpDashingFS(fsm.Behaviour, fsm, fsm.Config);
             if(state == JumpStates.Locked) return new LockedFS(fsm.Behaviour, fsm, fsm.Config);
             return null;
         }

@@ -53,4 +53,20 @@ Preset:
     propertyPath: aerialLinearDrag
     value: 3
     objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxJumps
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jumpsLeft
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxDashes
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dashesLeft
+    value: 1
+    objectReference: {fileID: 0}
   m_ExcludedProperties: []

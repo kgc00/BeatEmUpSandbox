@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpFSM : IProvideForce, IAcceptCollisionEnter, IAcceptJumpInput,
+        IAcceptDashInput,
         IHandleLockedMovementInput, IHandleLockedJumpInput, IOnEventCallback {
         public JumpFS State { get; private set; }
         public JumpConfig Config { get; private set; }
@@ -41,6 +42,8 @@ namespace StateMachines.Movement.Vertical.Jumping {
             
             PhotonNetwork.RemoveCallbackTarget(this);
         }
+
+        public void AcceptDashInput(InputAction.CallbackContext context) => State.AcceptDashInput(context);
 
         public void OnEvent(EventData photonEvent) {
             byte eventCode = photonEvent.Code;

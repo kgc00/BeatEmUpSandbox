@@ -11,7 +11,11 @@ namespace StateMachines.Movement.Vertical.Jumping {
             this.timeLapsed = timeLapsed;
         }
 
-        public override void AcceptJumpInput(InputAction.CallbackContext context) { }
+        public override void AcceptJumpInput(InputAction.CallbackContext context) {
+            if (context.phase != InputActionPhase.Performed || OutOfJumps()) return;
+            Mathf.Clamp(Config.jumpsLeft--, 0, Config.maxJumps);
+            Jump.RaiseChangeStateEvent(JumpStates.Launching);
+        }
 
         public override void Enter() => Rig.gravityScale = Config.lowJumpMultiplier;
 

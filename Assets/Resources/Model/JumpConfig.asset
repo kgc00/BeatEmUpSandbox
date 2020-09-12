@@ -19,3 +19,7 @@ MonoBehaviour:
   lowJumpMultiplier: 8
   groundedLinearDrag: 20
   aerialLinearDrag: 3
+  maxJumps: 2
+  jumpsLeft: 2
+  maxDashes: 1
+  dashesLeft: 1

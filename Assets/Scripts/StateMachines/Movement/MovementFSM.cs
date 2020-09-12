@@ -57,6 +57,7 @@ namespace StateMachines.Movement {
             if (!photonView.IsMine ||
                 context.phase != InputActionPhase.Performed) return;
             Run.AcceptDashInput(context);
+            Jump.AcceptDashInput(context);
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
@@ -90,6 +91,7 @@ namespace StateMachines.Movement {
             GUILayout.Box("rig velocity: " + rig.velocity);
             GUILayout.Box("run: " + Run.State.GetType());
             GUILayout.Box("jump: " + Jump.State.GetType());
+            GUILayout.Box("jumps left: " + jumpConfig.jumpsLeft);
         }
     }
 }
