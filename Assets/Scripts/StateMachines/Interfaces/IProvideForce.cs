@@ -1,5 +1,7 @@
-﻿namespace StateMachines.Interfaces {
+﻿using UnityEngine;
+
+namespace StateMachines.Interfaces {
     public interface IProvideForce {
-        float Force();
+        Vector2 Force();
     }
 }

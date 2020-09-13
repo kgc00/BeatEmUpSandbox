@@ -14,7 +14,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected override void _OnCollisionEnter2D_RPC() { }
 
-        protected override float _Force() => 0;
+        protected override Vector2 _Force() => Vector2.zero;
 
 
         protected override void _AcceptLockInput() { }

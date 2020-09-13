@@ -16,13 +16,13 @@ namespace StateMachines.Network {
             return null;
         }
         
-        public static JumpFS JumpFSFromEnum(JumpStates state, JumpFSM fsm, float timeLapsed = 0f) {
-            if(state == JumpStates.Grounded) return new JumpGroundedFS(fsm.Behaviour, fsm, fsm.Config);
-            if(state == JumpStates.Launching) return new JumpLaunchingFS(fsm.Behaviour, fsm, fsm.Config);
-            if(state == JumpStates.Launched) return new JumpLaunchedFS(fsm.Behaviour, fsm, fsm.Config, timeLapsed);
-            if(state == JumpStates.Falling) return new JumpFallingFS(fsm.Behaviour, fsm, fsm.Config);
-            if(state == JumpStates.Dashing) return new JumpDashingFS(fsm.Behaviour, fsm, fsm.Config);
-            if(state == JumpStates.Locked) return new LockedFS(fsm.Behaviour, fsm, fsm.Config);
+        public static JumpFS JumpFSFromEnum(JumpStates state, JumpFSM fsm, float moveDir = 0f, float timeLapsed = 0f) {
+            if(state == JumpStates.Grounded) return new JumpGroundedFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
+            if(state == JumpStates.Launching) return new JumpLaunchingFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
+            if(state == JumpStates.Launched) return new JumpLaunchedFS(fsm.Behaviour, fsm, fsm.Config, moveDir, timeLapsed);
+            if(state == JumpStates.Falling) return new JumpFallingFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
+            if(state == JumpStates.Dashing) return new JumpDashingFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
+            if(state == JumpStates.Locked) return new LockedFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
             return null;
         }
         

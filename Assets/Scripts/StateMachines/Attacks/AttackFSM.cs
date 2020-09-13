@@ -67,7 +67,7 @@ namespace StateMachines.Attacks {
         private void OnGUI() {
             if (!photonView.IsMine) return;
             
-            GUILayout.BeginArea(new Rect(0, 81, 410, 80));
+            GUILayout.BeginArea(new Rect(0, 141, 410, 80));
             GUILayout.Box("attack: " + State.GetType());
             GUILayout.EndArea();
         }

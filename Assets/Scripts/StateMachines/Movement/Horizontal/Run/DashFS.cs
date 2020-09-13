@@ -40,8 +40,7 @@ namespace StateMachines.Movement.Horizontal.Run {
         private bool HitSpeedCap(float rigX) => Mathf.Abs(rigX) >= Config.maxVelocity;
 
         // should instantly accelerate to cap
-        protected override float _Force() => Config.dashVelocity * dashDir;
-        // HitSpeedCap(Rig.velocity.x) ? CappedMoveVelocity() : Config.maxVelocity;
+        protected override Vector2 _Force() => new Vector2(Config.dashVelocity * dashDir, 0);
 
         protected override void _AcceptUnlockInput() { }
     }

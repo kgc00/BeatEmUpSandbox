@@ -15,6 +15,7 @@ MonoBehaviour:
   jumpDuration: 0.3
   jumpVelocity: 60
   maxVelocity: 3.25
+  maxDashVelocity: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 8
   groundedLinearDrag: 20
@@ -23,3 +24,6 @@ MonoBehaviour:
   jumpsLeft: 2
   maxDashes: 1
   dashesLeft: 1
+  dashDuration: 0.3
+  horizontalVelocity: 70
+  dashHorizontalVelocity: 140

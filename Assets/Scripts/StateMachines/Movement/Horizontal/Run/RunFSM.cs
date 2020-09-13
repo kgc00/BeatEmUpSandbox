@@ -84,8 +84,7 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) => State.AcceptMoveInput(context);
-        public float Force() => State.Force();
-
+        public Vector2 Force() => State.Force();
         public void AcceptDashInput(InputAction.CallbackContext context) => State.AcceptDashInput(context);
         public void OnCollisionEnter2D_RPC() => State.OnCollisionEnter2D_RPC();
         public void AcceptLockRunInput() => State.AcceptLockRunInput();

@@ -29,6 +29,7 @@ namespace StateMachines.Movement {
                 context.phase != InputActionPhase.Performed &&
                 context.phase != InputActionPhase.Canceled) return;
             Run.AcceptMoveInput(context);
+            Jump.AcceptMoveInput(context);
         }
 
         public void AcceptJumpInput(InputAction.CallbackContext context) {
@@ -47,8 +48,9 @@ namespace StateMachines.Movement {
             Jump.FixedUpdate();
             Run.FixedUpdate();
 
-            relativeForce.x = Run.Force();
-            relativeForce.y = Jump.Force();
+            relativeForce = Vector2.zero;
+            relativeForce += Run.Force();
+            relativeForce += Jump.Force();
 
             rig.AddForce(relativeForce, ForceMode2D.Force);
         }
@@ -92,6 +94,7 @@ namespace StateMachines.Movement {
             GUILayout.Box("run: " + Run.State.GetType());
             GUILayout.Box("jump: " + Jump.State.GetType());
             GUILayout.Box("jumps left: " + jumpConfig.jumpsLeft);
+            GUILayout.Box("air dashes left: " + jumpConfig.dashesLeft);
         }
     }
 }

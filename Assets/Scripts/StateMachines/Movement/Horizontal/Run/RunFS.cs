@@ -29,6 +29,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected bool IsJumpState() =>
             Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
+            Animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump") ||
             Animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
         
         public void AcceptMoveInput(InputAction.CallbackContext context) => _AcceptMoveInput(context);
@@ -38,9 +39,9 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected abstract void _OnCollisionEnter2D_RPC();
 
-        public float Force() => _Force();
+        public Vector2 Force() => _Force();
 
-        protected abstract float _Force();
+        protected abstract Vector2 _Force();
         public void AcceptLockRunInput() => _AcceptLockInput();
 
         protected virtual void _AcceptLockInput() => StateMachine.RaiseChangeStateEvent(RunStates.Locked, MoveDir);

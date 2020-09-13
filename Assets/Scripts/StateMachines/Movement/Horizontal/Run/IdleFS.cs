@@ -33,7 +33,7 @@ namespace StateMachines.Movement.Horizontal.Run {
             UpdateAnimations();
         }
 
-        protected override float _Force() => 0;
+        protected override Vector2 _Force() => Vector2.zero;
 
         protected override void _AcceptUnlockInput() { }
     }

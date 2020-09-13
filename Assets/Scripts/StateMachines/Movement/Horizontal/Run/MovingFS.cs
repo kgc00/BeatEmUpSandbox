@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
     public class MovingFS : RunFS {
-        public MovingFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir) 
+        public MovingFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir)
             : base(behaviour, runConfig, runFsm, dir) { }
 
         public override void Enter() => UpdateAnimations();
@@ -20,8 +20,8 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected override void UpdateAnimations() {
             Transform.localScale = MoveDir > 0 ? Vector3.one : new Vector3(-1, 1, 1);
-            
-            if(!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) Animator.SetTrigger(Running);
+
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) Animator.SetTrigger(Running);
         }
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
@@ -40,14 +40,15 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         public override void Update() {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) return;
-            
+
             UpdateAnimations();
         }
 
-        protected override float _Force() {
+        protected override Vector2 _Force() {
             var rigX = Rig.velocity.x;
-            
-            return HitSpeedCap(rigX) && IsForwardMovement(rigX) ? CappedMoveVelocity() : NormalMoveVelocity();
+
+            var xVel = HitSpeedCap(rigX) && IsForwardMovement(rigX) ? CappedMoveVelocity() : NormalMoveVelocity();
+            return new Vector2(xVel, 0);
         }
 
         protected override void _AcceptUnlockInput() { }
