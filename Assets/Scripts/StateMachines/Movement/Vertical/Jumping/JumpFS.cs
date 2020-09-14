@@ -30,7 +30,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             MoveDir = moveDir;
         }
 
-        public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsName("Jump");
+        public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
         public bool AnimatorStateFalling() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
 
         public virtual Vector2 Force() => Vector2.zero;

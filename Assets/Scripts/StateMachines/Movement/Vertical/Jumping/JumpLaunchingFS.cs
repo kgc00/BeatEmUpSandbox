@@ -7,12 +7,14 @@ using UnityEngine.InputSystem;
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpLaunchingFS : JumpFS {
         private float timeLapsed;
+        private static readonly int JumpHash = Animator.StringToHash("Jump");
 
         public JumpLaunchingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig, float moveDir) : base(
             behaviour, jump,
             jumpConfig, moveDir) { }
 
         public override void Update() {
+            if(!AnimatorStateJumping()) Animator.SetTrigger(JumpHash);
             timeLapsed += Time.deltaTime;
 
             if (timeLapsed < Config.jumpDuration) return;
@@ -29,7 +31,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (OutOfDashes()) return;
             Mathf.Clamp(Config.dashesLeft--, 0, Config.maxDashes);
-            Debug.Log("AcceptDashInput in Launching- MoveDir = " + MoveDir);
             Jump.RaiseChangeStateEvent(JumpStates.Dashing, MoveDir);
         }
 
@@ -39,11 +40,12 @@ namespace StateMachines.Movement.Vertical.Jumping {
             RemoveYVelocity();
             Rig.gravityScale = 1f;
             Rig.drag = Config.aerialLinearDrag;
-            Debug.Log("Enter in Launching- MoveDir = " + MoveDir);
+            if (MoveDir != 0) Behaviour.transform.localScale = new Vector3((int) MoveDir, 1, 1);
         }
 
         public override Vector2 Force() =>
-            new Vector2(ProvideCappedHorizontalForce(Config.horizontalVelocity,Config.maxVelocity, MoveDir, Rig.velocity.x),
+            new Vector2(
+                ProvideCappedHorizontalForce(Config.horizontalVelocity, Config.maxVelocity, MoveDir, Rig.velocity.x),
                 Mathf.Abs(Rig.velocity.y) >= Config.maxVelocity ? 0 : Config.jumpVelocity);
     }
 }

@@ -8,6 +8,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpDashingFS : JumpFS {
         private float timeLapsed;
         private float dashDir;
+        private static readonly int AirDash = Animator.StringToHash("AirDash");
 
         public JumpDashingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig, float moveDir)
             : base(behaviour, jump, jumpConfig, moveDir) { }
@@ -15,7 +16,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed || OutOfJumps()) return;
             Mathf.Clamp(Config.jumpsLeft--, 0, Config.maxJumps);
-            Debug.Log("Accept Jump Input in Dashing- MoveDir = " + MoveDir);
             Jump.RaiseChangeStateEvent(JumpStates.Launching, MoveDir);
         }
 
@@ -24,10 +24,10 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public override void Enter() {
-            Debug.Log("Enter in Dashing- MoveDir = " + MoveDir);
             Rig.gravityScale = 0f;
             RemoveYVelocity();
             dashDir = MoveDir == 0 ? Behaviour.transform.localScale.x : MoveDir;
+            Animator.SetTrigger(AirDash);
         }
 
         public override void Exit() {

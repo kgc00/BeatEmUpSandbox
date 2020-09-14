@@ -8,6 +8,10 @@ namespace StateMachines.Movement.Vertical.Jumping {
             jump,
             jumpConfig, moveDir) { }
 
+        public override void Enter() {
+            if (MoveDir != 0) Behaviour.transform.localScale = new Vector3((int) MoveDir, 1, 1);
+        }
+
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed || OutOfJumps()) return;
             Mathf.Clamp(Config.jumpsLeft--, 0, Config.maxJumps);

@@ -78,12 +78,14 @@ namespace StateMachines.Movement {
             if (stream.IsWriting) {
                 // We own this player: send the others our data
                 stream.SendNext(relativeForce);
-                stream.SendNext(transform.localScale);
+                stream.SendNext(new[] { transform.localScale,transform.position });
             }
             else {
                 // Network player, receive data
                 relativeForce = (Vector2) stream.ReceiveNext();
-                gameObject.transform.localScale = (Vector3) stream.ReceiveNext();
+                var tr = (Vector3[]) stream.ReceiveNext();
+                gameObject.transform.localScale = tr[0];
+                gameObject.transform.position = tr[1];
             }
         }
 

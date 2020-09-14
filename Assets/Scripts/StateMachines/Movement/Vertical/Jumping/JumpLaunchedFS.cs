@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpLaunchedFS : JumpFS {
         private float timeLapsed;
+        private static readonly int JumpHash = Animator.StringToHash("Jump");
 
         public JumpLaunchedFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig, float moveDir,
             float timeLapsed)
@@ -20,14 +21,18 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (OutOfDashes()) return;
-            Mathf.Clamp(Config.dashesLeft--, 0, Config.maxDashes);            
-            Debug.Log("AcceptDashInput in Launched- MoveDir = " + MoveDir);
+            Mathf.Clamp(Config.dashesLeft--, 0, Config.maxDashes);           
             Jump.RaiseChangeStateEvent(JumpStates.Dashing, MoveDir);
         }
 
-        public override void Enter() => Rig.gravityScale = Config.lowJumpMultiplier;
+        public override void Enter() {
+            Rig.gravityScale = Config.lowJumpMultiplier;
+            if (MoveDir != 0) Behaviour.transform.localScale = new Vector3((int) MoveDir, 1, 1);
+        }
 
         public override void Update() {
+            if(!AnimatorStateJumping()) Animator.SetTrigger(JumpHash);
+
             if (Rig.velocity.y < 0 || timeLapsed >= Config.jumpDuration)
                 Jump.RaiseChangeStateEvent(JumpStates.Falling, MoveDir);
 
