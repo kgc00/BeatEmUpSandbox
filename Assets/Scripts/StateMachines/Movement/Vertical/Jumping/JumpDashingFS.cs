@@ -15,7 +15,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed || OutOfJumps()) return;
-            Mathf.Clamp(Config.jumpsLeft--, 0, Config.maxJumps);
             Jump.RaiseChangeStateEvent(JumpStates.Launching, MoveDir);
         }
 
@@ -24,6 +23,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public override void Enter() {
+            Mathf.Clamp(Config.dashesLeft--, 0, Config.maxDashes);
             Rig.gravityScale = 0f;
             RemoveYVelocity();
             dashDir = MoveDir == 0 ? Behaviour.transform.localScale.x : MoveDir;

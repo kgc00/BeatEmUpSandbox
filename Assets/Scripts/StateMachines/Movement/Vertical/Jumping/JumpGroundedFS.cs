@@ -1,4 +1,5 @@
-﻿using StateMachines.Movement.Models;
+﻿using Photon.Pun;
+using StateMachines.Movement.Models;
 using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +10,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void OnCollisionEnter2D_RPC() { }
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed) return;
-            Mathf.Clamp(Config.jumpsLeft--, 0, Config.maxJumps);
             Jump.RaiseChangeStateEvent(JumpStates.Launching, MoveDir);
         }
         

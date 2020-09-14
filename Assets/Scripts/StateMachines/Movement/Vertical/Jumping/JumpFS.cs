@@ -31,6 +31,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
+        public bool AnimatorStateDoubleJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump");
         public bool AnimatorStateFalling() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
 
         public virtual Vector2 Force() => Vector2.zero;

@@ -2,4 +2,6 @@
     - (fixed) when turning left => right (or vice versa), sometimes the animation stalls on idle when it should be running
     - when spamming attack, sometimes the hitboxes don't get deactivated when they should
     - when spamming attack, sometimes the combo system prematurely enters next combo phase
-    
+    - Parameter 'Hash 129565385' does not exist.
+      UnityEngine.Animator:SetTrigger(Int32) 
+      for jump animations on networked client

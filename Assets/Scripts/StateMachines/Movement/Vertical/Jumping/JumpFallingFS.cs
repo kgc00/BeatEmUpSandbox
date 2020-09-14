@@ -14,13 +14,11 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed || OutOfJumps()) return;
-            Mathf.Clamp(Config.jumpsLeft--, 0, Config.maxJumps);
             Jump.RaiseChangeStateEvent(JumpStates.Launching, MoveDir);
         }
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (OutOfDashes()) return;
-            Mathf.Clamp(Config.dashesLeft--, 0, Config.maxDashes);
             Jump.RaiseChangeStateEvent(JumpStates.Dashing, MoveDir);
         }
 

@@ -19,6 +19,8 @@ namespace StateMachines.Movement {
         private Vector2 relativeForce;
 
         private void Awake() {
+            jumpConfig = jumpConfig.CreateInstance();
+            runConfig = runConfig.CreateInstance();
             // ReSharper disable twice Unity.InefficientPropertyAccess
             Jump = new JumpFSM(gameObject, jumpConfig);
             Run = new RunFSM(gameObject, runConfig);
@@ -78,7 +80,7 @@ namespace StateMachines.Movement {
             if (stream.IsWriting) {
                 // We own this player: send the others our data
                 stream.SendNext(relativeForce);
-                stream.SendNext(new[] { transform.localScale,transform.position });
+                stream.SendNext(new [] { transform.localScale, transform.position });
             }
             else {
                 // Network player, receive data
