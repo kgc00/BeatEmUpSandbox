@@ -1,4 +1,5 @@
 ﻿using System;
+using Photon.Pun;
 using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,9 +22,17 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected override void _AcceptUnlockInput() {
             var moving = Math.Abs(MoveDir) > .01f;
+
+            if (!Behaviour.GetPhotonView().IsMine) {
+                Debug.Log("Remote Player");
+                Debug.Log("Unlocking input: moving = " + moving);
+            }
+            else {
+                Debug.Log("Local Player");
+                Debug.Log("Unlocking input: moving = " + moving);
+            }
             
-            if (moving) StateMachine.RaiseChangeStateEvent(RunStates.Moving, MoveDir);
-            else StateMachine.RaiseChangeStateEvent(RunStates.Idle, MoveDir);
+            StateMachine.RaiseChangeStateEvent(moving ? RunStates.Moving : RunStates.Idle, MoveDir);
         }
     }
 }

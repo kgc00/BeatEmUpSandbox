@@ -1,5 +1,9 @@
 ﻿- (DONE) dash
-- double jump
-- air dash
+- (done) double jump
+- (done) air dash
+- serialize move dir
+- refactor run + jump => movementFSM
 - knockback on attacks
 - damage / health system
+- limit lock / unlock events to a single unit (rather than all players)
+- use trigger rather than collision to detect grounded state

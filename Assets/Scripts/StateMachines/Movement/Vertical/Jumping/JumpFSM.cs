@@ -70,8 +70,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public void ChangeState(JumpStates newState, float moveDir, float timeLapsed = 0f) {
-            if(!Behaviour.GetPhotonView().IsMine)
-                Debug.Log($"ChangeState to {newState}");
             State.Exit();
             State = StateFactory.JumpFSFromEnum(newState, this, moveDir, timeLapsed);
             State.Enter();

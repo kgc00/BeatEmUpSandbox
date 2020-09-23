@@ -37,7 +37,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public virtual Vector2 Force() => Vector2.zero;
 
         public virtual void OnCollisionEnter2D_RPC() {
-            if (AnimatorStateJumping() || AnimatorStateFalling()) Animator.SetTrigger(Grounded);
+            if (AnimatorStateJumping() || AnimatorStateFalling() || AnimatorStateDoubleJumping()) Animator.SetTrigger(Grounded);
         }
 
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);
