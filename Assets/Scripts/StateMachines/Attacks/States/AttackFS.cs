@@ -25,6 +25,8 @@ namespace StateMachines.Attacks.States {
         
         protected bool IsJumpState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("AirDash") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
 
         protected bool IsExitingAttackState() =>
