@@ -10,23 +10,23 @@ namespace StateMachines.Movement.Vertical.Jumping {
         private float dashDir;
         private static readonly int AirDash = Animator.StringToHash("AirDash");
 
-        public JumpDashingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig, float moveDir)
-            : base(behaviour, jump, jumpConfig, moveDir) { }
+        public JumpDashingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig)
+            : base(behaviour, jump, jumpConfig) { }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed || OutOfJumps()) return;
-            Jump.RaiseChangeStateEvent(JumpStates.Launching, MoveDir);
+            Jump.RaiseChangeStateEvent(JumpStates.Launching);
         }
 
         public override void AcceptMoveInput(InputAction.CallbackContext context) {
-            MoveDir = context.ReadValue<Single>();
+            Jump.Values.moveDir = context.ReadValue<Single>();
         }
 
         public override void Enter() {
             Mathf.Clamp(Config.dashesLeft--, 0, Config.maxDashes);
             Rig.gravityScale = 0f;
             RemoveYVelocity();
-            dashDir = MoveDir == 0 ? Behaviour.transform.localScale.x : MoveDir;
+            dashDir = Jump.Values.moveDir == 0 ? Behaviour.transform.localScale.x : Jump.Values.moveDir;
             Animator.SetTrigger(AirDash);
         }
 
@@ -39,7 +39,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
             if (timeLapsed < Config.dashDuration) return;
 
-            Jump.RaiseChangeStateEvent(JumpStates.Falling, MoveDir);
+            Jump.RaiseChangeStateEvent(JumpStates.Falling);
         }
 
         public override Vector2 Force() =>

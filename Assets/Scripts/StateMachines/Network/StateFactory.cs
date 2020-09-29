@@ -16,21 +16,21 @@ namespace StateMachines.Network {
             return null;
         }
         
-        public static JumpFS JumpFSFromEnum(JumpStates state, JumpFSM fsm, float moveDir = 0f, float timeLapsed = 0f) {
-            if(state == JumpStates.Grounded) return new JumpGroundedFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
-            if(state == JumpStates.Launching) return new JumpLaunchingFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
-            if(state == JumpStates.Launched) return new JumpLaunchedFS(fsm.Behaviour, fsm, fsm.Config, moveDir, timeLapsed);
-            if(state == JumpStates.Falling) return new JumpFallingFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
-            if(state == JumpStates.Dashing) return new JumpDashingFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
-            if(state == JumpStates.Locked) return new LockedFS(fsm.Behaviour, fsm, fsm.Config, moveDir);
+        public static JumpFS JumpFSFromEnum(JumpStates state, JumpFSM fsm) {
+            if(state == JumpStates.Grounded) return new JumpGroundedFS(fsm.Behaviour, fsm, fsm.Config);
+            if(state == JumpStates.Launching) return new JumpLaunchingFS(fsm.Behaviour, fsm, fsm.Config);
+            if(state == JumpStates.Launched) return new JumpLaunchedFS(fsm.Behaviour, fsm, fsm.Config);
+            if(state == JumpStates.Falling) return new JumpFallingFS(fsm.Behaviour, fsm, fsm.Config);
+            if(state == JumpStates.Dashing) return new JumpDashingFS(fsm.Behaviour, fsm, fsm.Config);
+            if(state == JumpStates.Locked) return new LockedFS(fsm.Behaviour, fsm, fsm.Config);
             return null;
         }
         
-        public static RunFS RunFSFromEnum(RunStates state, RunFSM fsm, float moveDir = 0f) {
-            if(state == RunStates.Idle) return new Movement.Horizontal.Run.IdleFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
-            if(state == RunStates.Moving) return new Movement.Horizontal.Run.MovingFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
-            if(state == RunStates.Dash) return new Movement.Horizontal.Run.DashFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
-            if(state == RunStates.Locked) return new Movement.Horizontal.Run.LockedFS(fsm.Behaviour, fsm.Config, fsm, moveDir);
+        public static RunFS RunFSFromEnum(RunStates state, RunFSM fsm) {
+            if(state == RunStates.Idle) return new Movement.Horizontal.Run.IdleFS(fsm.Behaviour, fsm.Config, fsm);
+            if(state == RunStates.Moving) return new Movement.Horizontal.Run.MovingFS(fsm.Behaviour, fsm.Config, fsm);
+            if(state == RunStates.Dash) return new Movement.Horizontal.Run.DashFS(fsm.Behaviour, fsm.Config, fsm);
+            if(state == RunStates.Locked) return new Movement.Horizontal.Run.LockedFS(fsm.Behaviour, fsm.Config, fsm);
             return null;
         }
     }

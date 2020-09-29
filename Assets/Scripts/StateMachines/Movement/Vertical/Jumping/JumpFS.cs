@@ -1,5 +1,6 @@
 ﻿using System;
 using StateMachines.Interfaces;
+using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,15 +20,13 @@ namespace StateMachines.Movement.Vertical.Jumping {
         protected readonly int Grounded = Animator.StringToHash("Grounded");
         protected readonly int Jumping = Animator.StringToHash("Jumping");
         protected readonly int DoubleJumping = Animator.StringToHash("DoubleJumping");
-        public float MoveDir { get; protected set; }
 
-        protected JumpFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig, float moveDir) {
+        protected JumpFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) {
             Jump = jump;
             Behaviour = behaviour;
             Config = jumpConfig;
             Animator = behaviour.GetComponent<Animator>();
             Rig = behaviour.GetComponent<Rigidbody2D>();
-            MoveDir = moveDir;
         }
 
         public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
@@ -42,8 +41,8 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);
         public virtual void AcceptDashInput(InputAction.CallbackContext context) { }
-        public virtual void AcceptLockJumpInput() { }
-        public virtual void AcceptUnlockJumpInput() { }
+        public virtual void AcceptLockJumpInput(object sender) { }
+        public virtual void AcceptUnlockJumpInput(object sender) { }
         protected bool OutOfJumps() => Config.jumpsLeft <= 0;
         protected bool OutOfDashes() => Config.dashesLeft <= 0;
 
@@ -72,12 +71,12 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Rig.velocity = vel;
         }
 
-
+        // TODO RPC
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) {
-            MoveDir = context.ReadValue<Single>();
+            Jump.Values.moveDir = context.ReadValue<Single>();
 
             if (context.phase == InputActionPhase.Performed)
-                Behaviour.transform.localScale = new Vector3((int)MoveDir,1,1);
+                Behaviour.transform.localScale = new Vector3((int)Jump.Values.moveDir,1,1);
         }
 
         protected float ProvideCappedHorizontalForce(float velocity, float cap, float dir, float rigX) {

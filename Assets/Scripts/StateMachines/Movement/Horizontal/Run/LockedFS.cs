@@ -6,22 +6,22 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
     internal class LockedFS : RunFS {
-        public LockedFS(GameObject behaviour, RunConfig config, RunFSM runFsm, float dir = 0f) : base(behaviour, config,
-            runFsm, dir) { }
+        public LockedFS(GameObject behaviour, RunConfig config, RunFSM runFsm) : base(behaviour, config,
+            runFsm) { }
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
-            MoveDir = context.ReadValue<Single>();
+            // TODO - write MoveDir in RPC
+            StateMachine.RaiseSetMovementDirEvent(context.ReadValue<Single>());
         }
 
         protected override void _OnCollisionEnter2D_RPC() { }
 
         protected override Vector2 _Force() => Vector2.zero;
 
-
         protected override void _AcceptLockInput() { }
 
         protected override void _AcceptUnlockInput() {
-            var moving = Math.Abs(MoveDir) > .01f;
+            var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
 
             if (!Behaviour.GetPhotonView().IsMine) {
                 Debug.Log("Remote Player");
@@ -32,7 +32,7 @@ namespace StateMachines.Movement.Horizontal.Run {
                 Debug.Log("Unlocking input: moving = " + moving);
             }
             
-            StateMachine.RaiseChangeStateEvent(moving ? RunStates.Moving : RunStates.Idle, MoveDir);
+            StateMachine.RaiseChangeStateEvent(moving ? RunStates.Moving : RunStates.Idle);
         }
     }
 }

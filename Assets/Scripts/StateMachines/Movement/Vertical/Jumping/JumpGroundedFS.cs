@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpGroundedFS : JumpFS {
-        public JumpGroundedFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig, float moveDir = 0f) : base(behaviour, jump, jumpConfig, moveDir) { }
+        public JumpGroundedFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(behaviour, jump, jumpConfig) { }
 
         public override void OnCollisionEnter2D_RPC() {
             if (AnimatorStateFalling() || AnimatorStateJumping() || AnimatorStateDoubleJumping())
@@ -14,7 +14,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed) return;
-            Jump.RaiseChangeStateEvent(JumpStates.Launching, MoveDir);
+            Jump.RaiseChangeStateEvent(JumpStates.Launching);
         }
         
         public override void Enter() {
@@ -22,9 +22,9 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Rig.drag = Config.groundedLinearDrag;
             Config.jumpsLeft = Config.maxJumps;
             Config.dashesLeft = Config.maxDashes;
-            InputLockObserver.UnlockRunInput();
+            InputLockObserver.UnlockRunInput(Behaviour);
         }
 
-        public override void AcceptLockJumpInput() => Jump.RaiseChangeStateEvent(JumpStates.Locked, MoveDir);
+        public override void AcceptLockJumpInput(object sender) => Jump.RaiseChangeStateEvent(JumpStates.Locked);
     }
 }

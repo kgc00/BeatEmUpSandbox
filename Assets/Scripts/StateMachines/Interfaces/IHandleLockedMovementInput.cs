@@ -1,6 +1,6 @@
 ﻿namespace StateMachines.Interfaces {
     public interface IHandleLockedMovementInput {
-        void AcceptLockMovementInput();
-        void AcceptUnlockMovementInput();
+        void AcceptLockMovementInput(object sender);
+        void AcceptUnlockMovementInput(object sender);
     }
 }

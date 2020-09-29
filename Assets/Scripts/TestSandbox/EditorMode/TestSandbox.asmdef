@@ -2,7 +2,8 @@
     "name": "TestSandbox",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "StateMachines"
     ],
     "includePlatforms": [
         "Editor"

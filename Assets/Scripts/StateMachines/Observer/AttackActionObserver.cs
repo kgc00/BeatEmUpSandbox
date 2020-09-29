@@ -1,6 +1,5 @@
 ﻿using System;
 using StateMachines.Messages;
-using UnityEngine;
 
 namespace StateMachines.Observer {
     public static class AttackActionObserver {

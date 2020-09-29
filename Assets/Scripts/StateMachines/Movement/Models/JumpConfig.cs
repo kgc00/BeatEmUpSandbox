@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Models {
     [CreateAssetMenu(fileName = "JumpConfig", menuName = "Model/Jump", order = 0)]
     [Serializable]
     public class JumpConfig : ScriptableObject {

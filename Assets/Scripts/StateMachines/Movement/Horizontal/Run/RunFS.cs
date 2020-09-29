@@ -13,17 +13,15 @@ namespace StateMachines.Movement.Horizontal.Run {
         protected readonly int Running = Animator.StringToHash("Running");
         protected readonly int Idle = Animator.StringToHash("Idle");
 
-        protected float MoveDir;
         protected readonly RunFSM StateMachine;
         protected readonly GameObject Behaviour;
-        protected RunFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir) {
+        protected RunFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm) {
             StateMachine = runFsm;
             Animator = behaviour.GetComponent<Animator>();
             Transform = behaviour.GetComponent<Transform>();
             Rig = behaviour.GetComponent<Rigidbody2D>();
             Behaviour = behaviour;
             Config = runConfig;
-            MoveDir = dir;
         }
 
 
@@ -42,11 +40,11 @@ namespace StateMachines.Movement.Horizontal.Run {
         public Vector2 Force() => _Force();
 
         protected abstract Vector2 _Force();
-        public void AcceptLockRunInput() => _AcceptLockInput();
+        public void AcceptLockRunInput(object sender) => _AcceptLockInput();
 
-        protected virtual void _AcceptLockInput() => StateMachine.RaiseChangeStateEvent(RunStates.Locked, MoveDir);
+        protected virtual void _AcceptLockInput() => StateMachine.RaiseChangeStateEvent(RunStates.Locked);
 
-        public void AcceptUnlockRunInput() => _AcceptUnlockInput();
+        public void AcceptUnlockRunInput(object sender) => _AcceptUnlockInput();
 
         protected abstract void _AcceptUnlockInput();
         protected virtual void UpdateAnimations() {}

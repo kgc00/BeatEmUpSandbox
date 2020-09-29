@@ -1,25 +1,22 @@
 ﻿using System;
-using StateMachines.Interfaces;
-using StateMachines.Messages;
-using UnityEngine;
 
 namespace StateMachines.Observer {
     public static class InputLockObserver {
-        public static Action LockMovementInput = delegate { };
-        public static Action UnlockMovementInput = delegate { };
-        public static void OnLockMovementInput() => LockMovementInput();
-        public static void OnUnlockMovementInput() => UnlockMovementInput();
+        public static Action<System.Object> LockMovementInput = delegate { };
+        public static Action<System.Object> UnlockMovementInput = delegate { };
+        public static void OnLockMovementInput(object sender) => LockMovementInput(sender);
+        public static void OnUnlockMovementInput(object sender) => UnlockMovementInput(sender);
 
-        public static Action LockJumpInput = delegate { };
-        public static Action UnlockJumpInput = delegate { };
-        public static void OnLockJumpInput() => LockJumpInput();
-        public static void OnUnlockJumpInput() => UnlockJumpInput();
+        public static Action<System.Object> LockJumpInput = delegate { };
+        public static Action<System.Object> UnlockJumpInput = delegate { };
+        public static void OnLockJumpInput(object sender) => LockJumpInput(sender);
+        public static void OnUnlockJumpInput(object sender) => UnlockJumpInput(sender);
         
         
-        public static Action LockRunInput = delegate { };
-        public static Action UnlockRunInput = delegate { };
-        public static void OnLockRunInput() => LockRunInput();
-        public static void OnUnlockRunInput() => UnlockRunInput();
+        public static Action<System.Object> LockRunInput = delegate { };
+        public static Action<System.Object> UnlockRunInput = delegate { };
+        public static void OnLockRunInput(object sender) => LockRunInput(sender);
+        public static void OnUnlockRunInput(object sender) => UnlockRunInput(sender);
         
         
         public static Action LockAttackInput = delegate { };

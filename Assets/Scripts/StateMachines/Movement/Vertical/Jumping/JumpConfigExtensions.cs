@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StateMachines.Movement.Models;
+using UnityEngine;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public static class JumpConfigExtensions {

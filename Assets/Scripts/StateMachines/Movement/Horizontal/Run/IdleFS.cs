@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
     public class IdleFS : RunFS {
-        public IdleFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir = 0f)
-            : base(behaviour, runConfig, runFsm, dir) { }
+        public IdleFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm)
+            : base(behaviour, runConfig, runFsm) { }
 
         public override void Enter() => UpdateAnimations();
 
@@ -15,14 +15,14 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (IsJumpState()) return;
-            StateMachine.RaiseChangeStateEvent(RunStates.Dash, MoveDir);
+            StateMachine.RaiseChangeStateEvent(RunStates.Dash);
         }
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
-            MoveDir = context.ReadValue<Single>();
-            var moving = Math.Abs(MoveDir) > .01f;
+            StateMachine.Values.moveDir = context.ReadValue<Single>();
+            var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
 
-            if (moving) StateMachine.RaiseChangeStateEvent(RunStates.Moving, MoveDir);
+            if (moving) StateMachine.RaiseChangeStateEvent(RunStates.Moving);
         }
 
         protected override void UpdateAnimations() {

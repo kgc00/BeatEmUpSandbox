@@ -1,6 +1,6 @@
 ﻿namespace StateMachines.Interfaces {
     public interface IHandleLockedRunInput {
-        void AcceptLockRunInput();
-        void AcceptUnlockRunInput();
+        void AcceptLockRunInput(object sender);
+        void AcceptUnlockRunInput(object sender);
     }
 }

@@ -13,6 +13,7 @@ namespace StateMachines.Movement {
         IPunObservable {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
+        private MovementValues movementValues;
         [SerializeField] private Rigidbody2D rig;
         public JumpFSM Jump { get; private set; }
         public RunFSM Run { get; private set; }
@@ -21,9 +22,10 @@ namespace StateMachines.Movement {
         private void Awake() {
             jumpConfig = jumpConfig.CreateInstance();
             runConfig = runConfig.CreateInstance();
+            movementValues = new MovementValues();
             // ReSharper disable twice Unity.InefficientPropertyAccess
-            Jump = new JumpFSM(gameObject, jumpConfig);
-            Run = new RunFSM(gameObject, runConfig);
+            Jump = new JumpFSM(gameObject, jumpConfig, movementValues);
+            Run = new RunFSM(gameObject, runConfig, movementValues);
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
@@ -55,6 +57,8 @@ namespace StateMachines.Movement {
             relativeForce += Jump.Force();
 
             rig.AddForce(relativeForce, ForceMode2D.Force);
+            
+            
         }
 
         public void AcceptDashInput(InputAction.CallbackContext context) {
@@ -80,11 +84,16 @@ namespace StateMachines.Movement {
             if (stream.IsWriting) {
                 // We own this player: send the others our data
                 stream.SendNext(relativeForce);
-                stream.SendNext(new [] { transform.localScale, transform.position });
+                
+                stream.SendNext(new [] {
+                    transform.localScale, 
+                    transform.position
+                });
             }
             else {
                 // Network player, receive data
                 relativeForce = (Vector2) stream.ReceiveNext();
+                
                 var tr = (Vector3[]) stream.ReceiveNext();
                 gameObject.transform.localScale = tr[0];
                 gameObject.transform.position = tr[1];

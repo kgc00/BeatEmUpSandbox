@@ -10,17 +10,17 @@ namespace StateMachines.Movement.Horizontal.Run {
         private static readonly int Dash = Animator.StringToHash("Dash");
         private float dashDir;
 
-        public DashFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm, float dir) : base(behaviour, runConfig,
-            runFsm, dir) { }
+        public DashFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm) : base(behaviour, runConfig,
+            runFsm) { }
 
         public override void Enter() {
-            dashDir = MoveDir == 0 ? Behaviour.transform.localScale.x : MoveDir;
+            dashDir = StateMachine.Values.moveDir == 0 ? Behaviour.transform.localScale.x : StateMachine.Values.moveDir;
             Animator.SetTrigger(Dash);
         }
 
         // maybe only accept input at the end of dash
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
-            MoveDir = context.ReadValue<Single>();
+            StateMachine.Values.moveDir = context.ReadValue<Single>();
         }
 
         public override void Update() {
@@ -28,9 +28,9 @@ namespace StateMachines.Movement.Horizontal.Run {
 
             if (timeLapsed < Config.dashDuration) return;
 
-            var moving = Math.Abs(MoveDir) > .01f;
+            var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
 
-            StateMachine.RaiseChangeStateEvent(moving ? RunStates.Moving : RunStates.Idle, MoveDir);
+            StateMachine.RaiseChangeStateEvent(moving ? RunStates.Moving : RunStates.Idle);
         }
 
         protected override void _OnCollisionEnter2D_RPC() { }

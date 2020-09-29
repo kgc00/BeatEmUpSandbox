@@ -10,12 +10,12 @@ namespace StateMachines.Attacks.States {
         private GameObject punch1;
         public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine, kit) { }
 
-        public override void Enter() => InputLockObserver.UnlockMovementInput();
+        public override void Enter() => InputLockObserver.UnlockMovementInput(behaviour);
         public override void Exit() { }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (IsJumpState() || IsDashState()) return;
-            InputLockObserver.LockMovementInput();
+            InputLockObserver.LockMovementInput(behaviour);
 
             HandleStateChange(AttackStates.PunchOne);
         }

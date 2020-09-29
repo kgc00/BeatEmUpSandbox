@@ -4,15 +4,20 @@ using Photon.Realtime;
 using StateMachines.Movement.Models;
 
 namespace StateMachines.Network {
-    public static class ChangeJumpStateEvent {
+    public static class SetMovementValuesEvent {
 
-        public static void SendChangeJumpStateEvent(JumpStates newState) {
+        public static void SendSetMovementValuesEvent(MovementValues newValues) {
             // Array contains the target position and the IDs of the selected units
-            var content = new object[] {newState};
+            var content = new object[] {
+                newValues.moveDir,
+                newValues.jumpsLeft,
+                newValues.dashesLeft,
+                newValues.timeLeft
+            };
             // You would have to set the Receivers to All in order to receive this event on the local client as well
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.Others};
         
-            PhotonNetwork.RaiseEvent(NetworkedEventCodes.ChangeJumpStateEventCode, content, raiseEventOptions, SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent(NetworkedEventCodes.SetMovementValuesEventCode, content, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 }

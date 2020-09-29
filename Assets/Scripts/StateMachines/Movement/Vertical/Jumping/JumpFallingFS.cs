@@ -4,22 +4,22 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpFallingFS : JumpFS {
-        public JumpFallingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig, float moveDir) : base(behaviour,
+        public JumpFallingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(behaviour,
             jump,
-            jumpConfig, moveDir) { }
+            jumpConfig) { }
 
         public override void Enter() {
-            if (MoveDir != 0) Behaviour.transform.localScale = new Vector3((int) MoveDir, 1, 1);
+            if (Jump.Values.moveDir != 0) Behaviour.transform.localScale = new Vector3((int) Jump.Values.moveDir, 1, 1);
         }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed || OutOfJumps()) return;
-            Jump.RaiseChangeStateEvent(JumpStates.Launching, MoveDir);
+            Jump.RaiseChangeStateEvent(JumpStates.Launching);
         }
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (OutOfDashes()) return;
-            Jump.RaiseChangeStateEvent(JumpStates.Dashing, MoveDir);
+            Jump.RaiseChangeStateEvent(JumpStates.Dashing);
         }
 
         public override void Update() {
@@ -30,11 +30,11 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void OnCollisionEnter2D_RPC() {
             base.OnCollisionEnter2D_RPC();
 
-            Jump.RaiseChangeStateEvent(JumpStates.Grounded, MoveDir);
+            Jump.RaiseChangeStateEvent(JumpStates.Grounded);
             Rig.drag = Config.groundedLinearDrag;
         }
 
         public override Vector2 Force() =>
-            new Vector2(ProvideCappedHorizontalForce(Config.horizontalVelocity,Config.maxVelocity, MoveDir, Rig.velocity.x), 0);
+            new Vector2(ProvideCappedHorizontalForce(Config.horizontalVelocity,Config.maxVelocity, Jump.Values.moveDir, Rig.velocity.x), 0);
     }
 }
