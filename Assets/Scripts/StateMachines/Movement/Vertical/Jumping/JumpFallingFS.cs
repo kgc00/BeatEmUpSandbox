@@ -30,8 +30,10 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void OnCollisionEnter2D_RPC() {
             base.OnCollisionEnter2D_RPC();
 
-            Jump.RaiseChangeStateEvent(JumpStates.Grounded);
             Rig.drag = Config.groundedLinearDrag;
+            
+            if (!PUNIsMine) return;
+            Jump.RaiseChangeStateEvent(JumpStates.Grounded);
         }
 
         public override Vector2 Force() =>

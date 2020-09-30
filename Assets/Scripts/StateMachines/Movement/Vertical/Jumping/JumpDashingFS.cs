@@ -6,9 +6,8 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpDashingFS : JumpFS {
-        private float timeLapsed;
-        private float dashDir;
         private static readonly int AirDash = Animator.StringToHash("AirDash");
+        private float dashDir;
 
         public JumpDashingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig)
             : base(behaviour, jump, jumpConfig) { }
@@ -18,12 +17,11 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Jump.RaiseChangeStateEvent(JumpStates.Launching);
         }
 
-        public override void AcceptMoveInput(InputAction.CallbackContext context) {
-            Jump.Values.moveDir = context.ReadValue<Single>();
-        }
+        public override void AcceptMoveInput(InputAction.CallbackContext context) =>
+            Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), ViewID);
 
         public override void Enter() {
-            Mathf.Clamp(Config.dashesLeft--, 0, Config.maxDashes);
+            Jump.Values.dashesLeft = Mathf.Clamp(Jump.Values.dashesLeft - 1, 0, Config.maxDashes);
             Rig.gravityScale = 0f;
             RemoveYVelocity();
             dashDir = Jump.Values.moveDir == 0 ? Behaviour.transform.localScale.x : Jump.Values.moveDir;
@@ -32,19 +30,22 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public override void Exit() {
             RemoveXVelocity();
+            Jump.Values.dashTimeLapsed = 0;
         }
 
         public override void Update() {
-            timeLapsed += Time.deltaTime;
+            Jump.Values.dashTimeLapsed += Time.deltaTime;
 
-            if (timeLapsed < Config.dashDuration) return;
+            if (Jump.Values.dashTimeLapsed < Config.dashDuration) return;
 
+            if (!PUNIsMine) return;
+            
             Jump.RaiseChangeStateEvent(JumpStates.Falling);
         }
 
         public override Vector2 Force() =>
             new Vector2(
-                ProvideCappedHorizontalForce(Config.dashHorizontalVelocity, Config.maxDashVelocity, dashDir,
-                    Rig.velocity.x), 0);
+                ProvideCappedHorizontalForce(Config.dashHorizontalVelocity,
+                    Config.maxDashVelocity, dashDir, Rig.velocity.x), 0);
     }
 }

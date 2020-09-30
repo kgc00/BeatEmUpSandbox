@@ -20,9 +20,10 @@ namespace StateMachines.Movement.Horizontal.Run {
         public GameObject Behaviour { get; }
         public RunConfig Config { get; }
         public MovementValues Values { get; private set; }
-
+        public int ViewId { get; private set; }
         public RunFSM(GameObject behaviour, RunConfig runConfig, MovementValues movementValues) {
             Behaviour = behaviour;
+            ViewId = Behaviour.GetPhotonView().ViewID;
             Values = movementValues;
             Config = runConfig;
             animator = behaviour.GetComponent<Animator>();
@@ -51,38 +52,29 @@ namespace StateMachines.Movement.Horizontal.Run {
             PhotonNetwork.RemoveCallbackTarget(this);
         }
 
-
-        public void RaiseSetMovementDirEvent(float moveDir) {
-            SetMoveDir(moveDir);
-            SetMovementDirEvent.SendSetMovementDirEvent(moveDir);
-        }
-
-        private void SetMoveDir(float moveDir) => Values.moveDir = moveDir;
+        public void SetMoveDir(float moveDir) => Values.moveDir = moveDir;
 
 
         public void OnEvent(EventData photonEvent) {
             byte eventCode = photonEvent.Code;
 
             if (eventCode == NetworkedEventCodes.SetMovementDirEventCode) {
-                if (Behaviour.GetPhotonView().IsMine) return;
+                var data = (object[]) photonEvent.CustomData;
+                
+                if ((int) data[1] != ViewId) return;
 
-                var dir = (float) photonEvent.CustomData;
+                var dir = (float) data[0];
                 SetMoveDir(dir);
             }
 
             else if (eventCode == NetworkedEventCodes.ChangeRunStateEventCode) {
-                if (Behaviour.GetPhotonView().IsMine) return;
-
                 var data = (object[]) photonEvent.CustomData;
-                var newState = (RunStates) data[0];
+                
+                if ((int) data[1] != ViewId) return;
 
+                var newState = (RunStates) data[0];
                 ChangeState(newState);
             }
-        }
-
-        public void RaiseChangeStateEvent(RunStates newState) {
-            ChangeState(newState);
-            ChangeRunStateEvent.SendChangeRunStateEvent(newState);
         }
 
         public void ChangeState(RunStates newState) {
@@ -123,5 +115,15 @@ namespace StateMachines.Movement.Horizontal.Run {
         public void Update() => State.Update();
 
         public void FixedUpdate() => State.FixedUpdate();
+
+        public void RaiseSetMoveDirEvent(float moveDir, int viewId) {
+            SetMoveDir(moveDir);
+            SetMovementDirEvent.SendSetMovementDirEvent(moveDir, viewId);
+        }
+
+        public void RaiseChangeRunStateEvent(RunStates newState, int viewId) {
+            ChangeState(newState);
+            ChangeRunStateEvent.SendChangeRunStateEvent(newState, viewId);
+        }
     }
 }

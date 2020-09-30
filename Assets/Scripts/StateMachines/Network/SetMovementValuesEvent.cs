@@ -12,7 +12,7 @@ namespace StateMachines.Network {
                 newValues.moveDir,
                 newValues.jumpsLeft,
                 newValues.dashesLeft,
-                newValues.timeLeft
+                newValues.dashTimeLapsed
             };
             // You would have to set the Receivers to All in order to receive this event on the local client as well
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.Others};

@@ -17,12 +17,14 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public JumpConfig Config { get; private set; }
         public MovementValues Values { get; private set; }
         public GameObject Behaviour { get; private set; }
+        public int ViewId { get; private set; }
 
         public JumpFSM(GameObject behaviour, JumpConfig jumpConfig, MovementValues values) {
             Config = jumpConfig;
             Values = values;
             Behaviour = behaviour;
-
+            ViewId = behaviour.GetPhotonView().ViewID;
+            
             InputLockObserver.LockMovementInput += AcceptLockMovementInput;
             InputLockObserver.UnlockMovementInput += AcceptUnlockMovementInput;
 
@@ -47,46 +49,43 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public void AcceptMoveInput(InputAction.CallbackContext context) => State.AcceptMoveInput(context);
 
-        public void RaiseSetMovementValuesEvent(float moveDir, int jumpsLeft, int dashesLeft, float timeLeft) {
-            // SetMovementValues(newValues);
-            // SetMovementValuesEvent.SendSetMovementValuesEvent(newValues);
-        }
-
-        private void SetMovementValues(MovementValues newValues) => Values = newValues;
-
         public void AcceptDashInput(InputAction.CallbackContext context) => State.AcceptDashInput(context);
 
         public void OnEvent(EventData photonEvent) {
             byte eventCode = photonEvent.Code;
 
             if (eventCode == NetworkedEventCodes.ChangeJumpStateEventCode) {
-                if (Behaviour.GetPhotonView().IsMine) return;
-
                 var data = (object[]) photonEvent.CustomData;
+                
+                if ((int) data[1] != ViewId) return;
+                
                 var newState = (JumpStates) data[0];
 
                 ChangeState(newState);
             }
-            else if (eventCode == NetworkedEventCodes.SetMovementValuesEventCode) {
-                if (Behaviour.GetPhotonView().IsMine) return;
-
+            
+            
+            if (eventCode == NetworkedEventCodes.SetMovementDirEventCode) {
                 var data = (object[]) photonEvent.CustomData;
-                var newValues = new MovementValues(
-                    (float) data[0],
-                    (int) data[1],
-                    (int) data[2],
-                    (float) data[3]
-                );
+                
+                if ((int) data[1] != ViewId) return;
 
-                SetMovementValues(newValues);
+                var dir = (float) data[0];
+                SetMoveDir(dir);
             }
         }
+        public void RaiseSetMoveDirEvent(float moveDir, int viewId) {
+            SetMoveDir(moveDir);
+            SetMovementDirEvent.SendSetMovementDirEvent(moveDir, viewId);
+        }
+        
+        public void SetMoveDir(float moveDir) => Values.moveDir = moveDir;
 
         public Vector2 Force() => State.Force();
 
         public void RaiseChangeStateEvent(JumpStates newState) {
             ChangeState(newState);
-            ChangeJumpStateEvent.SendChangeJumpStateEvent(newState);
+            ChangeJumpStateEvent.SendChangeJumpStateEvent(newState, ViewId);
         }
 
         public void ChangeState(JumpStates newState) {

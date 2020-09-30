@@ -1,4 +1,5 @@
 ﻿using System;
+using Photon.Pun;
 using StateMachines.Interfaces;
 using StateMachines.Movement.Models;
 using UnityEngine;
@@ -20,14 +21,19 @@ namespace StateMachines.Movement.Vertical.Jumping {
         protected readonly int Grounded = Animator.StringToHash("Grounded");
         protected readonly int Jumping = Animator.StringToHash("Jumping");
         protected readonly int DoubleJumping = Animator.StringToHash("DoubleJumping");
-
+        public int ViewID { get; private set; }
+        public bool PUNIsMine { get; private set; }
         protected JumpFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) {
             Jump = jump;
             Behaviour = behaviour;
+            ViewID = behaviour.GetPhotonView().ViewID;
+            PUNIsMine = behaviour.GetPhotonView().IsMine;
             Config = jumpConfig;
             Animator = behaviour.GetComponent<Animator>();
             Rig = behaviour.GetComponent<Rigidbody2D>();
         }
+
+
 
         public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
         public bool AnimatorStateDoubleJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump");
@@ -43,8 +49,8 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public virtual void AcceptDashInput(InputAction.CallbackContext context) { }
         public virtual void AcceptLockJumpInput(object sender) { }
         public virtual void AcceptUnlockJumpInput(object sender) { }
-        protected bool OutOfJumps() => Config.jumpsLeft <= 0;
-        protected bool OutOfDashes() => Config.dashesLeft <= 0;
+        protected bool OutOfJumps() => Jump.Values.jumpsLeft <= 0;
+        protected bool OutOfDashes() => Jump.Values.dashesLeft <= 0;
 
 
         protected void RemoveXVelocity() {
@@ -71,9 +77,8 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Rig.velocity = vel;
         }
 
-        // TODO RPC
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) {
-            Jump.Values.moveDir = context.ReadValue<Single>();
+            Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), ViewID);
 
             if (context.phase == InputActionPhase.Performed)
                 Behaviour.transform.localScale = new Vector3((int)Jump.Values.moveDir,1,1);

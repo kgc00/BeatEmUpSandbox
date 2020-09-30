@@ -15,14 +15,15 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (IsJumpState()) return;
-            StateMachine.RaiseChangeStateEvent(RunStates.Dash);
+
+            StateMachine.RaiseChangeRunStateEvent(RunStates.Dash, ViewId);
         }
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
             StateMachine.Values.moveDir = context.ReadValue<Single>();
             var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
 
-            if (moving) StateMachine.RaiseChangeStateEvent(RunStates.Moving);
+            if (moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Moving, ViewId);
         }
 
         protected override void UpdateAnimations() {

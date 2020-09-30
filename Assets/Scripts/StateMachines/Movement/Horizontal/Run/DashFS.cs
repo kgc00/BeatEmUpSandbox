@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using StateMachines.Movement.Models;
+using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,7 +21,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         // maybe only accept input at the end of dash
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
-            StateMachine.Values.moveDir = context.ReadValue<Single>();
+            StateMachine.RaiseSetMoveDirEvent(context.ReadValue<Single>(), ViewId);
         }
 
         public override void Update() {
@@ -30,7 +31,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
             var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
 
-            StateMachine.RaiseChangeStateEvent(moving ? RunStates.Moving : RunStates.Idle);
+            StateMachine.RaiseChangeRunStateEvent(moving ? RunStates.Moving : RunStates.Idle, ViewId);
         }
 
         protected override void _OnCollisionEnter2D_RPC() { }

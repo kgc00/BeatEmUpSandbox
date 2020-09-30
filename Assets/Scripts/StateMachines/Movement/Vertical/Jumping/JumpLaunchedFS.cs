@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpLaunchedFS : JumpFS {
-        private float timeLapsed;
-
         public JumpLaunchedFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig)
             : base(behaviour, jump, jumpConfig) { }
 
@@ -25,10 +23,13 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public override void Update() {
-            if (Rig.velocity.y < 0 || timeLapsed >= Config.jumpDuration)
+            Jump.Values.jumpTimeLapsed  += Time.deltaTime;
+
+            if (!PUNIsMine) return;
+            
+            if ((Rig.velocity.y < 0 || Jump.Values.jumpTimeLapsed >= Config.jumpDuration) )
                 Jump.RaiseChangeStateEvent(JumpStates.Falling);
 
-            timeLapsed += Time.deltaTime;
         }
 
         public override Vector2 Force() => new Vector2(

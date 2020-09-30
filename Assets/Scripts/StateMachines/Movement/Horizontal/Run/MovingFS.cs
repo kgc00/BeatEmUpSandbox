@@ -1,12 +1,18 @@
 ﻿using System;
+using Photon.Pun;
 using StateMachines.Movement.Models;
+using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Horizontal.Run {
     public class MovingFS : RunFS {
+        private bool isMine;
+
         public MovingFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm)
-            : base(behaviour, runConfig, runFsm) { }
+            : base(behaviour, runConfig, runFsm) {
+            isMine = Behaviour.GetPhotonView().IsMine;
+        }
 
         public override void Enter() => UpdateAnimations();
         public override void Exit() => Animator.ResetTrigger(Running);
@@ -15,7 +21,7 @@ namespace StateMachines.Movement.Horizontal.Run {
             StateMachine.Values.moveDir = context.ReadValue<Single>();
             var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
 
-            if (!moving) StateMachine.RaiseChangeStateEvent(RunStates.Idle);
+            if (!moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Idle, ViewId);
         }
 
         protected override void UpdateAnimations() {
@@ -26,7 +32,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (IsJumpState()) return;
-            StateMachine.RaiseChangeStateEvent(RunStates.Dash);
+            StateMachine.RaiseChangeRunStateEvent(RunStates.Dash, ViewId);
         }
 
         private static int CappedMoveVelocity() => 0;
@@ -39,6 +45,17 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
         public override void Update() {
+            HandleAnimations();
+            ExitIfIdle();
+        }
+
+        private void ExitIfIdle() {
+            if (StateMachine.Values.moveDir == 0 && isMine) {
+                StateMachine.RaiseChangeRunStateEvent(RunStates.Idle, ViewId);
+            }
+        }
+
+        private void HandleAnimations() {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) return;
 
             UpdateAnimations();

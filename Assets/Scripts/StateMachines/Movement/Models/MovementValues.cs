@@ -5,23 +5,26 @@ namespace StateMachines.Movement.Models {
     public class MovementValues {
         public float moveDir;
         public int jumpsLeft;
+        public float jumpTimeLapsed;
         public int dashesLeft;
-        public float timeLeft;
+        public float dashTimeLapsed;
 
         public MovementValues() { }
 
         public MovementValues(MovementValues mv) {
             moveDir = mv.moveDir;
             jumpsLeft = mv.jumpsLeft;
+            jumpTimeLapsed = mv.jumpTimeLapsed;
             dashesLeft = mv.dashesLeft;
-            timeLeft = mv.timeLeft;
+            dashTimeLapsed = mv.dashTimeLapsed;
         }
 
-        public MovementValues(float moveDir, int jumpsLeft, int dashesLeft, float timeLeft) {
+        public MovementValues(float moveDir, int jumpsLeft, float jumpTimeLapsed, int dashesLeft, float dashTimeLapsed) {
             this.moveDir = moveDir;
             this.jumpsLeft = jumpsLeft;
+            this.jumpTimeLapsed = jumpTimeLapsed;
             this.dashesLeft = dashesLeft;
-            this.timeLeft = timeLeft;
+            this.dashTimeLapsed = dashTimeLapsed;
         }
     }
 }

@@ -103,11 +103,11 @@ namespace StateMachines.Movement {
         private void OnGUI() {
             if (!photonView.IsMine) return;
 
-            GUILayout.Box("rig velocity: " + rig.velocity);
+            GUILayout.Box("moveDir: " + movementValues.moveDir);
+            GUILayout.Box("jumps left: " + movementValues.jumpsLeft);
+            GUILayout.Box("air dashes left: " + movementValues.dashesLeft);
             GUILayout.Box("run: " + Run.State.GetType());
             GUILayout.Box("jump: " + Jump.State.GetType());
-            GUILayout.Box("jumps left: " + jumpConfig.jumpsLeft);
-            GUILayout.Box("air dashes left: " + jumpConfig.dashesLeft);
         }
     }
 }

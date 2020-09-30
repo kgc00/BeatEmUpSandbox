@@ -20,9 +20,15 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void Enter() {
             Rig.gravityScale = 1f;
             Rig.drag = Config.groundedLinearDrag;
-            Config.jumpsLeft = Config.maxJumps;
-            Config.dashesLeft = Config.maxDashes;
+            ResetMoveValues();
             InputLockObserver.UnlockRunInput(Behaviour);
+        }
+
+        private void ResetMoveValues() {
+            Jump.Values.jumpsLeft = Config.maxJumps;
+            Jump.Values.dashesLeft = Config.maxDashes;
+            Jump.Values.jumpTimeLapsed = 0;
+            Jump.Values.dashTimeLapsed = 0;
         }
 
         public override void AcceptLockJumpInput(object sender) => Jump.RaiseChangeStateEvent(JumpStates.Locked);

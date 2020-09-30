@@ -1,5 +1,7 @@
-﻿using StateMachines.Interfaces;
+﻿using Photon.Pun;
+using StateMachines.Interfaces;
 using StateMachines.Movement.Models;
+using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,12 +17,15 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         protected readonly RunFSM StateMachine;
         protected readonly GameObject Behaviour;
+        
+        protected readonly int ViewId;
         protected RunFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm) {
             StateMachine = runFsm;
             Animator = behaviour.GetComponent<Animator>();
             Transform = behaviour.GetComponent<Transform>();
             Rig = behaviour.GetComponent<Rigidbody2D>();
             Behaviour = behaviour;
+            ViewId = behaviour.GetPhotonView().ViewID;
             Config = runConfig;
         }
 
@@ -42,7 +47,7 @@ namespace StateMachines.Movement.Horizontal.Run {
         protected abstract Vector2 _Force();
         public void AcceptLockRunInput(object sender) => _AcceptLockInput();
 
-        protected virtual void _AcceptLockInput() => StateMachine.RaiseChangeStateEvent(RunStates.Locked);
+        protected virtual void _AcceptLockInput() => StateMachine.RaiseChangeRunStateEvent(RunStates.Locked, ViewId);
 
         public void AcceptUnlockRunInput(object sender) => _AcceptUnlockInput();
 

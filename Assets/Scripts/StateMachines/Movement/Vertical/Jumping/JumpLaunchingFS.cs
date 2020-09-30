@@ -7,22 +7,18 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping {
     public class JumpLaunchingFS : JumpFS {
-        private float timeLapsed;
-
         public JumpLaunchingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(
             behaviour, jump,
             jumpConfig) { }
 
         public override void Update() {
-            timeLapsed += Time.deltaTime;
+            Jump.Values.jumpTimeLapsed += Time.deltaTime;
 
-            // if (timeLapsed <= 0.2f) {
-            //     if (Config.jumpsLeft == 0 && !AnimatorStateJumping()) Animator.SetTrigger(DoubleJumping);
-            //     else if (Config.jumpsLeft == 1 && !AnimatorStateJumping()) Animator.SetTrigger(Jumping);
-            // }
+            // checking for punismine on update seems to disturb flow of app
+            if (Jump.Values.jumpTimeLapsed < Config.jumpDuration) return;
 
-            if (timeLapsed < Config.jumpDuration) return;
-
+            if (!PUNIsMine) return;
+            
             Jump.RaiseChangeStateEvent(JumpStates.Launched);
         }
 
@@ -37,9 +33,9 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public override void Enter() {
-            // Animator.SetTrigger(Jumping);
-            Mathf.Clamp(Config.jumpsLeft--, 0, Config.maxJumps);
-            Animator.SetTrigger(Config.jumpsLeft == 1 ? Jumping : DoubleJumping);
+            Jump.Values.jumpTimeLapsed = 0;
+            Jump.Values.jumpsLeft = Mathf.Clamp(Jump.Values.jumpsLeft - 1, 0, Config.maxDashes);
+            Animator.SetTrigger(Jump.Values.jumpsLeft == 1 ? Jumping : DoubleJumping);
             InputLockObserver.LockRunInput(Behaviour);
             RemoveYVelocity();
             Rig.gravityScale = 1f;
