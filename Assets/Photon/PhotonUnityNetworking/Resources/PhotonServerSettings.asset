@@ -45,6 +45,8 @@ MonoBehaviour:
   - EnableAttackBuffer_RPC
   - EnableChaining_RPC
   - EnableHitbox_RPC
+  - TriggerEnter2D_RPC
+  - TriggerExit2D_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

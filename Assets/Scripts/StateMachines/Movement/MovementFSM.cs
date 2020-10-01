@@ -13,7 +13,7 @@ namespace StateMachines.Movement {
         IPunObservable {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
-        private MovementValues movementValues;
+        public MovementValues MovementValues { get; private set; } = new MovementValues();
         [SerializeField] private Rigidbody2D rig;
         public JumpFSM Jump { get; private set; }
         public RunFSM Run { get; private set; }
@@ -22,10 +22,9 @@ namespace StateMachines.Movement {
         private void Awake() {
             jumpConfig = jumpConfig.CreateInstance();
             runConfig = runConfig.CreateInstance();
-            movementValues = new MovementValues();
             // ReSharper disable twice Unity.InefficientPropertyAccess
-            Jump = new JumpFSM(gameObject, jumpConfig, movementValues);
-            Run = new RunFSM(gameObject, runConfig, movementValues);
+            Jump = new JumpFSM(gameObject, jumpConfig, MovementValues);
+            Run = new RunFSM(gameObject, runConfig, MovementValues);
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
@@ -57,8 +56,6 @@ namespace StateMachines.Movement {
             relativeForce += Jump.Force();
 
             rig.AddForce(relativeForce, ForceMode2D.Force);
-            
-            
         }
 
         public void AcceptDashInput(InputAction.CallbackContext context) {
@@ -68,14 +65,24 @@ namespace StateMachines.Movement {
             Jump.AcceptDashInput(context);
         }
 
-        private void OnCollisionEnter2D(Collision2D other) {
-            if (!other.gameObject.CompareTag("Board")) return;
+        [PunRPC]
+        void SetTouchingGround(bool isTouching) => MovementValues.touchingGround = isTouching;
 
+        [PunRPC]
+        void SetTouchingWall(bool isTouching) => MovementValues.touchingWall = isTouching;
+
+        private void OnCollisionEnter2D(Collision2D other) {
+            if (!photonView.IsMine) return;
+
+            if (!MovementValues.touchingGround)
+                return;
+            
             photonView.RPC("CollisionEnter2D_RPC", RpcTarget.All);
         }
 
         [PunRPC]
         private void CollisionEnter2D_RPC() {
+
             Jump.OnCollisionEnter2D_RPC();
             Run.OnCollisionEnter2D_RPC();
         }
@@ -84,16 +91,16 @@ namespace StateMachines.Movement {
             if (stream.IsWriting) {
                 // We own this player: send the others our data
                 stream.SendNext(relativeForce);
-                
-                stream.SendNext(new [] {
-                    transform.localScale, 
+
+                stream.SendNext(new[] {
+                    transform.localScale,
                     transform.position
                 });
             }
             else {
                 // Network player, receive data
                 relativeForce = (Vector2) stream.ReceiveNext();
-                
+
                 var tr = (Vector3[]) stream.ReceiveNext();
                 gameObject.transform.localScale = tr[0];
                 gameObject.transform.position = tr[1];
@@ -103,9 +110,11 @@ namespace StateMachines.Movement {
         private void OnGUI() {
             if (!photonView.IsMine) return;
 
-            GUILayout.Box("moveDir: " + movementValues.moveDir);
-            GUILayout.Box("jumps left: " + movementValues.jumpsLeft);
-            GUILayout.Box("air dashes left: " + movementValues.dashesLeft);
+            GUILayout.Box("moveDir: " + MovementValues.moveDir);
+            GUILayout.Box("jumps left: " + MovementValues.jumpsLeft);
+            GUILayout.Box("air dashes left: " + MovementValues.dashesLeft);
+            GUILayout.Box("touching wall: " + MovementValues.touchingWall);
+            GUILayout.Box("touching ground: " + MovementValues.touchingGround);
             GUILayout.Box("run: " + Run.State.GetType());
             GUILayout.Box("jump: " + Jump.State.GetType());
         }
