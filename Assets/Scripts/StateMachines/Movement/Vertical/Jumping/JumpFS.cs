@@ -41,9 +41,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public virtual Vector2 Force() => Vector2.zero;
 
-        public virtual void OnCollisionEnter2D_RPC() {
-            if (AnimatorStateJumping() || AnimatorStateFalling() || AnimatorStateDoubleJumping()) Animator.SetTrigger(Grounded);
-        }
+        public virtual void OnCollisionEnter2D_RPC() { }
 
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);
         public virtual void AcceptDashInput(InputAction.CallbackContext context) { }

@@ -48,5 +48,9 @@ namespace StateMachines.Movement.Vertical.Jumping {
                 ProvideCappedHorizontalForce(Config.horizontalVelocity,
                     Config.maxVelocity, Jump.Values.moveDir, Rig.velocity.x),
                 Mathf.Abs(Rig.velocity.y) >= Config.maxVelocity ? 0 : Config.jumpVelocity);
+
+        public override void OnCollisionEnter2D_RPC() {
+            if (Jump.Values.touchingGround) Animator.SetTrigger(Grounded);
+        }
     }
 }

@@ -73,16 +73,12 @@ namespace StateMachines.Movement {
 
         private void OnCollisionEnter2D(Collision2D other) {
             if (!photonView.IsMine) return;
-
-            if (!MovementValues.touchingGround)
-                return;
             
             photonView.RPC("CollisionEnter2D_RPC", RpcTarget.All);
         }
 
         [PunRPC]
         private void CollisionEnter2D_RPC() {
-
             Jump.OnCollisionEnter2D_RPC();
             Run.OnCollisionEnter2D_RPC();
         }
