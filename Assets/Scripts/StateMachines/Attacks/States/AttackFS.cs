@@ -2,6 +2,7 @@
 using StateMachines.Attacks.Models;
 using StateMachines.Interfaces;
 using StateMachines.Network;
+using Stats;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -98,6 +99,10 @@ namespace StateMachines.Attacks.States {
             Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Jump"));
             Debug.Log("Logging Run");
             Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Run"));
+        }
+
+        public virtual void AttackConnected(HitBox hitBox, Collider2D other) {
+            other.transform.root.GetComponentInChildren<HealthComponent>()?.Damage(1);
         }
     }
 }

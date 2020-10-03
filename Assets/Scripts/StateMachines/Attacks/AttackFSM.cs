@@ -71,5 +71,11 @@ namespace StateMachines.Attacks {
             GUILayout.Box("attack: " + State.GetType());
             GUILayout.EndArea();
         }
+
+        public void AttackConnected(HitBox hitBox, Collider2D other) {
+            if(!other.gameObject.CompareTag("Enemy")) return;
+
+            State.AttackConnected(hitBox, other);
+        }
     }
 }

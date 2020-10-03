@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace StateMachines.Triggers {
     public class TriggerWall : MonoBehaviour {
-        private PhotonView photonView;
+        [SerializeField] private PhotonView photonView;
 
         public void OnEnable() {
             photonView = GetComponentInParent<MovementFSM>().photonView

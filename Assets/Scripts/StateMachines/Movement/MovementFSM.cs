@@ -18,7 +18,7 @@ namespace StateMachines.Movement {
         public JumpFSM Jump { get; private set; }
         public RunFSM Run { get; private set; }
         private Vector2 relativeForce;
-
+        
         private void Awake() {
             jumpConfig = jumpConfig.CreateInstance();
             runConfig = runConfig.CreateInstance();

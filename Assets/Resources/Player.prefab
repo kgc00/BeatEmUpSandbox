@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08dc41cc8a3c450b8cb2da015e84cf7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 9114702466128611953}
 --- !u!1 &2415475152782361750
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 956cd1261d1442d1aed69d005d39d6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 9114702466128611953}
 --- !u!1 &3391143012001313098
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 0}
+  parent: {fileID: 999955414}
 --- !u!1 &3391143012090137377
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,9 +296,10 @@ GameObject:
   - component: {fileID: 862786031552511889}
   - component: {fileID: 3084452923181976581}
   - component: {fileID: 1768837494956752212}
+  - component: {fileID: 8313718852168424766}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -672,6 +675,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.3}
   serializedVersion: 2
   m_Radius: 0.06
+--- !u!114 &8313718852168424766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391143012090137377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c78692e20834ede911ad9fe26bea635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 4665ee03abb85324eb85e6207c9cf461, type: 2}
 --- !u!1 &3391143012517567267
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 0}
+  parent: {fileID: 999955414}
 --- !u!1 &3391143013175269646
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 0}
+  parent: {fileID: 999955414}
 --- !u!1 &6592116862355362182
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,3 +947,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08dc41cc8a3c450b8cb2da015e84cf7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 9114702466128611953}
