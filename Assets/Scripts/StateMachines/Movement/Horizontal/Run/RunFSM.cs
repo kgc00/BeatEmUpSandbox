@@ -128,7 +128,7 @@ namespace StateMachines.Movement.Horizontal.Run {
             
             SetMoveDir(moveDir, localScale);
             SetMovementDirEvent.SendSetMovementDirEvent(moveDir, localScale, viewId);
-            PhotonNetwork.SendAllOutgoingCommands();
+            
         }
 
 
@@ -137,7 +137,7 @@ namespace StateMachines.Movement.Horizontal.Run {
             
             ChangeState(newState);
             ChangeRunStateEvent.SendChangeRunStateEvent(newState, viewId);
-            PhotonNetwork.SendAllOutgoingCommands();
+            
         }
     }
 }

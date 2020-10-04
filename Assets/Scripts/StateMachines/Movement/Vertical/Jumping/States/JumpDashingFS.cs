@@ -16,7 +16,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Jump.RaiseChangeStateEvent(JumpStates.Launching);
         }
 
-        public override void AcceptMoveInput(InputAction.CallbackContext context) => 
+        public override void AcceptMoveInput(InputAction.CallbackContext context) =>
             Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), Behaviour.transform.localScale, ViewID);
 
         public override void Enter() {
@@ -35,7 +35,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         public override void Update() {
             Jump.Values.dashTimeLapsed += Time.deltaTime;
 
-            if (Jump.Values.dashTimeLapsed < Config.dashDuration) return;
+            if (Jump.Values.dashTimeLapsed < Config.dashDuration && !Jump.Values.touchingWall) return;
 
             Jump.RaiseChangeStateEvent(JumpStates.Falling);
         }

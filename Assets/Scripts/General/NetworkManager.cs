@@ -14,8 +14,9 @@ namespace General {
 
         void Start() {
             Instance = this;
-            PhotonNetwork.SendRate = 40;
-            PhotonNetwork.SerializationRate = 40;
+            
+            PhotonNetwork.SendRate = NetworkConfig.SendRate;
+            PhotonNetwork.SerializationRate = NetworkConfig.SerializationRate;
 
             // in case we started this demo with the wrong scene being active, simply load the menu scene
             if (!PhotonNetwork.IsConnected) {

@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08dc41cc8a3c450b8cb2da015e84cf7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonView: {fileID: 9114702466128611953}
+  fsm: {fileID: 999955413}
 --- !u!1 &2415475152782361750
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 956cd1261d1442d1aed69d005d39d6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonView: {fileID: 9114702466128611953}
+  fsm: {fileID: 999955413}
 --- !u!1 &3391143012001313098
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,7 +640,6 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 999955413}
   - {fileID: 3084452923181976581}
   - {fileID: 4195834401941895181}
   viewIdField: 0
@@ -992,4 +991,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08dc41cc8a3c450b8cb2da015e84cf7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonView: {fileID: 9114702466128611953}
+  fsm: {fileID: 999955413}

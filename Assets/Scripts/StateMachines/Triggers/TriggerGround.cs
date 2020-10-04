@@ -6,26 +6,18 @@ using UnityEngine;
 
 namespace StateMachines.Triggers {
     public class TriggerGround : MonoBehaviour {
-        [SerializeField] PhotonView photonView;
-
-        public void OnEnable() {
-            photonView = GetComponentInParent<MovementFSM>().photonView
-                ? GetComponentInParent<MovementFSM>().photonView
-                : throw new NullReferenceException("photonView");
-        }
+        [SerializeField] MovementFSM fsm;
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (!other.gameObject.CompareTag("Board") || !photonView.IsMine) return;
+            if (!other.gameObject.CompareTag("Board")) return;
 
-            photonView.RPC("SetTouchingGround", RpcTarget.All, true);
-            PhotonNetwork.SendAllOutgoingCommands();
+            fsm.RaiseTouchingGroundEvent(true);
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (!other.gameObject.CompareTag("Board") || !photonView.IsMine) return;
-            
-            photonView.RPC("SetTouchingGround", RpcTarget.All, false);
-            PhotonNetwork.SendAllOutgoingCommands();
+            if (!other.gameObject.CompareTag("Board")) return;
+
+            fsm.RaiseTouchingGroundEvent(false);
         }
     }
 }

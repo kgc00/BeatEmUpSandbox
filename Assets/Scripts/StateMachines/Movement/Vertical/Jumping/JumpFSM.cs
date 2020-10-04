@@ -84,7 +84,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             
             SetMoveDir(moveDir, localScale);
             SetMovementDirEvent.SendSetMovementDirEvent(moveDir, localScale, viewId);
-            PhotonNetwork.SendAllOutgoingCommands();
+            
         }
         
         public void SetMoveDir(float moveDir, Vector3 localScale) {
@@ -99,7 +99,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             
             ChangeState(newState);
             ChangeJumpStateEvent.SendChangeJumpStateEvent(newState, ViewId);
-            PhotonNetwork.SendAllOutgoingCommands();
+            
         }
 
         public void ChangeState(JumpStates newState) {
