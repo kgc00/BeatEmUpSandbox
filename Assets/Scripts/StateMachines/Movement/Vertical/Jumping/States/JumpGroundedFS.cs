@@ -1,10 +1,9 @@
-﻿using Photon.Pun;
-using StateMachines.Movement.Models;
+﻿using StateMachines.Movement.Models;
 using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpGroundedFS : JumpFS {
         public JumpGroundedFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(behaviour, jump, jumpConfig) { }
 

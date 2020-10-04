@@ -2040,12 +2040,12 @@ PrefabInstance:
     - target: {fileID: 8691520468293997610, guid: c1e98997b764ea74fa79fdca9e18e8ee,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8691520468293997611, guid: c1e98997b764ea74fa79fdca9e18e8ee,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.25
       objectReference: {fileID: 0}
     - target: {fileID: 8691520468293997611, guid: c1e98997b764ea74fa79fdca9e18e8ee,
         type: 3}
@@ -2119,7 +2119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1557988650 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6658715096229224602, guid: c1e98997b764ea74fa79fdca9e18e8ee,
+  m_CorrespondingSourceObject: {fileID: 7902445579458914054, guid: c1e98997b764ea74fa79fdca9e18e8ee,
     type: 3}
   m_PrefabInstance: {fileID: 1557988647}
   m_PrefabAsset: {fileID: 0}
@@ -2163,8 +2163,8 @@ MonoBehaviour:
   Synchronization: 0
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 1557988650}
   - {fileID: 1557988649}
+  - {fileID: 1557988650}
   - {fileID: 1557988651}
   viewIdField: 1
   InstantiationId: 0

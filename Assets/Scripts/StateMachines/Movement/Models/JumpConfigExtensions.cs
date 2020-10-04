@@ -1,7 +1,6 @@
-﻿using StateMachines.Movement.Models;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Models {
     public static class JumpConfigExtensions {
         public static JumpConfig CreateInstance(this JumpConfig config) {
             var instance = ScriptableObject.CreateInstance<JumpConfig>();

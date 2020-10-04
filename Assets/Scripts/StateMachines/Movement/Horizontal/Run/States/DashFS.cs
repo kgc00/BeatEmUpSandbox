@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
+using Photon.Pun;
 using StateMachines.Movement.Models;
-using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Horizontal.Run {
+namespace StateMachines.Movement.Horizontal.Run.States {
     public class DashFS : RunFS {
         private float timeLapsed;
         private static readonly int Dash = Animator.StringToHash("Dash");
@@ -21,7 +20,7 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         // maybe only accept input at the end of dash
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
-            StateMachine.RaiseSetMoveDirEvent(context.ReadValue<Single>(), ViewId);
+            StateMachine.RaiseSetMoveDirEvent(context.ReadValue<Single>(), Behaviour.transform.localScale, ViewId);
         }
 
         public override void Update() {

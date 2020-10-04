@@ -1,11 +1,10 @@
 ﻿using System;
 using Photon.Pun;
 using StateMachines.Movement.Models;
-using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Horizontal.Run {
+namespace StateMachines.Movement.Horizontal.Run.States {
     public class MovingFS : RunFS {
         private bool isMine;
 
@@ -18,7 +17,12 @@ namespace StateMachines.Movement.Horizontal.Run {
         public override void Exit() => Animator.ResetTrigger(Running);
 
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
-            StateMachine.Values.moveDir = context.ReadValue<Single>();
+            var lookDir = context.ReadValue<Single>() == 0
+                ? Behaviour.transform.localScale.x
+                : StateMachine.Values.moveDir;
+            
+            StateMachine.RaiseSetMoveDirEvent(context.ReadValue<Single>(), new Vector3(lookDir, 1, 1), ViewId);
+
             var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
 
             if (!moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Idle, ViewId);

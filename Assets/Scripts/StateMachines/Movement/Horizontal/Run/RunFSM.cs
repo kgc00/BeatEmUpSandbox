@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using StateMachines.Attacks.Legacy;
 using StateMachines.Interfaces;
+using StateMachines.Movement.Horizontal.Run.States;
 using StateMachines.Movement.Models;
 using StateMachines.Network;
 using StateMachines.Observer;
@@ -21,9 +22,11 @@ namespace StateMachines.Movement.Horizontal.Run {
         public RunConfig Config { get; }
         public MovementValues Values { get; private set; }
         public int ViewId { get; private set; }
+        public bool IsMine { get; set; }
         public RunFSM(GameObject behaviour, RunConfig runConfig, MovementValues movementValues) {
             Behaviour = behaviour;
             ViewId = Behaviour.GetPhotonView().ViewID;
+            IsMine = Behaviour.GetPhotonView().IsMine;
             Values = movementValues;
             Config = runConfig;
             animator = behaviour.GetComponent<Animator>();
@@ -52,7 +55,10 @@ namespace StateMachines.Movement.Horizontal.Run {
             PhotonNetwork.RemoveCallbackTarget(this);
         }
 
-        public void SetMoveDir(float moveDir) => Values.moveDir = moveDir;
+        public void SetMoveDir(float moveDir, Vector3 localScale) {
+            Values.moveDir = moveDir;
+            Behaviour.transform.localScale = localScale;
+        }
 
 
         public void OnEvent(EventData photonEvent) {
@@ -61,10 +67,11 @@ namespace StateMachines.Movement.Horizontal.Run {
             if (eventCode == NetworkedEventCodes.SetMovementDirEventCode) {
                 var data = (object[]) photonEvent.CustomData;
                 
-                if ((int) data[1] != ViewId) return;
+                if ((int) data[2] != ViewId) return;
 
                 var dir = (float) data[0];
-                SetMoveDir(dir);
+                var localScale = (Vector3) data[1];
+                SetMoveDir(dir, localScale);
             }
 
             else if (eventCode == NetworkedEventCodes.ChangeRunStateEventCode) {
@@ -116,14 +123,21 @@ namespace StateMachines.Movement.Horizontal.Run {
 
         public void FixedUpdate() => State.FixedUpdate();
 
-        public void RaiseSetMoveDirEvent(float moveDir, int viewId) {
-            SetMoveDir(moveDir);
-            SetMovementDirEvent.SendSetMovementDirEvent(moveDir, viewId);
+        public void RaiseSetMoveDirEvent(float moveDir, Vector3 localScale, int viewId) {
+            if (!IsMine) return;
+            
+            SetMoveDir(moveDir, localScale);
+            SetMovementDirEvent.SendSetMovementDirEvent(moveDir, localScale, viewId);
+            PhotonNetwork.SendAllOutgoingCommands();
         }
 
+
         public void RaiseChangeRunStateEvent(RunStates newState, int viewId) {
+            if (!IsMine) return;
+            
             ChangeState(newState);
             ChangeRunStateEvent.SendChangeRunStateEvent(newState, viewId);
+            PhotonNetwork.SendAllOutgoingCommands();
         }
     }
 }

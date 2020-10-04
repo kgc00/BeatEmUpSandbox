@@ -64,13 +64,13 @@ namespace StateMachines.Attacks {
         void DisableHitbox_RPC() => State.DisableHitbox();
 
         
-        private void OnGUI() {
-            if (!photonView.IsMine) return;
-            
-            GUILayout.BeginArea(new Rect(0, 141, 410, 80));
-            GUILayout.Box("attack: " + State.GetType());
-            GUILayout.EndArea();
-        }
+        // private void OnGUI() {
+        //     if (!photonView.IsMine) return;
+        //     
+        //     GUILayout.BeginArea(new Rect(0, 141, 410, 80));
+        //     GUILayout.Box("attack: " + State.GetType());
+        //     GUILayout.EndArea();
+        // }
 
         public void AttackConnected(HitBox hitBox, Collider2D other) {
             if(!other.gameObject.CompareTag("Enemy")) return;

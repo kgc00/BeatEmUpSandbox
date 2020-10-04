@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpFallingFS : JumpFS {
         public JumpFallingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(behaviour,
             jump,

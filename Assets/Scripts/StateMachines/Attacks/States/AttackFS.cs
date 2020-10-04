@@ -102,7 +102,7 @@ namespace StateMachines.Attacks.States {
         }
 
         public virtual void AttackConnected(HitBox hitBox, Collider2D other) {
-            other.transform.root.GetComponentInChildren<HealthComponent>()?.Damage(1);
+            // other.transform.root.GetComponentInChildren<HealthComponent>()?.Damage(1);
         }
     }
 }

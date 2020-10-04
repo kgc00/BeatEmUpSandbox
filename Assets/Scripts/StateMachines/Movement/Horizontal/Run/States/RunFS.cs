@@ -1,11 +1,10 @@
 ﻿using Photon.Pun;
 using StateMachines.Interfaces;
 using StateMachines.Movement.Models;
-using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Horizontal.Run {
+namespace StateMachines.Movement.Horizontal.Run.States {
     public abstract class RunFS : FSMState<RunFS>, IProvideForce, IAcceptRunInput, IAcceptCollisionEnter, IHandleLockedRunInput {
         protected readonly Animator Animator;
         protected readonly Transform Transform;

@@ -5,7 +5,7 @@ using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Vertical.Jumping.States {
     /// <summary>
     /// States for jump object.  Not inhereting from FSM because
     /// this is a callback based state machine, and FSMState
@@ -23,6 +23,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         protected readonly int DoubleJumping = Animator.StringToHash("DoubleJumping");
         public int ViewID { get; private set; }
         public bool PUNIsMine { get; private set; }
+
         protected JumpFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) {
             Jump = jump;
             Behaviour = behaviour;
@@ -32,7 +33,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Animator = behaviour.GetComponent<Animator>();
             Rig = behaviour.GetComponent<Rigidbody2D>();
         }
-
 
 
         public bool AnimatorStateJumping() => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
@@ -61,7 +61,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
             Rig.velocity = vel;
         }
-        
+
         protected void RemoveYVelocity() {
             /* remove downward velocity for case of
              *  doing a double jump while falling at a great speed.
@@ -76,10 +76,10 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) {
-            Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), ViewID);
-
             if (context.phase == InputActionPhase.Performed)
-                Behaviour.transform.localScale = new Vector3((int)Jump.Values.moveDir,1,1);
+                Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), new Vector3((int) Jump.Values.moveDir, 1, 1),
+                    ViewID);
+            Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), Behaviour.transform.localScale, ViewID);
         }
 
         protected float ProvideCappedHorizontalForce(float velocity, float cap, float dir, float rigX) {
@@ -87,7 +87,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             float NormalMoveVelocity() => dir * velocity;
             bool HitSpeedCap(float xVel) => Mathf.Abs(xVel) >= cap;
             bool IsForwardMovement(float xVel) => Mathf.Sign(dir) == Mathf.Sign(xVel);
-            
+
             return HitSpeedCap(rigX) && IsForwardMovement(rigX)
                 ? CappedMoveVelocity()
                 : NormalMoveVelocity();

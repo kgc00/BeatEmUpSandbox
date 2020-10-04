@@ -5,6 +5,7 @@ using StateMachines.Movement.Horizontal.Run;
 using StateMachines.Movement.Models;
 using StateMachines.Movement.Vertical.Jumping;
 using UnityEngine;
+using Common.Extensions;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement {
@@ -18,7 +19,8 @@ namespace StateMachines.Movement {
         public JumpFSM Jump { get; private set; }
         public RunFSM Run { get; private set; }
         private Vector2 relativeForce;
-        
+        private Vector2 networkPos;
+
         private void Awake() {
             jumpConfig = jumpConfig.CreateInstance();
             runConfig = runConfig.CreateInstance();
@@ -74,7 +76,9 @@ namespace StateMachines.Movement {
         private void OnCollisionEnter2D(Collision2D other) {
             if (!photonView.IsMine) return;
             
-            photonView.RPC("CollisionEnter2D_RPC", RpcTarget.All);
+            CollisionEnter2D_RPC();
+            photonView.RPC("CollisionEnter2D_RPC", RpcTarget.Others);
+            PhotonNetwork.SendAllOutgoingCommands();
         }
 
         [PunRPC]
@@ -84,23 +88,23 @@ namespace StateMachines.Movement {
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-            if (stream.IsWriting) {
-                // We own this player: send the others our data
-                stream.SendNext(relativeForce);
-
-                stream.SendNext(new[] {
-                    transform.localScale,
-                    transform.position
-                });
-            }
-            else {
-                // Network player, receive data
-                relativeForce = (Vector2) stream.ReceiveNext();
-
-                var tr = (Vector3[]) stream.ReceiveNext();
-                gameObject.transform.localScale = tr[0];
-                gameObject.transform.position = tr[1];
-            }
+            // if (stream.IsWriting) {
+            //     // We own this player: send the others our data
+            //     stream.SendNext(new[] {
+            //         rig.velocity,
+            //         rig.position
+            //     });
+            // }
+            // else {
+            //     // Network player, receive data
+            //     var v2 = (Vector2[]) stream.ReceiveNext();
+            //     
+            //     rig.velocity = v2[0];
+            //     networkPos = v2[1];
+            //     
+            //     // float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
+            //     // networkPos += rig.velocity * lag;
+            // }
         }
 
         private void OnGUI() {

@@ -1,10 +1,12 @@
 ﻿using StateMachines.Attacks;
 using StateMachines.Attacks.States;
 using StateMachines.Movement.Horizontal.Run;
+using StateMachines.Movement.Horizontal.Run.States;
 using StateMachines.Movement.Models;
 using StateMachines.Movement.Vertical.Jumping;
+using StateMachines.Movement.Vertical.Jumping.States;
 using IdleFS = StateMachines.Attacks.States.IdleFS;
-using LockedFS = StateMachines.Movement.Vertical.Jumping.LockedFS;
+using LockedFS = StateMachines.Movement.Vertical.Jumping.States.LockedFS;
 
 namespace StateMachines.Network {
     public static class StateFactory {
@@ -27,10 +29,10 @@ namespace StateMachines.Network {
         }
         
         public static RunFS RunFSFromEnum(RunStates state, RunFSM fsm) {
-            if(state == RunStates.Idle) return new Movement.Horizontal.Run.IdleFS(fsm.Behaviour, fsm.Config, fsm);
-            if(state == RunStates.Moving) return new Movement.Horizontal.Run.MovingFS(fsm.Behaviour, fsm.Config, fsm);
-            if(state == RunStates.Dash) return new Movement.Horizontal.Run.DashFS(fsm.Behaviour, fsm.Config, fsm);
-            if(state == RunStates.Locked) return new Movement.Horizontal.Run.LockedFS(fsm.Behaviour, fsm.Config, fsm);
+            if(state == RunStates.Idle) return new Movement.Horizontal.Run.States.IdleFS(fsm.Behaviour, fsm.Config, fsm);
+            if(state == RunStates.Moving) return new MovingFS(fsm.Behaviour, fsm.Config, fsm);
+            if(state == RunStates.Dash) return new DashFS(fsm.Behaviour, fsm.Config, fsm);
+            if(state == RunStates.Locked) return new Movement.Horizontal.Run.States.LockedFS(fsm.Behaviour, fsm.Config, fsm);
             return null;
         }
     }

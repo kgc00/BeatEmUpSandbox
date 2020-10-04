@@ -1,8 +1,8 @@
-﻿ using StateMachines.Movement.Models;
+﻿using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpLaunchedFS : JumpFS {
         public JumpLaunchedFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig)
             : base(behaviour, jump, jumpConfig) { }
@@ -24,20 +24,13 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public override void Update() {
             Jump.Values.jumpTimeLapsed  += Time.deltaTime;
-
-            if (!PUNIsMine) return;
             
             if ((Rig.velocity.y < 0 || Jump.Values.jumpTimeLapsed >= Config.jumpDuration) )
                 Jump.RaiseChangeStateEvent(JumpStates.Falling);
-
         }
 
         public override Vector2 Force() => new Vector2(
             ProvideCappedHorizontalForce(Config.horizontalVelocity, Config.maxVelocity,Jump.Values.moveDir, Rig.velocity.x),
             Mathf.Abs(Rig.velocity.y) >= Config.maxVelocity ? 0 : Config.jumpVelocity);
-
-        public override void OnCollisionEnter2D_RPC() {
-            if (Jump.Values.touchingGround) Animator.SetTrigger(Grounded);
-        }
     }
 }

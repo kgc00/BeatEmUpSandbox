@@ -4,6 +4,7 @@ using Photon.Realtime;
 using StateMachines.Interfaces;
 using StateMachines.Movement.Horizontal.Run;
 using StateMachines.Movement.Models;
+using StateMachines.Movement.Vertical.Jumping.States;
 using StateMachines.Network;
 using StateMachines.Observer;
 using UnityEngine;
@@ -18,12 +19,14 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public MovementValues Values { get; private set; }
         public GameObject Behaviour { get; private set; }
         public int ViewId { get; private set; }
+        public bool IsMine { get; set; }
 
         public JumpFSM(GameObject behaviour, JumpConfig jumpConfig, MovementValues values) {
             Config = jumpConfig;
             Values = values;
             Behaviour = behaviour;
             ViewId = behaviour.GetPhotonView().ViewID;
+            IsMine = behaviour.GetPhotonView().IsMine;
             
             InputLockObserver.LockMovementInput += AcceptLockMovementInput;
             InputLockObserver.UnlockMovementInput += AcceptUnlockMovementInput;
@@ -36,6 +39,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
             State = new JumpGroundedFS(behaviour, this, jumpConfig);
             State.Enter();
         }
+
 
         ~JumpFSM() {
             InputLockObserver.LockMovementInput -= AcceptLockMovementInput;
@@ -68,24 +72,34 @@ namespace StateMachines.Movement.Vertical.Jumping {
             if (eventCode == NetworkedEventCodes.SetMovementDirEventCode) {
                 var data = (object[]) photonEvent.CustomData;
                 
-                if ((int) data[1] != ViewId) return;
+                if ((int) data[2] != ViewId) return;
 
                 var dir = (float) data[0];
-                SetMoveDir(dir);
+                var localScale = (Vector3) data[1];
+                SetMoveDir(dir, localScale);
             }
         }
-        public void RaiseSetMoveDirEvent(float moveDir, int viewId) {
-            SetMoveDir(moveDir);
-            SetMovementDirEvent.SendSetMovementDirEvent(moveDir, viewId);
+        public void RaiseSetMoveDirEvent(float moveDir, Vector3 localScale, int viewId) {
+            if (!IsMine) return;
+            
+            SetMoveDir(moveDir, localScale);
+            SetMovementDirEvent.SendSetMovementDirEvent(moveDir, localScale, viewId);
+            PhotonNetwork.SendAllOutgoingCommands();
         }
         
-        public void SetMoveDir(float moveDir) => Values.moveDir = moveDir;
+        public void SetMoveDir(float moveDir, Vector3 localScale) {
+            Values.moveDir = moveDir;
+            Behaviour.transform.localScale = localScale;
+        }
 
         public Vector2 Force() => State.Force();
 
         public void RaiseChangeStateEvent(JumpStates newState) {
+            if (!IsMine) return;
+            
             ChangeState(newState);
             ChangeJumpStateEvent.SendChangeJumpStateEvent(newState, ViewId);
+            PhotonNetwork.SendAllOutgoingCommands();
         }
 
         public void ChangeState(JumpStates newState) {

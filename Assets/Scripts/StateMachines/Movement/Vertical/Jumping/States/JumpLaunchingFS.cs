@@ -1,11 +1,9 @@
-﻿using System;
-using Photon.Pun;
-using StateMachines.Movement.Models;
+﻿using StateMachines.Movement.Models;
 using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpLaunchingFS : JumpFS {
         public JumpLaunchingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(
             behaviour, jump,
@@ -14,10 +12,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         public override void Update() {
             Jump.Values.jumpTimeLapsed += Time.deltaTime;
 
-            // checking for punismine on update seems to disturb flow of app
             if (Jump.Values.jumpTimeLapsed < Config.jumpDuration) return;
-
-            if (!PUNIsMine) return;
             
             Jump.RaiseChangeStateEvent(JumpStates.Launched);
         }
@@ -48,9 +43,5 @@ namespace StateMachines.Movement.Vertical.Jumping {
                 ProvideCappedHorizontalForce(Config.horizontalVelocity,
                     Config.maxVelocity, Jump.Values.moveDir, Rig.velocity.x),
                 Mathf.Abs(Rig.velocity.y) >= Config.maxVelocity ? 0 : Config.jumpVelocity);
-
-        public override void OnCollisionEnter2D_RPC() {
-            if (Jump.Values.touchingGround) Animator.SetTrigger(Grounded);
-        }
     }
 }

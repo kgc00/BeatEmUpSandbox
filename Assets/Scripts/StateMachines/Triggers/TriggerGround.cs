@@ -18,12 +18,14 @@ namespace StateMachines.Triggers {
             if (!other.gameObject.CompareTag("Board") || !photonView.IsMine) return;
 
             photonView.RPC("SetTouchingGround", RpcTarget.All, true);
+            PhotonNetwork.SendAllOutgoingCommands();
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if (!other.gameObject.CompareTag("Board") || !photonView.IsMine) return;
             
             photonView.RPC("SetTouchingGround", RpcTarget.All, false);
+            PhotonNetwork.SendAllOutgoingCommands();
         }
     }
 }

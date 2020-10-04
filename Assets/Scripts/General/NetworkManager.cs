@@ -14,6 +14,8 @@ namespace General {
 
         void Start() {
             Instance = this;
+            PhotonNetwork.SendRate = 40;
+            PhotonNetwork.SerializationRate = 40;
 
             // in case we started this demo with the wrong scene being active, simply load the menu scene
             if (!PhotonNetwork.IsConnected) {
@@ -37,8 +39,7 @@ namespace General {
                     if (PhotonNetwork.CurrentRoom.PlayerCount == 1) xPos = -4;
                     if (PhotonNetwork.CurrentRoom.PlayerCount == 2) xPos = 0;
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(this.playerPrefab.name,
-                        new Vector3(xPos,-2.6f,0f), Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(xPos,-2.6f,0f), Quaternion.identity, 0);
                 }
                 else {
                     Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);

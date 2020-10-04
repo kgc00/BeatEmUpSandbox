@@ -1,10 +1,9 @@
 ﻿using System;
-using Photon.Pun;
 using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace StateMachines.Movement.Vertical.Jumping {
+namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpDashingFS : JumpFS {
         private static readonly int AirDash = Animator.StringToHash("AirDash");
         private float dashDir;
@@ -17,8 +16,8 @@ namespace StateMachines.Movement.Vertical.Jumping {
             Jump.RaiseChangeStateEvent(JumpStates.Launching);
         }
 
-        public override void AcceptMoveInput(InputAction.CallbackContext context) =>
-            Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), ViewID);
+        public override void AcceptMoveInput(InputAction.CallbackContext context) => 
+            Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), Behaviour.transform.localScale, ViewID);
 
         public override void Enter() {
             Jump.Values.dashesLeft = Mathf.Clamp(Jump.Values.dashesLeft - 1, 0, Config.maxDashes);
@@ -38,8 +37,6 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
             if (Jump.Values.dashTimeLapsed < Config.dashDuration) return;
 
-            if (!PUNIsMine) return;
-            
             Jump.RaiseChangeStateEvent(JumpStates.Falling);
         }
 
