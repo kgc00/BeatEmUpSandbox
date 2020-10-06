@@ -32,6 +32,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         protected bool IsJumpState() =>
             Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
             Animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump") ||
+            Animator.GetCurrentAnimatorStateInfo(0).IsTag("AirDash") ||
             Animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
         
         public void AcceptMoveInput(InputAction.CallbackContext context) => _AcceptMoveInput(context);

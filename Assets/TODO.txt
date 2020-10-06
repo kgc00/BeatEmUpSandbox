@@ -7,3 +7,25 @@
 - damage / health system
 - limit lock / unlock events to a single unit (rather than all players)
 - use trigger rather than collision to detect grounded state
+
+move set:
+- aerials:
+- - 2 hit air sword chain
+- - - hit one, knock forward
+- - - hit two, knock up
+- - down attack:
+- - - kicks: bounce enemy down
+- - forward attack:
+- - - down air slash: bounce enemy forward
+- ground:
+- - 3 hit punch combo
+- - up attack: first standing sword animation
+- - right attack: bounce enemy, last sword animation
+- - right attack running: dash punch
+
+
+- player vertical movement
+- - if player connects with aerial attack
+- - - remove negative y velocity
+- - if player misses with aerial attack
+- - - keep current velocity
