@@ -1,27 +1,27 @@
 ﻿using Photon.Pun;
 using StateMachines.Attacks.Models;
 using StateMachines.Network;
+using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
-    public class PunchThreeFS : AttackFS {
+    public class GroundedNeutralThreeFS : AttackFS {
         private GameObject punch3;
-        private readonly int attack3 = Animator.StringToHash("Attack3");
+        private readonly int attack3 = Animator.StringToHash("GroundedNeutral3");
         private readonly GameObject hitbox;
 
-        public PunchThreeFS(GameObject behaviour, AttackFSM stateMachine, AttackKit attackKit) : base(behaviour,
-            stateMachine, attackKit) {
+        public GroundedNeutralThreeFS(GameObject behaviour, AttackFSM stateMachine, AttackKit attackKit,
+            UnitState stateValues) : base(behaviour,
+            stateMachine, attackKit, stateValues) {
             hitbox = HitboxFromKit(GetType());
         }
 
         public override void Enter() {
-            animator.SetTrigger(attack3);
+            animator.Play(attack3);
         }
 
-        public override void Exit() {
-            animator.ResetTrigger(attack3);
-        }
+        public override void Exit() { }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
 

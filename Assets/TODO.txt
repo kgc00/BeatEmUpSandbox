@@ -29,3 +29,8 @@ move set:
 - - - remove negative y velocity
 - - if player misses with aerial attack
 - - - keep current velocity
+
+- detecting player input:
+- - forward + attack triggers forwardAttack
+- - forward => wait => attack does not trigger forwardAttack
+- - forward => backward + attack triggers backwardAttack

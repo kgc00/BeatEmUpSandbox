@@ -24,10 +24,10 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         }
 
         private void ResetMoveValues() {
-            Jump.Values.jumpsLeft = Config.maxJumps;
-            Jump.Values.dashesLeft = Config.maxDashes;
-            Jump.Values.jumpTimeLapsed = 0;
-            Jump.Values.dashTimeLapsed = 0;
+            Jump.UnitState.jumpsLeft = Config.maxJumps;
+            Jump.UnitState.dashesLeft = Config.maxDashes;
+            Jump.UnitState.jumpTimeLapsed = 0;
+            Jump.UnitState.dashTimeLapsed = 0;
         }
 
         public override void AcceptLockJumpInput(object sender) => Jump.RaiseChangeStateEvent(JumpStates.Locked);

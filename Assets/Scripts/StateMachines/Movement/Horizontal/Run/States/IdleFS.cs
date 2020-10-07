@@ -21,11 +21,11 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
             var lookDir = context.ReadValue<Single>() == 0
                 ? Behaviour.transform.localScale.x
-                : StateMachine.Values.moveDir;
+                : StateMachine.UnitState.moveDir;
             
             StateMachine.RaiseSetMoveDirEvent(context.ReadValue<Single>(), new Vector3(lookDir, 1, 1), ViewId);
             
-            var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
+            var moving = Math.Abs(StateMachine.UnitState.moveDir) > .01f;
 
             if (moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Moving, ViewId);
         }

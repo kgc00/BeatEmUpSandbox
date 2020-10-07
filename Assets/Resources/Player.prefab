@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 3391143012090137380}
   - component: {fileID: 3391143012090137381}
   - component: {fileID: 3391143012090137383}
+  - component: {fileID: 5923090072797062290}
   - component: {fileID: 999955413}
   - component: {fileID: 999955414}
   - component: {fileID: 999955409}
@@ -430,6 +431,26 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5923090072797062290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391143012090137377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1687bc7dfe1c4ea48315a70dac99d7bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  store:
+    moveDir: 0
+    jumpsLeft: 0
+    jumpTimeLapsed: 0
+    dashesLeft: 0
+    dashTimeLapsed: 0
+    touchingWall: 0
+    touchingGround: 0
 --- !u!114 &999955413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,6 +465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpConfig: {fileID: 11400000, guid: 2549337ff31fed64bad3f61046b55809, type: 2}
   runConfig: {fileID: 11400000, guid: 38f5abd834fe30740ae4f116700e7f9d, type: 2}
+  stateStore: {fileID: 5923090072797062290}
   rig: {fileID: 3391143012090137383}
 --- !u!114 &999955414
 MonoBehaviour:
@@ -457,22 +479,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569363b427d7ba44a98b86713003db6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateStore: {fileID: 5923090072797062290}
   kit:
     attacks:
     - HitboxObject: {fileID: 3391143013175269646}
       AttckFS:
         GuidAssignmentFailed: 0
-        _typeNameAndAssembly: StateMachines.Attacks.States.PunchOneFS, StateMachines
+        _typeNameAndAssembly: StateMachines.Attacks.States.GroundedNeutralOneFS,
+          StateMachines
         _GUID: 0109c739cf024c45a6dc332df844b461
     - HitboxObject: {fileID: 3391143012001313098}
       AttckFS:
         GuidAssignmentFailed: 0
-        _typeNameAndAssembly: StateMachines.Attacks.States.PunchTwoFS, StateMachines
+        _typeNameAndAssembly: StateMachines.Attacks.States.GroundedNeutralTwoFS,
+          StateMachines
         _GUID: ee7944f640c345b1884e9e7f2bef9747
     - HitboxObject: {fileID: 3391143012517567267}
       AttckFS:
         GuidAssignmentFailed: 0
-        _typeNameAndAssembly: StateMachines.Attacks.States.PunchThreeFS, StateMachines
+        _typeNameAndAssembly: StateMachines.Attacks.States.GroundedNeutralThreeFS,
+          StateMachines
         _GUID: 16797eea5d994eb68ec235bb8f763042
 --- !u!114 &999955409
 MonoBehaviour:
@@ -514,12 +540,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 999955414}
+        m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
+        m_MethodName: AcceptMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 24252aa5-8bcb-4b6c-88d8-16b30921c257
     m_ActionName: Gameplay/Move[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 999955413}
         m_TargetAssemblyTypeName: StateMachines.MovementFSM, StateMachines
+        m_MethodName: AcceptJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 999955414}
+        m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
         m_MethodName: AcceptJumpInput
         m_Mode: 0
         m_Arguments:

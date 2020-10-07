@@ -7,6 +7,7 @@ using StateMachines.Movement.Models;
 using StateMachines.Movement.Vertical.Jumping.States;
 using StateMachines.Network;
 using StateMachines.Observer;
+using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,14 +17,14 @@ namespace StateMachines.Movement.Vertical.Jumping {
         IHandleLockedMovementInput, IHandleLockedJumpInput, IOnEventCallback {
         public JumpFS State { get; private set; }
         public JumpConfig Config { get; private set; }
-        public MovementValues Values { get; private set; }
+        public UnitState UnitState { get; private set; }
         public GameObject Behaviour { get; private set; }
         public int ViewId { get; private set; }
         public bool IsMine { get; set; }
 
-        public JumpFSM(GameObject behaviour, JumpConfig jumpConfig, MovementValues values) {
+        public JumpFSM(GameObject behaviour, JumpConfig jumpConfig, UnitState state) {
             Config = jumpConfig;
-            Values = values;
+            UnitState = state;
             Behaviour = behaviour;
             ViewId = behaviour.GetPhotonView().ViewID;
             IsMine = behaviour.GetPhotonView().IsMine;
@@ -88,7 +89,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
         
         public void SetMoveDir(float moveDir, Vector3 localScale) {
-            Values.moveDir = moveDir;
+            UnitState.moveDir = moveDir;
             Behaviour.transform.localScale = localScale;
         }
 

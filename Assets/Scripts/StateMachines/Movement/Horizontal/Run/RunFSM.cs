@@ -7,6 +7,7 @@ using StateMachines.Movement.Horizontal.Run.States;
 using StateMachines.Movement.Models;
 using StateMachines.Network;
 using StateMachines.Observer;
+using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,14 +21,14 @@ namespace StateMachines.Movement.Horizontal.Run {
         public RunFS State { get; private set; }
         public GameObject Behaviour { get; }
         public RunConfig Config { get; }
-        public MovementValues Values { get; private set; }
+        public UnitState UnitState { get; private set; }
         public int ViewId { get; private set; }
         public bool IsMine { get; set; }
-        public RunFSM(GameObject behaviour, RunConfig runConfig, MovementValues movementValues) {
+        public RunFSM(GameObject behaviour, RunConfig runConfig, UnitState unitState) {
             Behaviour = behaviour;
             ViewId = Behaviour.GetPhotonView().ViewID;
             IsMine = Behaviour.GetPhotonView().IsMine;
-            Values = movementValues;
+            UnitState = unitState;
             Config = runConfig;
             animator = behaviour.GetComponent<Animator>();
             transform = behaviour.GetComponent<Transform>();
@@ -56,7 +57,7 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
         public void SetMoveDir(float moveDir, Vector3 localScale) {
-            Values.moveDir = moveDir;
+            UnitState.moveDir = moveDir;
             Behaviour.transform.localScale = localScale;
         }
 

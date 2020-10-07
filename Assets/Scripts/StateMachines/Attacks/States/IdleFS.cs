@@ -2,13 +2,14 @@
 using StateMachines.Attacks.Models;
 using StateMachines.Network;
 using StateMachines.Observer;
+using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
     public class IdleFS : AttackFS {
         private GameObject punch1;
-        public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine, kit) { }
+        public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(behaviour, stateMachine, kit, stateValues) { }
 
         public override void Enter() => InputLockObserver.UnlockMovementInput(behaviour);
         public override void Exit() { }
@@ -16,8 +17,17 @@ namespace StateMachines.Attacks.States {
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (IsJumpState() || IsDashState()) return;
             InputLockObserver.LockMovementInput(behaviour);
+            Debug.Log(context);
 
-            HandleStateChange(AttackStates.PunchOne);
+            Debug.Log(Common.SandboxUtils.IsForwardMovement(stateValues.moveDir, rig.velocity.x));
+            // if (Common.SandboxUtils.IsForwardMovement(stateValues.moveDir, rig.velocity.x))  
+            //     HandleStateChange(AttackStates.GroundedForwardAttack);
+            HandleStateChange(AttackStates.GroundedNeutralOne);
+        }
+
+        public override void AcceptMoveInput(InputAction.CallbackContext context) {
+            Debug.Log(context);
+
         }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,

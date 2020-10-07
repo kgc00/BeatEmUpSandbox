@@ -2,31 +2,30 @@
 using Photon.Pun;
 using StateMachines.Attacks.Models;
 using StateMachines.Network;
+using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
-    public class PunchOneFS : AttackFS {
+    public class GroundedNeutralOneFS : AttackFS {
         private GameObject punch1;
-        private readonly int attack1 = Animator.StringToHash("Attack1");
+        private readonly int attack1 = Animator.StringToHash("GroundedNeutral1");
         private bool chainingEnabled;
         private bool bufferEnabled;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
 
         private readonly GameObject hitbox;
 
-        public PunchOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) : base(behaviour, stateMachine,
-            kit) {
+        public GroundedNeutralOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(behaviour, stateMachine,
+            kit, stateValues) {
             hitbox = HitboxFromKit(GetType());
         }
 
         public override void Enter() {
-            animator.SetTrigger(attack1);
+            animator.Play(attack1);
         }
 
-        public override void Exit() {
-            animator.ResetTrigger(attack1);
-        }
+        public override void Exit() { }
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
@@ -40,13 +39,14 @@ namespace StateMachines.Attacks.States {
             // var context = bufferedActions.Dequeue();
             // _AcceptAttackInput(context);
 
-            HandleStateChange(AttackStates.PunchTwo);
+            HandleStateChange(AttackStates.GroundedNeutralTwo);
         }
 
         protected override void _EnableAttackBuffer() => bufferEnabled = true;
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (chainingEnabled) HandleStateChange(AttackStates.PunchTwo);
+            Debug.Log(context);
+            if (chainingEnabled) HandleStateChange(AttackStates.GroundedNeutralTwo);
             else if (bufferEnabled) bufferedActions.Enqueue(context);
         }
 

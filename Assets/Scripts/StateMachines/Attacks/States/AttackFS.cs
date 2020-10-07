@@ -2,23 +2,28 @@
 using StateMachines.Attacks.Models;
 using StateMachines.Interfaces;
 using StateMachines.Network;
+using StateMachines.State;
 using Stats;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
     public abstract class AttackFS : FSMState<AttackFS>, IAcceptAttackInput, IHandleAttackAnimationEnter,
-        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes {
+        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes,
+        IAcceptJumpInput, IAcceptRunInput {
         protected readonly GameObject behaviour;
         protected readonly AttackFSM stateMachine;
         protected Animator animator;
         protected AttackKit kit;
-
-        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit) {
+        protected UnitState stateValues;
+        protected Rigidbody2D rig;
+        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) {
             animator = behaviour.GetComponent<Animator>();
+            rig = behaviour.GetComponent<Rigidbody2D>();
             this.behaviour = behaviour;
             this.stateMachine = stateMachine;
             this.kit = kit;
+            this.stateValues = stateValues;
         }
 
         protected bool IsDashState() =>
@@ -104,5 +109,9 @@ namespace StateMachines.Attacks.States {
         public virtual void AttackConnected(HitBox hitBox, Collider2D other) {
             // other.transform.root.GetComponentInChildren<HealthComponent>()?.Damage(1);
         }
+
+        public virtual void AcceptJumpInput(InputAction.CallbackContext context) { }
+
+        public virtual void AcceptMoveInput(InputAction.CallbackContext context) { }
     }
 }

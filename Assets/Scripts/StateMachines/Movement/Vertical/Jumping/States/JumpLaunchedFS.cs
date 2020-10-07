@@ -19,18 +19,18 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
         public override void Enter() {
             Rig.gravityScale = Config.lowJumpMultiplier;
-            if (Jump.Values.moveDir != 0) Behaviour.transform.localScale = new Vector3((int) Jump.Values.moveDir, 1, 1);
+            if (Jump.UnitState.moveDir != 0) Behaviour.transform.localScale = new Vector3((int) Jump.UnitState.moveDir, 1, 1);
         }
 
         public override void Update() {
-            Jump.Values.jumpTimeLapsed  += Time.deltaTime;
+            Jump.UnitState.jumpTimeLapsed  += Time.deltaTime;
             
-            if ((Rig.velocity.y < 0 || Jump.Values.jumpTimeLapsed >= Config.jumpDuration) )
+            if ((Rig.velocity.y < 0 || Jump.UnitState.jumpTimeLapsed >= Config.jumpDuration) )
                 Jump.RaiseChangeStateEvent(JumpStates.Falling);
         }
 
         public override Vector2 Force() => new Vector2(
-            ProvideCappedHorizontalForce(Config.horizontalVelocity, Config.maxVelocity,Jump.Values.moveDir, Rig.velocity.x),
+            ProvideCappedHorizontalForce(Config.horizontalVelocity, Config.maxVelocity,Jump.UnitState.moveDir, Rig.velocity.x),
             Mathf.Abs(Rig.velocity.y) >= Config.maxVelocity ? 0 : Config.jumpVelocity);
     }
 }

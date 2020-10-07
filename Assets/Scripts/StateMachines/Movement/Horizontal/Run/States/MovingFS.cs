@@ -3,6 +3,7 @@ using Photon.Pun;
 using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Common;
 
 namespace StateMachines.Movement.Horizontal.Run.States {
     public class MovingFS : RunFS {
@@ -19,17 +20,17 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
             var lookDir = context.ReadValue<Single>() == 0
                 ? Behaviour.transform.localScale.x
-                : StateMachine.Values.moveDir;
-            
+                : StateMachine.UnitState.moveDir;
+
             StateMachine.RaiseSetMoveDirEvent(context.ReadValue<Single>(), new Vector3(lookDir, 1, 1), ViewId);
 
-            var moving = Math.Abs(StateMachine.Values.moveDir) > .01f;
+            var moving = Math.Abs(StateMachine.UnitState.moveDir) > .01f;
 
             if (!moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Idle, ViewId);
         }
 
         protected override void UpdateAnimations() {
-            Transform.localScale = StateMachine.Values.moveDir > 0 ? Vector3.one : new Vector3(-1, 1, 1);
+            Transform.localScale = StateMachine.UnitState.moveDir > 0 ? Vector3.one : new Vector3(-1, 1, 1);
 
             if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) Animator.SetTrigger(Running);
         }
@@ -40,9 +41,8 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         }
 
         private static int CappedMoveVelocity() => 0;
-        private float NormalMoveVelocity() => StateMachine.Values.moveDir * Config.runVelocity;
+        private float NormalMoveVelocity() => StateMachine.UnitState.moveDir * Config.runVelocity;
         private bool HitSpeedCap(float rigX) => Mathf.Abs(rigX) >= Config.maxVelocity;
-        private bool IsForwardMovement(float rigX) => Mathf.Sign(StateMachine.Values.moveDir) == Mathf.Sign(rigX);
 
         protected override void _OnCollisionEnter2D_RPC() {
             UpdateAnimations();
@@ -54,7 +54,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         }
 
         private void ExitIfIdle() {
-            if (StateMachine.Values.moveDir == 0 && isMine) {
+            if (StateMachine.UnitState.moveDir == 0 && isMine) {
                 StateMachine.RaiseChangeRunStateEvent(RunStates.Idle, ViewId);
             }
         }
@@ -68,7 +68,9 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         protected override Vector2 _Force() {
             var rigX = Rig.velocity.x;
 
-            var xVel = HitSpeedCap(rigX) && IsForwardMovement(rigX) ? CappedMoveVelocity() : NormalMoveVelocity();
+            var xVel = HitSpeedCap(rigX) && SandboxUtils.IsForwardMovement(StateMachine.UnitState.moveDir, rigX)
+                ? CappedMoveVelocity()
+                : NormalMoveVelocity();
             return new Vector2(xVel, 0);
         }
 

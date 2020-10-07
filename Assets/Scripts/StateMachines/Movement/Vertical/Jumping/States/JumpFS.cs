@@ -47,8 +47,8 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         public virtual void AcceptDashInput(InputAction.CallbackContext context) { }
         public virtual void AcceptLockJumpInput(object sender) { }
         public virtual void AcceptUnlockJumpInput(object sender) { }
-        protected bool OutOfJumps() => Jump.Values.jumpsLeft <= 0;
-        protected bool OutOfDashes() => Jump.Values.dashesLeft <= 0;
+        protected bool OutOfJumps() => Jump.UnitState.jumpsLeft <= 0;
+        protected bool OutOfDashes() => Jump.UnitState.dashesLeft <= 0;
 
 
         protected void RemoveXVelocity() {
@@ -77,7 +77,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) {
             if (context.phase == InputActionPhase.Performed)
-                Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), new Vector3((int) Jump.Values.moveDir, 1, 1),
+                Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), new Vector3((int) Jump.UnitState.moveDir, 1, 1),
                     ViewID);
             Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), Behaviour.transform.localScale, ViewID);
         }

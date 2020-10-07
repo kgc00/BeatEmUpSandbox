@@ -20,22 +20,22 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), Behaviour.transform.localScale, ViewID);
 
         public override void Enter() {
-            Jump.Values.dashesLeft = Mathf.Clamp(Jump.Values.dashesLeft - 1, 0, Config.maxDashes);
+            Jump.UnitState.dashesLeft = Mathf.Clamp(Jump.UnitState.dashesLeft - 1, 0, Config.maxDashes);
             Rig.gravityScale = 0f;
             RemoveYVelocity();
-            dashDir = Jump.Values.moveDir == 0 ? Behaviour.transform.localScale.x : Jump.Values.moveDir;
+            dashDir = Jump.UnitState.moveDir == 0 ? Behaviour.transform.localScale.x : Jump.UnitState.moveDir;
             Animator.SetTrigger(AirDash);
         }
 
         public override void Exit() {
             RemoveXVelocity();
-            Jump.Values.dashTimeLapsed = 0;
+            Jump.UnitState.dashTimeLapsed = 0;
         }
 
         public override void Update() {
-            Jump.Values.dashTimeLapsed += Time.deltaTime;
+            Jump.UnitState.dashTimeLapsed += Time.deltaTime;
 
-            if (Jump.Values.dashTimeLapsed < Config.dashDuration && !Jump.Values.touchingWall) return;
+            if (Jump.UnitState.dashTimeLapsed < Config.dashDuration && !Jump.UnitState.touchingWall) return;
 
             Jump.RaiseChangeStateEvent(JumpStates.Falling);
         }

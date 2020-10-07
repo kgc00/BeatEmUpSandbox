@@ -4,6 +4,7 @@ using StateMachines.Movement;
 using StateMachines.Movement.Horizontal.Run;
 using StateMachines.Movement.Models;
 using StateMachines.Observer;
+using StateMachines.State;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -18,8 +19,8 @@ namespace TestSandbox.PlayMode {
             var go2 = new GameObject("obj 2");
                 go2.AddComponent<Animator>();
                 
-            var run1 = new RunFSM(go1, ScriptableObject.CreateInstance<RunConfig>(), new MovementValues());
-            var run2 = new RunFSM(go2, ScriptableObject.CreateInstance<RunConfig>(), new MovementValues());
+            var run1 = new RunFSM(go1, ScriptableObject.CreateInstance<RunConfig>(), new UnitState());
+            var run2 = new RunFSM(go2, ScriptableObject.CreateInstance<RunConfig>(), new UnitState());
 
             yield return null;
             Assert.IsNotNull(go1);

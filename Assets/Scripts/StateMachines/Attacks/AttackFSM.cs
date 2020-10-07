@@ -6,19 +6,26 @@ using StateMachines.Attacks.Models;
 using StateMachines.Attacks.States;
 using StateMachines.Interfaces;
 using StateMachines.Network;
+using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks {
+    [RequireComponent(typeof(UnitStateStore))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class AttackFSM : MonoBehaviourPun, IAcceptAttackInput,
-        IChangeStatePun<AttackStates>,
-        IHandleAttackAnimationEnter,
-        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes {
+        IChangeStatePun<AttackStates>, IHandleAttackAnimationEnter,
+        IHandleAttackAnimationExit, IHandleComboChaining,
+        IEnableAttackBuffer, IToggleHitboxes,
+        IAcceptJumpInput, IAcceptRunInput {
         public AttackFS State { get; private set; }
+        [SerializeField] private UnitStateStore stateStore;
+        public UnitState UnitState { get; private set; }
         [SerializeField] public AttackKit kit;
 
-        private void Awake() {
-            State = new IdleFS(gameObject, this, kit);
+        private void Start() {
+            UnitState = stateStore.store;
+            State = new IdleFS(gameObject, this, kit, UnitState);
             State.Enter();
         }
 
@@ -63,7 +70,7 @@ namespace StateMachines.Attacks {
         [PunRPC]
         void DisableHitbox_RPC() => State.DisableHitbox();
 
-        
+
         // private void OnGUI() {
         //     if (!photonView.IsMine) return;
         //     
@@ -73,9 +80,23 @@ namespace StateMachines.Attacks {
         // }
 
         public void AttackConnected(HitBox hitBox, Collider2D other) {
-            if(!other.gameObject.CompareTag("Enemy")) return;
+            if (!other.gameObject.CompareTag("Enemy")) return;
 
             State.AttackConnected(hitBox, other);
+        }
+
+        public void AcceptMoveInput(InputAction.CallbackContext context) {
+            if (!photonView.IsMine ||
+                context.phase != InputActionPhase.Performed &&
+                context.phase != InputActionPhase.Canceled) return;
+            State.AcceptMoveInput(context);
+        }
+
+        public void AcceptJumpInput(InputAction.CallbackContext context) {
+            if (!photonView.IsMine ||
+                context.phase != InputActionPhase.Performed &&
+                context.phase != InputActionPhase.Canceled) return;
+            State.AcceptJumpInput(context);
         }
     }
 }

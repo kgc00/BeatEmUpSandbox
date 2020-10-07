@@ -9,7 +9,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             jumpConfig) { }
 
         public override void Enter() {
-            if (Jump.Values.moveDir != 0) Behaviour.transform.localScale = new Vector3((int) Jump.Values.moveDir, 1, 1);
+            if (Jump.UnitState.moveDir != 0) Behaviour.transform.localScale = new Vector3((int) Jump.UnitState.moveDir, 1, 1);
         }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
@@ -23,12 +23,13 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         }
 
         public override void Update() {
-            if (Rig.velocity.y < 0) Rig.gravityScale = Config.fallMultiplier;
-            else Rig.gravityScale = Config.lowJumpMultiplier;
+            Rig.gravityScale = Rig.velocity.y < 0
+                ? Config.fallMultiplier
+                : Config.lowJumpMultiplier;
         }
 
         public override void OnCollisionEnter2D_RPC() {
-            if (!Jump.Values.touchingGround) return;
+            if (!Jump.UnitState.touchingGround) return;
 
             Animator.SetTrigger(Grounded);
 
@@ -39,7 +40,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
         public override Vector2 Force() =>
             new Vector2(
-                ProvideCappedHorizontalForce(Config.horizontalVelocity, Config.maxVelocity, Jump.Values.moveDir,
+                ProvideCappedHorizontalForce(Config.horizontalVelocity, Config.maxVelocity, Jump.UnitState.moveDir,
                     Rig.velocity.x), 0);
     }
 }
