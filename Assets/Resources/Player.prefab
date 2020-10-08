@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 8313718852168424766}
   - component: {fileID: 4195834401941895181}
   - component: {fileID: 1812799865417872231}
+  - component: {fileID: 4797572020655168876}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -552,6 +553,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
+        m_MethodName: AcceptMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 24252aa5-8bcb-4b6c-88d8-16b30921c257
     m_ActionName: Gameplay/Move[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
@@ -580,12 +593,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
+        m_MethodName: AcceptJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: d05fd07c-7d29-4e32-b172-f61b21b5e3ad
     m_ActionName: Gameplay/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 999955414}
         m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
+        m_MethodName: AcceptAttackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
         m_MethodName: AcceptAttackInput
         m_Mode: 0
         m_Arguments:
@@ -642,6 +679,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 999955413}
         m_TargetAssemblyTypeName: StateMachines.Movement.MovementFSM, StateMachines
+        m_MethodName: AcceptDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
         m_MethodName: AcceptDashInput
         m_Mode: 0
         m_Arguments:
@@ -752,6 +801,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.16}
   m_Size: {x: 0.07, y: 0.4}
   m_Direction: 0
+--- !u!114 &4797572020655168876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391143012090137377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b928b68f889d45449ccd65258acd7a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3391143012517567267
 GameObject:
   m_ObjectHideFlags: 0

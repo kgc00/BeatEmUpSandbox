@@ -3,7 +3,11 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "StateMachines"
+        "StateMachines",
+        "Unity.InputSystem.TestFramework",
+        "Unity.InputSystem",
+        "Unity.InputSystem.IntegrationTests",
+        "PhotonUnityNetworking"
     ],
     "includePlatforms": [],
     "excludePlatforms": [
@@ -22,7 +26,7 @@
         "WindowsStandalone64",
         "XboxOne"
     ],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll"
