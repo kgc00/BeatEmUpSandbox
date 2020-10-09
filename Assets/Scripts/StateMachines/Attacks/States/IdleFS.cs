@@ -17,18 +17,13 @@ namespace StateMachines.Attacks.States {
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (IsJumpState() || IsDashState()) return;
             InputLockObserver.LockMovementInput(behaviour);
-            Debug.Log(context);
 
-            Debug.Log(Common.SandboxUtils.IsForwardMovement(stateValues.moveDir, rig.velocity.x));
             // if (Common.SandboxUtils.IsForwardMovement(stateValues.moveDir, rig.velocity.x))  
             //     HandleStateChange(AttackStates.GroundedForwardAttack);
             HandleStateChange(AttackStates.GroundedNeutralOne);
         }
 
-        public override void AcceptMoveInput(InputAction.CallbackContext context) {
-            Debug.Log(context);
-
-        }
+        public override void AcceptMoveInput(InputAction.CallbackContext context) { }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) { }

@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
+using General;
 using NUnit.Framework;
+using Photon.Pun;
 using StateMachines.Actions;
 using StateMachines.Logger;
 using StateMachines.Messages;
@@ -10,94 +13,115 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.TestTools;
+using Object = UnityEngine.Object;
 
 namespace TestSandbox.PlayMode {
     public class KeyLoggerTests {
+        
         [TestFixture]
         class ArenaTestFixture : InputTestFixture {
-            [UnityTest]
-            public IEnumerator DoesTrackInputEvents() {
-                Keyboard keyboard = InputSystem.AddDevice<Keyboard>();
-                Mouse mouse = InputSystem.AddDevice<Mouse>();
+            bool isConnecting;
+            private Keyboard keyboard;
+            private Mouse mouse;
+            private PlayerInput player;
+            private string inputSettingsPath =
+                "C:\\Users\\kirby\\Documents\\Game Dev\\2020\\BeatEmUpSandbox\\Assets\\Scripts\\Input\\PlayerActions.inputactions";
 
+            [SetUp]
+            public void SetupInput() {
+                keyboard = InputSystem.AddDevice<Keyboard>();
+                mouse = InputSystem.AddDevice<Mouse>();
+            }
+
+            private IEnumerator SetupRemotePlayer() {
+                PhotonNetwork.OfflineMode = true;
+                new GameObject("launch").AddComponent<AutoLaunch>();
+                yield return new WaitUntil(() => PhotonNetwork.InRoom);
+                yield return new WaitForSeconds(.5f); // grace period to allow objects to load in
+                player = Object.FindObjectOfType<PlayerInput>() ?? throw new Exception("Unable to assign player");
+            }
+
+            private void SetupLocalPlayer() {
                 var prefab = new GameObject();
                 prefab.SetActive(false);
                 var prefabPlayerInput = prefab.AddComponent<PlayerInput>();
-                var kActions = File.ReadAllText("C:\\Users\\kirby\\Documents\\Game Dev\\2020\\BeatEmUpSandbox\\Assets\\Scripts\\Input\\PlayerActions.inputactions");
+                var kActions = File.ReadAllText(inputSettingsPath);
                 prefabPlayerInput.actions = InputActionAsset.FromJson(kActions);
+                player = PlayerInput.Instantiate(prefab, controlScheme: "Keyboard&Mouse");
+                player.actions.Enable();
+            }
 
-                var player = PlayerInput.Instantiate(prefab, controlScheme: "Keyboard&Mouse");
-                
-                foreach (var a in player.actions) {
-                    Debug.Log(a.name);
-                }
-                
+            [UnityTest]
+            public IEnumerator DoesTrackInputEvents() {
+                SetupLocalPlayer();
                 var action1 = player.actions["Jump"];
                 var action2 = player.actions["Move"];
-                action1.Enable();
-                action2.Enable();
-                
+
                 using (var trace = new InputActionTrace()) {
+                    // must subscribe BEFORE event occurs
                     trace.SubscribeTo(action1);
                     trace.SubscribeTo(action2);
-                    
+
                     PressAndRelease(keyboard.spaceKey);
+                    InputSystem.Update(); // 0.03f - 1 frame
                     PressAndRelease(keyboard.aKey);
-                    PressAndRelease(keyboard.dKey);
-                    InputSystem.Update();
-                    currentTime = 0.234f;
 
                     var actions = trace.ToArray();
-                    foreach (var a in actions) {
-                        Debug.Log(a);
-                    }
 
-                    Assert.That(actions.Length, Is.EqualTo(1));
+                    Assert.That(actions.Length, Is.EqualTo(6)); // actions * 3
                 }
 
                 yield break;
             }
-        }
 
-        class SomeTestFixture : InputTestFixture {
-            [Test]
-            public void Actions_WhenDisabled_CancelAllStartedInteractions() {
-                var gamepad = InputSystem.AddDevice<Gamepad>();
+            [UnityTest]
+            public IEnumerator CanAddInputLogger() {
+                yield return SetupRemotePlayer();
+                
+                var action1 = player.actions["Jump"];
+                var action2 = player.actions["Move"];
 
-                var action1 = new InputAction("action1", binding: "<Gamepad>/buttonSouth", interactions: "Hold");
-                var action2 = new InputAction("action2", binding: "<Gamepad>/leftStick");
+                var logger = player.GetComponent<InputLogger>();
 
-                action1.Enable();
-                action2.Enable();
-
-                Press(gamepad.buttonSouth);
-                Set(gamepad.leftStick, new Vector2(0.123f, 0.234f));
+                yield return new WaitForEndOfFrame();
+                yield return new WaitForEndOfFrame();
 
                 using (var trace = new InputActionTrace()) {
+                    // must subscribe BEFORE event occurs
                     trace.SubscribeTo(action1);
                     trace.SubscribeTo(action2);
 
-                    currentTime += 0.234f;
-                    action1.Disable();
-                    action2.Disable();
-
+                    PressAndRelease(keyboard.spaceKey);
+                    InputSystem.Update(); // 0.03f - 1 frame
+                    yield return new WaitForEndOfFrame();
+                    PressAndRelease(keyboard.aKey);
+                    InputSystem.Update(); 
+                    yield return new WaitForEndOfFrame();
+                    
                     var actions = trace.ToArray();
-                    foreach (var a in actions) {
-                        Debug.Log(a);
-                    }
-
-                    Assert.That(actions.Length, Is.EqualTo(2));
+                    LogActionsPerformed(actions);
+                    yield return new WaitForSeconds(1);
+                    
+                    Assert.That(logger.Actions.Count, Is.EqualTo(4)); // actions * 2
                 }
             }
-        }
 
-        [Test]
-        public void PlayerContainsInputLogger() {
-            var fixture = new ArenaTestFixture();
+            private static void LogActionsPerformed(InputActionTrace.ActionEventPtr[] actions) {
+                foreach (var a in actions) {
+                    Debug.Log(a);
+                }
+            }
 
-            var go = Resources.Load<GameObject>("Player");
-            var logger = go.GetComponent<InputLogger>();
-            Assert.That(logger != null);
+            private static void SetInputSystemTime(InputTestFixture fixture) {
+                var time = 0.234f;
+                fixture.currentTime = time; // set "time" of input system. tracked in the event
+            }
+
+            private static void LogInputActions(PlayerInput player) {
+                foreach (var a in player.actions) {
+                    Debug.Log(a.name);
+                }
+            }
         }
     }
 }
