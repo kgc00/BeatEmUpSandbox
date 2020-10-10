@@ -14,9 +14,11 @@ namespace StateMachines.Attacks.States {
         private bool bufferEnabled;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
 
-        public GroundedNeutralOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(behaviour, stateMachine,
-            kit, stateValues) {
-            hitbox = HitboxFromKit(GetType()); }
+        public GroundedNeutralOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues)
+            : base(behaviour, stateMachine,
+                kit, stateValues) {
+            hitbox = HitboxFromKit(GetType());
+        }
 
         public override void Enter() {
             animator.Play(attack1);
@@ -26,25 +28,14 @@ namespace StateMachines.Attacks.States {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            if (bufferedActions.Count <= 0) return;
-
-            // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
-
-            // Note: The contents of the structure are only valid for the duration of the callback.
-            // In particular, it isn't safe to store the received context and later access its properties from outside the callback.
-
-            // var context = bufferedActions.Dequeue();
-            // _AcceptAttackInput(context);
-
-            HandleStateChange(AttackStates.GroundedNeutralTwo);
+            
         }
 
         protected override void _EnableAttackBuffer() => bufferEnabled = true;
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            Debug.Log(context);
-            if (chainingEnabled) HandleStateChange(AttackStates.GroundedNeutralTwo);
-            else if (bufferEnabled) bufferedActions.Enqueue(context);
+            // TODO - Re-enable buffering using inputlogger
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo);
         }
 
         protected override void _HandleAttackAnimationEnter(

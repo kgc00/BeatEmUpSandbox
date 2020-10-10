@@ -32,7 +32,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         protected override void UpdateAnimations() {
             Transform.localScale = StateMachine.UnitState.moveDir > 0 ? Vector3.one : new Vector3(-1, 1, 1);
 
-            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) Animator.SetTrigger(Running);
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) Animator.Play("player_run");
         }
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
@@ -45,7 +45,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         private bool HitSpeedCap(float rigX) => Mathf.Abs(rigX) >= Config.maxVelocity;
 
         protected override void _OnCollisionEnter2D_RPC() {
-            UpdateAnimations();
+            // UpdateAnimations();
         }
 
         public override void Update() {

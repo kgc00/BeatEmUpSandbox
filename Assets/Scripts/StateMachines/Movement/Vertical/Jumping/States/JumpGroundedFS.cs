@@ -7,10 +7,6 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpGroundedFS : JumpFS {
         public JumpGroundedFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(behaviour, jump, jumpConfig) { }
 
-        public override void OnCollisionEnter2D_RPC() {
-            if (AnimatorStateFalling() || AnimatorStateJumping() || AnimatorStateDoubleJumping())
-                Animator.SetTrigger(Grounded);
-        }
         public override void AcceptJumpInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed) return;
             Jump.RaiseChangeStateEvent(JumpStates.Launching);

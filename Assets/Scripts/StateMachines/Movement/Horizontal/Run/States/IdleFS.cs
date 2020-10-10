@@ -31,11 +31,11 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         }
 
         protected override void UpdateAnimations() {
-            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.SetTrigger(Idle);
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.Play("player_idle");
         }
 
         protected override void _OnCollisionEnter2D_RPC() {
-            UpdateAnimations();
+            // UpdateAnimations();
         }
 
         protected override Vector2 _Force() => Vector2.zero;

@@ -10,8 +10,8 @@ namespace StateMachines.Attacks.States {
     public class GroundedNeutralTwoFS : AttackFS {
         private GameObject punch2;
         private readonly int attack2 = Animator.StringToHash("GroundedNeutral2");
-        private bool chainingEnabled = false;
-        private bool bufferEnabled = false;
+        private bool chainingEnabled;
+        private bool bufferEnabled;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
         private readonly GameObject hitbox;
 
@@ -31,28 +31,12 @@ namespace StateMachines.Attacks.States {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            if (bufferedActions.Count > 0) {
-                // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html#responding-to-actions
-
-                // Note: The contents of the structure are only valid for the duration of the callback.
-                // In particular, it isn't safe to store the received context and later access its properties from outside the callback.
-
-                // var context = bufferedActions.Dequeue();
-                // _AcceptAttackInput(context);
-
-                HandleStateChange(AttackStates.GroundedNeutralThree);
-            }
         }
 
         protected override void _EnableAttackBuffer() => bufferEnabled = true;
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (chainingEnabled) {
-                HandleStateChange(AttackStates.GroundedNeutralThree);
-                return;
-            }
-
-            if (bufferEnabled) bufferedActions.Enqueue(context);
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralThree);
         }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,

@@ -8,10 +8,10 @@ namespace StateMachines.Attacks.States {
     public class GroundedForwardAttackFS : AttackFS {
         public GroundedForwardAttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitState stateValues) : base(behaviour, stateMachine, kit, stateValues) {
-            hitbox = HitboxFromKit(GetType()); }
+            hitbox = HitboxFromKit(GetType()); 
+        }
 
         public override void Enter() {
-            Debug.Log("Entered grounded forward");
             animator.Play("ground-forward-attack");
         }
 

@@ -127,5 +127,15 @@ namespace StateMachines.Attacks.States {
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) { }
         public virtual void HandleExitAnimation() { }
+
+        protected void IdentifyAndTransitionToGroundedAttackState(AttackStates nextComboState = AttackStates.Idle) {
+            if (logger.IsForwardAttack())
+                HandleStateChange(AttackStates.GroundedForwardAttack);
+            else if (logger.IsUpAttack()) HandleStateChange(AttackStates.GroundedUpAttack);
+            else {
+                if (nextComboState == AttackStates.Idle) return;
+                HandleStateChange(nextComboState);
+            }
+        }
     }
 }

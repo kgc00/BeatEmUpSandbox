@@ -20,10 +20,7 @@ namespace StateMachines.Attacks.States {
             if (IsJumpState() || IsDashState()) return;
             InputLockObserver.LockMovementInput(behaviour);
 
-            if (logger.IsForwardAttack())
-                HandleStateChange(AttackStates.GroundedForwardAttack);
-            else if (logger.IsUpAttack()) HandleStateChange(AttackStates.GroundedUpAttack);
-            else HandleStateChange(AttackStates.GroundedNeutralOne);
+            IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralOne);
         }
 
         public override void AcceptMoveInput(InputAction.CallbackContext context) { }

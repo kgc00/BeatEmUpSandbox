@@ -31,8 +31,6 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         public override void OnCollisionEnter2D_RPC() {
             if (!Jump.UnitState.touchingGround) return;
 
-            Animator.SetTrigger(Grounded);
-
             Rig.drag = Config.groundedLinearDrag;
 
             Jump.RaiseChangeStateEvent(JumpStates.Grounded);

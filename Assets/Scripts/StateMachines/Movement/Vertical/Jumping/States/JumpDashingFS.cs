@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpDashingFS : JumpFS {
-        private static readonly int AirDash = Animator.StringToHash("AirDash");
+        private static readonly int AirDash = Animator.StringToHash("Air Dash");
         private float dashDir;
 
         public JumpDashingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig)
@@ -24,7 +24,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Rig.gravityScale = 0f;
             RemoveYVelocity();
             dashDir = Jump.UnitState.moveDir == 0 ? Behaviour.transform.localScale.x : Jump.UnitState.moveDir;
-            Animator.SetTrigger(AirDash);
+            Animator.Play(AirDash);
         }
 
         public override void Exit() {

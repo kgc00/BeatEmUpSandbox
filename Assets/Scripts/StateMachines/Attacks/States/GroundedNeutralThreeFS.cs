@@ -10,6 +10,7 @@ namespace StateMachines.Attacks.States {
         private GameObject punch3;
         private readonly int attack3 = Animator.StringToHash("GroundedNeutral3");
         private readonly GameObject hitbox;
+        private bool chainingEnabled;
 
         public GroundedNeutralThreeFS(GameObject behaviour, AttackFSM stateMachine, AttackKit attackKit,
             UnitState stateValues) : base(behaviour,
@@ -23,15 +24,20 @@ namespace StateMachines.Attacks.States {
 
         public override void Exit() { }
 
-        protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
+        protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState();
+        }
 
-        protected override void _EnableChaining() { }
+        protected override void _EnableChaining() => chainingEnabled = true;
 
         protected override void _EnableHitbox() => hitbox.SetActive(true);
         protected override void _DisableHitbox() => hitbox.SetActive(false);
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex) { }
+            int layerIndex) {
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralThree);
+
+        }
 
         protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {

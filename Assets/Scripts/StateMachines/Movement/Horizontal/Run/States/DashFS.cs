@@ -15,7 +15,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
 
         public override void Enter() {
             dashDir = StateMachine.UnitState.moveDir == 0 ? Behaviour.transform.localScale.x : StateMachine.UnitState.moveDir;
-            Animator.SetTrigger(Dash);
+            Animator.Play("player_dash");
         }
 
         // maybe only accept input at the end of dash
