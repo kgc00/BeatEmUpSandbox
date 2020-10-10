@@ -1,6 +1,7 @@
 ﻿using System;
 using StateMachines.Attacks.Models;
 using StateMachines.Interfaces;
+using StateMachines.Logger;
 using StateMachines.Network;
 using StateMachines.State;
 using Stats;
@@ -10,16 +11,20 @@ using UnityEngine.InputSystem;
 namespace StateMachines.Attacks.States {
     public abstract class AttackFS : FSMState<AttackFS>, IAcceptAttackInput, IHandleAttackAnimationEnter,
         IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes,
-        IAcceptJumpInput, IAcceptRunInput {
+        IAcceptJumpInput, IAcceptRunInput, IHandleExitAnimationEvents {
         protected readonly GameObject behaviour;
         protected readonly AttackFSM stateMachine;
         protected Animator animator;
         protected AttackKit kit;
         protected UnitState stateValues;
         protected Rigidbody2D rig;
+        protected InputLogger logger;
+        protected GameObject hitbox;
+
         protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) {
             animator = behaviour.GetComponent<Animator>();
             rig = behaviour.GetComponent<Rigidbody2D>();
+            logger = behaviour.GetComponent<InputLogger>();
             this.behaviour = behaviour;
             this.stateMachine = stateMachine;
             this.kit = kit;
@@ -38,6 +43,7 @@ namespace StateMachines.Attacks.States {
         protected bool IsExitingAttackState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Dash") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
 
         public void AcceptAttackInput(InputAction.CallbackContext context) {
@@ -67,10 +73,17 @@ namespace StateMachines.Attacks.States {
         public void EnableAttackBuffer() => _EnableAttackBuffer();
         protected virtual void _EnableAttackBuffer() { }
         public void EnableHitbox() => _EnableHitbox();
-        protected virtual void _EnableHitbox() { }
+        
+        protected virtual void _EnableHitbox() {
+            if (hitbox != null) hitbox.SetActive(true);
+        }
+
+        protected virtual void _DisableHitbox() {
+            if (hitbox != null) hitbox.SetActive(false);
+        }
+
         public void DisableHitbox() => _DisableHitbox();
-        protected virtual void _DisableHitbox() { }
-        protected GameObject HitboxFromKit(Type fsType) => kit.attacks.Find(x => x.AttckFS == fsType).HitboxObject;
+        protected GameObject HitboxFromKit(Type fsType) => kit.attacks.Find(x => x?.AttckFS == fsType)?.HitboxObject;
 
         protected void HandleStateChange(AttackStates newState) => stateMachine.RaiseChangeStateEvent(newState);
 
@@ -113,5 +126,6 @@ namespace StateMachines.Attacks.States {
         public virtual void AcceptJumpInput(InputAction.CallbackContext context) { }
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) { }
+        public virtual void HandleExitAnimation() { }
     }
 }

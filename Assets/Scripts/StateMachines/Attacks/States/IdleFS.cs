@@ -9,7 +9,9 @@ using UnityEngine.InputSystem;
 namespace StateMachines.Attacks.States {
     public class IdleFS : AttackFS {
         private GameObject punch1;
-        public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(behaviour, stateMachine, kit, stateValues) { }
+
+        public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(
+            behaviour, stateMachine, kit, stateValues) { }
 
         public override void Enter() => InputLockObserver.UnlockMovementInput(behaviour);
         public override void Exit() { }
@@ -18,9 +20,10 @@ namespace StateMachines.Attacks.States {
             if (IsJumpState() || IsDashState()) return;
             InputLockObserver.LockMovementInput(behaviour);
 
-            // if (Common.SandboxUtils.IsForwardMovement(stateValues.moveDir, rig.velocity.x))  
-            //     HandleStateChange(AttackStates.GroundedForwardAttack);
-            HandleStateChange(AttackStates.GroundedNeutralOne);
+            if (logger.IsForwardAttack())
+                HandleStateChange(AttackStates.GroundedForwardAttack);
+            else if (logger.IsUpAttack()) HandleStateChange(AttackStates.GroundedUpAttack);
+            else HandleStateChange(AttackStates.GroundedNeutralOne);
         }
 
         public override void AcceptMoveInput(InputAction.CallbackContext context) { }

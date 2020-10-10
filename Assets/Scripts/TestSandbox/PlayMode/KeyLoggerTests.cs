@@ -6,6 +6,8 @@ using General;
 using NUnit.Framework;
 using Photon.Pun;
 using StateMachines.Actions;
+using StateMachines.Attacks;
+using StateMachines.Attacks.States;
 using StateMachines.Logger;
 using StateMachines.Messages;
 using UnityEditor.VersionControl;
@@ -61,7 +63,7 @@ namespace TestSandbox.PlayMode {
                     yield return new WaitForSeconds(0.25f);
                     if (!PhotonNetwork.IsConnected) yield break;
                 }
-                
+
                 PhotonNetwork.LoadLevel(NetworkConfig.launcherLevelName);
                 yield return new WaitForSeconds(0.5f);
             }
@@ -130,9 +132,9 @@ namespace TestSandbox.PlayMode {
                         PressAndRelease(keyboard.spaceKey);
                         // run next event halfway through our timeout
                         yield return new WaitForSeconds(InputLogger.EventTimeDeletionThreshold / 2);
-                        
+
                         PressAndRelease(keyboard.aKey);
-                        
+
                         // without waiting for two frames the inputs just barely stay valid
                         // need the extra frames for them to time out and be deleted
                         yield return new WaitForEndOfFrame();
@@ -141,10 +143,38 @@ namespace TestSandbox.PlayMode {
                         Assert.That(logger.Actions.Count, Is.EqualTo(4));
 
                         yield return new WaitForSeconds(InputLogger.EventTimeDeletionThreshold / 2);
-                        Assert.That(logger.Actions.Count, Is.EqualTo(2)); 
-                        
+                        Assert.That(logger.Actions.Count, Is.EqualTo(2));
+
                         yield return new WaitForSeconds(InputLogger.EventTimeDeletionThreshold / 2);
                         Assert.That(logger.Actions.Count, Is.EqualTo(0));
+                    }
+                }
+            }
+
+            [UnityTest]
+            public IEnumerator InputLoggerForwardAttackOnValidInput() {
+                yield return SetupRemotePlayer();
+
+                var action1 = player.actions["Attack"];
+                var action2 = player.actions["Move"];
+
+                var logger = player.GetComponent<InputLogger>();
+
+                using (var trace = new InputActionTrace()) {
+                    {
+                        // must subscribe BEFORE event occurs
+                        trace.SubscribeTo(action1);
+                        trace.SubscribeTo(action2);
+
+                        Press(keyboard.aKey);
+                        yield return new WaitForEndOfFrame();
+                        Press(mouse.leftButton);
+
+                        yield return new WaitForEndOfFrame();
+
+                        Assert.That(logger.IsForwardAttack(), Is.True);
+                        Assert.That(player.GetComponent<AttackFSM>().State.GetType(),
+                            Is.EqualTo(typeof(GroundedForwardAttackFS)));
                     }
                 }
             }

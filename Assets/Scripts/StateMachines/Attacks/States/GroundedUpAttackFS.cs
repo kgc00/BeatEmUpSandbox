@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
-    public class GroundedForwardAttackFS : AttackFS {
-        public GroundedForwardAttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
+    public class GroundedUpAttackFS : AttackFS {
+        public GroundedUpAttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitState stateValues) : base(behaviour, stateMachine, kit, stateValues) {
             hitbox = HitboxFromKit(GetType()); }
 
         public override void Enter() {
-            Debug.Log("Entered grounded forward");
-            animator.Play("ground-forward-attack");
+            Debug.Log("Entered grounded up");
+            animator.Play("ground-up-attack");
         }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }

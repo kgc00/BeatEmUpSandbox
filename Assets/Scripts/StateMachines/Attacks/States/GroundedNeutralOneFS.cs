@@ -14,12 +14,9 @@ namespace StateMachines.Attacks.States {
         private bool bufferEnabled;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
 
-        private readonly GameObject hitbox;
-
         public GroundedNeutralOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(behaviour, stateMachine,
             kit, stateValues) {
-            hitbox = HitboxFromKit(GetType());
-        }
+            hitbox = HitboxFromKit(GetType()); }
 
         public override void Enter() {
             animator.Play(attack1);
@@ -59,8 +56,5 @@ namespace StateMachines.Attacks.States {
             int layerIndex) {
             if (IsExitingAttackState()) HandleStateChange(AttackStates.Idle);
         }
-
-        protected override void _EnableHitbox() => hitbox.SetActive(true);
-        protected override void _DisableHitbox() => hitbox.SetActive(false);
     }
 }

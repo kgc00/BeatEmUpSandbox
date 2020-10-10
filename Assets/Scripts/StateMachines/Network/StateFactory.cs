@@ -20,6 +20,8 @@ namespace StateMachines.Network {
                 return new GroundedNeutralThreeFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
             if (state == AttackStates.GroundedForwardAttack)
                 return new GroundedForwardAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
+            if (state == AttackStates.GroundedUpAttack)
+                return new GroundedUpAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
             return null;
         }
 

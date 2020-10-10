@@ -29,7 +29,7 @@ Transform:
   m_Children:
   - {fileID: 118651315605021610}
   m_Father: {fileID: 3391143012090137376}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2217333685760378445
 GameObject:
@@ -61,7 +61,7 @@ Transform:
   - {fileID: 4169404640866047121}
   - {fileID: 244870032454988012}
   m_Father: {fileID: 3391143012090137376}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2318607766050800742
 GameObject:
@@ -335,6 +335,8 @@ Transform:
   - {fileID: 3391143013175269681}
   - {fileID: 3391143012001313101}
   - {fileID: 3391143012517567266}
+  - {fileID: 7133620329439538807}
+  - {fileID: 218592596753270815}
   - {fileID: 3900015448817024227}
   - {fileID: 7948247396650819204}
   - {fileID: 8406727515916232781}
@@ -501,6 +503,17 @@ MonoBehaviour:
         _typeNameAndAssembly: StateMachines.Attacks.States.GroundedNeutralThreeFS,
           StateMachines
         _GUID: 16797eea5d994eb68ec235bb8f763042
+    - HitboxObject: {fileID: 6182342712653425206}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.States.GroundedForwardAttackFS,
+          StateMachines
+        _GUID: a0373753e560402f8c6edc9f446b8ec2
+    - HitboxObject: {fileID: 5576543557688040659}
+      AttckFS:
+        GuidAssignmentFailed: 0
+        _typeNameAndAssembly: StateMachines.Attacks.States.GroundedUpAttackFS, StateMachines
+        _GUID: 62d11d4474594e4786a242ca3af805cf
 --- !u!114 &999955409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,8 +542,20 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
+        m_MethodName: AcceptMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 999955413}
-        m_TargetAssemblyTypeName: StateMachines.MovementFSM, StateMachines
+        m_TargetAssemblyTypeName: StateMachines.Movement.MovementFSM, StateMachines
         m_MethodName: AcceptMoveInput
         m_Mode: 0
         m_Arguments:
@@ -543,18 +568,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 999955414}
         m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
-        m_MethodName: AcceptMoveInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4797572020655168876}
-        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
         m_MethodName: AcceptMoveInput
         m_Mode: 0
         m_Arguments:
@@ -569,8 +582,20 @@ MonoBehaviour:
     m_ActionName: Gameplay/Move[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
+        m_MethodName: AcceptJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 999955413}
-        m_TargetAssemblyTypeName: StateMachines.MovementFSM, StateMachines
+        m_TargetAssemblyTypeName: StateMachines.Movement.MovementFSM, StateMachines
         m_MethodName: AcceptJumpInput
         m_Mode: 0
         m_Arguments:
@@ -583,18 +608,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 999955414}
         m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
-        m_MethodName: AcceptJumpInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4797572020655168876}
-        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
         m_MethodName: AcceptJumpInput
         m_Mode: 0
         m_Arguments:
@@ -609,8 +622,8 @@ MonoBehaviour:
     m_ActionName: Gameplay/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 999955414}
-        m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
         m_MethodName: AcceptAttackInput
         m_Mode: 0
         m_Arguments:
@@ -621,8 +634,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4797572020655168876}
-        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
+      - m_Target: {fileID: 999955414}
+        m_TargetAssemblyTypeName: StateMachines.Attacks.AttackFSM, StateMachines
         m_MethodName: AcceptAttackInput
         m_Mode: 0
         m_Arguments:
@@ -677,18 +690,6 @@ MonoBehaviour:
     m_ActionName: Menus/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 999955413}
-        m_TargetAssemblyTypeName: StateMachines.Movement.MovementFSM, StateMachines
-        m_MethodName: AcceptDashInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 4797572020655168876}
         m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
         m_MethodName: AcceptDashInput
@@ -701,8 +702,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 999955413}
+        m_TargetAssemblyTypeName: StateMachines.Movement.MovementFSM, StateMachines
+        m_MethodName: AcceptDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 11a78f89-b6d1-4de0-b458-0cc30d7362f9
     m_ActionName: Gameplay/Dash[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4797572020655168876}
+        m_TargetAssemblyTypeName: StateMachines.Logger.InputLogger, StateMachines
+        m_MethodName: AcceptModifierInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: eaa21ad8-ac9d-4703-9636-be134f9019a6
+    m_ActionName: Gameplay/Modify Action[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -985,6 +1014,178 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strategies:
   - {fileID: 11400000, guid: c6f54be56dc09974a8eb255bcfd5dd75, type: 2}
+--- !u!1 &5576543557688040659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 218592596753270815}
+  - component: {fileID: 6040621888479268023}
+  - component: {fileID: 1929978464095983814}
+  - component: {fileID: 9184818789827610475}
+  m_Layer: 0
+  m_Name: GroundedUp
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &218592596753270815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576543557688040659}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3391143012090137376}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6040621888479268023
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576543557688040659}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.225, y: 0.06}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.65, y: 0.7}
+  m_EdgeRadius: 0
+--- !u!114 &1929978464095983814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576543557688040659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 999955414}
+--- !u!114 &9184818789827610475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576543557688040659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244e83886ea6496ea8613c47037c116b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strategies:
+  - {fileID: 11400000, guid: c6f54be56dc09974a8eb255bcfd5dd75, type: 2}
+--- !u!1 &6182342712653425206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7133620329439538807}
+  - component: {fileID: 6339201642581221789}
+  - component: {fileID: 3382118488934743396}
+  - component: {fileID: 3182441999428255410}
+  m_Layer: 0
+  m_Name: GroundedForward
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7133620329439538807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6182342712653425206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3391143012090137376}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6339201642581221789
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6182342712653425206}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.03, y: -0.1}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.07, y: 0.52}
+  m_EdgeRadius: 0
+--- !u!114 &3382118488934743396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6182342712653425206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33244938396b7324cb49265f290d9bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 999955414}
+--- !u!114 &3182441999428255410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6182342712653425206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244e83886ea6496ea8613c47037c116b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strategies:
+  - {fileID: 11400000, guid: c6f54be56dc09974a8eb255bcfd5dd75, type: 2}
 --- !u!1 &6592116862355362182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3391143012090137376}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &4157626728433441413
 CapsuleCollider2D:

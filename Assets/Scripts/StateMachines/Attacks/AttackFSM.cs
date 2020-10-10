@@ -17,7 +17,8 @@ namespace StateMachines.Attacks {
         IChangeStatePun<AttackStates>, IHandleAttackAnimationEnter,
         IHandleAttackAnimationExit, IHandleComboChaining,
         IEnableAttackBuffer, IToggleHitboxes,
-        IAcceptJumpInput, IAcceptRunInput {
+        IAcceptJumpInput, IAcceptRunInput,
+    IHandleExitAnimationEvents{
         public AttackFS State { get; private set; }
         [SerializeField] private UnitStateStore stateStore;
         public UnitState UnitState { get; private set; }
@@ -98,5 +99,8 @@ namespace StateMachines.Attacks {
                 context.phase != InputActionPhase.Canceled) return;
             State.AcceptJumpInput(context);
         }
+
+        // may need to check for photonview ismine
+        public void HandleExitAnimation() => State.HandleExitAnimation();
     }
 }
