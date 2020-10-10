@@ -14,6 +14,7 @@ namespace StateMachines.Messages {
             Phase = input.phase;
             ActionName = input.action.name;
             Timestamp = timestamp;
+            
             if (ActionName == "Modify Action") {
                 Value = input.ReadValue<Vector2>();
             } else {

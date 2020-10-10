@@ -28,13 +28,12 @@ namespace StateMachines.Attacks.States {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            
+            IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo);
         }
 
         protected override void _EnableAttackBuffer() => bufferEnabled = true;
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            // TODO - Re-enable buffering using inputlogger
             if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo);
         }
 

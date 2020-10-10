@@ -28,16 +28,13 @@ namespace StateMachines.Attacks.States {
             if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState();
         }
 
-        protected override void _EnableChaining() => chainingEnabled = true;
-
-        protected override void _EnableHitbox() => hitbox.SetActive(true);
-        protected override void _DisableHitbox() => hitbox.SetActive(false);
+        protected override void _EnableChaining() {
+            chainingEnabled = true;
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState();
+        }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex) {
-            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralThree);
-
-        }
+            int layerIndex) { }
 
         protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) {

@@ -4,9 +4,8 @@ namespace StateMachines.Actions {
     public class BaseAction : IAction {
         public InputEventData EventData { get; }
 
-        public BaseAction(InputEventData data) {
+        protected BaseAction(InputEventData data) {
             EventData = data;
         }
-        
     }
 }

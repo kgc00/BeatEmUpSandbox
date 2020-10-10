@@ -12,6 +12,7 @@ namespace StateMachines.Logger {
     public class InputLogger : MonoBehaviourPun, IAcceptRunInput,
         IAcceptAttackInput, IAcceptDashInput, IAcceptJumpInput,
         IAcceptModifierInput {
+        private float bufferDuration = 0.15f;
         public const float EventTimeDeletionThreshold = 0.5f; // delete events older than this value
         public List<IAction> Actions { get; private set; } = new List<IAction>();
 
@@ -70,9 +71,15 @@ namespace StateMachines.Logger {
                                   Actions[1].EventData.Phase == InputActionPhase.Performed &&
                                   (Vector2) Actions[1].EventData.Value ==
                                   new Vector2(gameObject.transform.localScale.x, 0);
-            var performedQuickly = CalcDifference(1) < 0.15f;
+            
+            var performedQuickly = CalcDifference(1) < bufferDuration;
 
-            return didAttack && didPressForward && performedQuickly;
+            var isForwardAttack = didAttack && didPressForward && performedQuickly;
+            if (isForwardAttack) {
+                Actions.RemoveRange(0, 2);
+            }
+
+            return isForwardAttack;
         }
 
         private void OnGUI() {
@@ -88,9 +95,19 @@ namespace StateMachines.Logger {
             var didPressUp = Actions[1].EventData.ActionName == "Modify Action" &&
                              Actions[1].EventData.Phase == InputActionPhase.Performed &&
                              (Vector2) Actions[1].EventData.Value == new Vector2(0, 1);
-            var performedQuickly = CalcDifference(1) < 0.15f;
+            var performedQuickly = CalcDifference(1) < bufferDuration;
 
-            return didAttack && didPressUp && performedQuickly;
+            var isUpAttack = didAttack && didPressUp && performedQuickly;
+
+            if (isUpAttack) {
+                Actions.RemoveRange(0, 2);
+            }
+
+            return isUpAttack;
+        }
+
+        public bool IsRecentInput() {
+            return Actions.Count != 0 && CalcDifference(0) < bufferDuration;
         }
     }
 }

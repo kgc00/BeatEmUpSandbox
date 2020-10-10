@@ -44,6 +44,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Buffer",
+                    "type": "Button",
+                    "id": "a90760ed-69f4-4093-bb96-29575eca4599",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -167,6 +175,17 @@
                     "action": "Modify Action",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "16f57f35-4a08-498f-bdc0-5e16cb6b70b8",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Keyboard&Mouse",
+                    "action": "Buffer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

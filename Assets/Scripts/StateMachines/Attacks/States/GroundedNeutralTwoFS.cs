@@ -31,6 +31,7 @@ namespace StateMachines.Attacks.States {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralThree);
         }
 
         protected override void _EnableAttackBuffer() => bufferEnabled = true;

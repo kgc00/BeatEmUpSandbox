@@ -57,6 +57,14 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Buffer"",
+                    ""type"": ""Button"",
+                    ""id"": ""a90760ed-69f4-4093-bb96-29575eca4599"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -180,6 +188,17 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""action"": ""Modify Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16f57f35-4a08-498f-bdc0-5e16cb6b70b8"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Keyboard&Mouse"",
+                    ""action"": ""Buffer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -760,6 +779,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
+        m_Gameplay_Buffer = m_Gameplay.FindAction("Buffer", throwIfNotFound: true);
         // Menus
         m_Menus = asset.FindActionMap("Menus", throwIfNotFound: true);
         m_Menus_Navigate = m_Menus.FindAction("Navigate", throwIfNotFound: true);
@@ -826,6 +846,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Dash;
     private readonly InputAction m_Gameplay_Attack;
+    private readonly InputAction m_Gameplay_Buffer;
     public struct GameplayActions
     {
         private @PlayerActions m_Wrapper;
@@ -835,6 +856,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
+        public InputAction @Buffer => m_Wrapper.m_Gameplay_Buffer;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -859,6 +881,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                @Buffer.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBuffer;
+                @Buffer.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBuffer;
+                @Buffer.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBuffer;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -878,6 +903,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Buffer.started += instance.OnBuffer;
+                @Buffer.performed += instance.OnBuffer;
+                @Buffer.canceled += instance.OnBuffer;
             }
         }
     }
@@ -1039,6 +1067,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnBuffer(InputAction.CallbackContext context);
     }
     public interface IMenusActions
     {
