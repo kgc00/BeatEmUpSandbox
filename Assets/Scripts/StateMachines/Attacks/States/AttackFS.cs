@@ -97,7 +97,11 @@ namespace StateMachines.Attacks.States {
         public virtual void AcceptJumpInput(InputAction.CallbackContext context) { }
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) { }
-        public virtual void HandleExitAnimation() { }
+        public virtual void HandleExitAnimation() {            
+            // animation clip reached end without interruption from player input,
+            // return to idle
+            HandleStateChange(AttackStates.Idle);
+        }
 
         protected void IdentifyAndTransitionToGroundedAttackState(AttackStates nextComboState = AttackStates.Idle) {
             if (logger.IsForwardAttack())

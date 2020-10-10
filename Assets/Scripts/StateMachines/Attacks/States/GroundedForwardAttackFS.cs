@@ -27,9 +27,5 @@ namespace StateMachines.Attacks.States {
 
         protected override void _HandleAttackAnimationExit(Animator animator1, AnimatorStateInfo stateInfo,
             int layerIndex) { }
-
-        public override void HandleExitAnimation() {
-            HandleStateChange(AttackStates.Idle);
-        }
     }
 }

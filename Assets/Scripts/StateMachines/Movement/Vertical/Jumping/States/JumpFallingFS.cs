@@ -10,6 +10,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
         public override void Enter() {
             if (Jump.UnitState.moveDir != 0) Behaviour.transform.localScale = new Vector3((int) Jump.UnitState.moveDir, 1, 1);
+            Animator.Play("player_fall");
         }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) {

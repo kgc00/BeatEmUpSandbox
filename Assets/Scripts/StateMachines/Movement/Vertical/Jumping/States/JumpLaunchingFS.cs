@@ -12,8 +12,8 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         public override void Update() {
             Jump.UnitState.jumpTimeLapsed += Time.deltaTime;
             
-            if (!AnimatorStateJumping() && !AnimatorStateDoubleJumping())
-                HandleAnimation();
+            // if (!AnimatorStateJumping() && !AnimatorStateDoubleJumping())
+            //     HandleAnimation();
 
             if (Jump.UnitState.jumpTimeLapsed < Config.jumpDuration) return;
             
