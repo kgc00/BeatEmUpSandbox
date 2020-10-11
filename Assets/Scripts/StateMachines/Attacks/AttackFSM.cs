@@ -14,11 +14,8 @@ namespace StateMachines.Attacks {
     [RequireComponent(typeof(UnitDataStore))]
     [RequireComponent(typeof(Rigidbody2D))]
     public class AttackFSM : MonoBehaviourPun, IAcceptAttackInput,
-        IChangeStatePun<AttackStates>, IHandleAttackAnimationEnter,
-        IHandleAttackAnimationExit, IHandleComboChaining,
-        IEnableAttackBuffer, IToggleHitboxes,
-        IAcceptJumpInput, IAcceptRunInput,
-    IHandleExitAnimationEvents{
+        IChangeStatePun<AttackStates>, IHandleComboChaining, IToggleHitboxes,
+        IAcceptJumpInput, IAcceptRunInput, IHandleExitAnimationEvents {
         public AttackFS State { get; private set; }
         [SerializeField] private UnitDataStore dataStore;
         public UnitMovementData UnitMovementData { get; private set; }
@@ -51,21 +48,10 @@ namespace StateMachines.Attacks {
             State.AcceptAttackInput(context);
         }
 
-        public void HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
-            State.HandleAttackAnimationEnter(animator, stateInfo, layerIndex);
-
-        public void HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
-            State.HandleAttackAnimationExit(animator, stateInfo, layerIndex);
-
         public void EnableChaining() => photonView.RPC("EnableChaining_RPC", RpcTarget.All);
 
         [PunRPC]
         void EnableChaining_RPC() => State.EnableChaining();
-
-        public void EnableAttackBuffer() => photonView.RPC("EnableAttackBuffer_RPC", RpcTarget.All);
-
-        [PunRPC]
-        void EnableAttackBuffer_RPC() => State.EnableAttackBuffer();
 
         public void EnableHitbox() => photonView.RPC("EnableHitbox_RPC", RpcTarget.All);
 

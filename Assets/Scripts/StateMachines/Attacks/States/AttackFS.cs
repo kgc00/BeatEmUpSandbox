@@ -14,9 +14,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
-    public abstract class AttackFS : FSMState<AttackFS>, IAcceptAttackInput, IHandleAttackAnimationEnter,
-        IHandleAttackAnimationExit, IHandleComboChaining, IEnableAttackBuffer, IToggleHitboxes,
-        IAcceptJumpInput, IAcceptRunInput, IHandleExitAnimationEvents {
+    public abstract class AttackFS : FSMState<AttackFS>, IAcceptAttackInput, IHandleExitAnimationEvents,
+        IHandleComboChaining, IToggleHitboxes, IAcceptJumpInput, IAcceptRunInput {
         protected readonly GameObject behaviour;
         protected readonly AttackFSM stateMachine;
         protected readonly JumpFSM jumpStateMachine;
@@ -28,6 +27,7 @@ namespace StateMachines.Attacks.States {
         protected Rigidbody2D rig;
         protected InputLogger logger;
         protected GameObject hitbox;
+        protected bool chainingEnabled;
 
         protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitMovementData movementDataValues) {
@@ -65,20 +65,6 @@ namespace StateMachines.Attacks.States {
         }
 
         protected abstract void _AcceptAttackInput(InputAction.CallbackContext context);
-
-        public void HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _HandleAttackAnimationEnter(animator, stateInfo, layerIndex);
-        }
-
-        protected abstract void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex);
-
-        public void HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _HandleAttackAnimationExit(animator, stateInfo, layerIndex);
-        }
-
-        protected abstract void _HandleAttackAnimationExit(Animator animator1, AnimatorStateInfo stateInfo,
-            int layerIndex);
 
         public void EnableChaining() => _EnableChaining();
         protected virtual void _EnableChaining() { }

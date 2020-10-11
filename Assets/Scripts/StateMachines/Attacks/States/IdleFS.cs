@@ -24,11 +24,5 @@ namespace StateMachines.Attacks.States {
         }
 
         public override void AcceptMoveInput(InputAction.CallbackContext context) { }
-
-        protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex) { }
-
-        protected override void _HandleAttackAnimationExit(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex) { }
     }
 }

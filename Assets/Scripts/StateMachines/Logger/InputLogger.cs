@@ -103,6 +103,7 @@ namespace StateMachines.Logger {
 
         public bool IsRecentInput(float bufferLength = BufferDuration, int i = 0) =>
             Actions.Count > i - 1
+            && Actions.Count > 0
             && CalcDifference(i) < bufferLength;
 
 

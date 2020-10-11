@@ -1,36 +1,32 @@
-﻿using System.Collections.Generic;
-using Photon.Pun;
-using StateMachines.Attacks.Models;
+﻿using StateMachines.Attacks.Models;
 using StateMachines.Network;
 using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
-    public class GroundedNeutralOneFS : AttackFS {
-        private readonly int attack1 = Animator.StringToHash("GroundedNeutral1");
+    public class AerialDownAttack : AttackFS {
+        private readonly int aerialDownAttack = Animator.StringToHash("air-down-attack");
 
-        public GroundedNeutralOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitMovementData movementDataValues)
-            : base(behaviour, stateMachine,
-                kit, movementDataValues) {
+        public AerialDownAttack(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
+            UnitMovementData movementDataValues) :
+            base(behaviour, stateMachine, kit, movementDataValues) {
             hitbox = HitboxFromKit(GetType());
         }
 
         public override void Enter() {
-            animator.Play(attack1);
+            animator.Play(aerialDownAttack);
         }
 
         public override void Update() {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("GroundedNeutral1"))
-                animator.Play(attack1);
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("air-down-attack"))
+                animator.Play(aerialDownAttack);
         }
-
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
             if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo, true);
         }
-
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo);

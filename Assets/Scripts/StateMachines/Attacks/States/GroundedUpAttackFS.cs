@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
     public class GroundedUpAttackFS : AttackFS {
-        private bool chainingEnabled;
-
         public GroundedUpAttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitMovementData movementDataValues) : base(behaviour, stateMachine, kit, movementDataValues) {
             hitbox = HitboxFromKit(GetType()); }
@@ -27,12 +25,6 @@ namespace StateMachines.Attacks.States {
         }
         
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
-
-        protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
-            int layerIndex) { }
-
-        protected override void _HandleAttackAnimationExit(Animator animator1, AnimatorStateInfo stateInfo,
-            int layerIndex) { }
 
         public override void HandleExitAnimation() {
             HandleStateChange(AttackStates.Idle);
