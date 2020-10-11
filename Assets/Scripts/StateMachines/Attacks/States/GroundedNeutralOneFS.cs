@@ -26,9 +26,10 @@ namespace StateMachines.Attacks.States {
 
         public override void Exit() { }
 
+
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo);
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo, true);
         }
 
         protected override void _EnableAttackBuffer() => bufferEnabled = true;

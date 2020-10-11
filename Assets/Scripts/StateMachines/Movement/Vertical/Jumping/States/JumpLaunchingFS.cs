@@ -11,9 +11,11 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
         public override void Update() {
             Jump.UnitMovementData.jumpTimeLapsed += Time.deltaTime;
-            
+
+            HandleAnimation();
+
             if (Jump.UnitMovementData.jumpTimeLapsed < Config.jumpDuration) return;
-            
+
             Jump.RaiseChangeStateEvent(JumpStates.Launched);
         }
 
@@ -35,11 +37,14 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             RemoveYVelocity();
             Rig.gravityScale = 1f;
             Rig.drag = Config.aerialLinearDrag;
-            if (Jump.UnitMovementData.moveDir != 0) Behaviour.transform.localScale = new Vector3((int) Jump.UnitMovementData.moveDir, 1, 1);
+            if (Jump.UnitMovementData.moveDir != 0)
+                Behaviour.transform.localScale = new Vector3((int) Jump.UnitMovementData.moveDir, 1, 1);
         }
 
         private void HandleAnimation() {
-            Animator.Play(Jump.UnitMovementData.jumpsLeft == 1 ? "player_jump" : "player_double_jump");
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") &&
+                !Animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump"))
+                Animator.Play(Jump.UnitMovementData.jumpsLeft == 1 ? "player_jump" : "player_double_jump");
         }
 
         public override Vector2 Force() =>

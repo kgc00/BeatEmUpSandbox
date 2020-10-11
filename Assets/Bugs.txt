@@ -5,3 +5,5 @@
     - Parameter 'Hash 129565385' does not exist.
       UnityEngine.Animator:SetTrigger(Int32) 
       for jump animations on networked client
+- State:
+    - When dealing with grounded states, anything using the move inputs needs to have update animations in the update loop

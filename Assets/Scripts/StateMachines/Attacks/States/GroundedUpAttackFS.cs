@@ -11,8 +11,12 @@ namespace StateMachines.Attacks.States {
             hitbox = HitboxFromKit(GetType()); }
 
         public override void Enter() {
-            Debug.Log("Entered grounded up");
             animator.Play("ground-up-attack");
+        }
+
+        public override void Update() {
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("ground-up-attack"))
+                animator.Play("ground-up-attack");
         }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }

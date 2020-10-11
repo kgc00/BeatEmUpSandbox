@@ -26,6 +26,9 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Jump.UnitMovementData.dashTimeLapsed = 0;
         }
 
+        // handled by run state
+        public override void AcceptMoveInput(InputAction.CallbackContext context) { }
+
         public override void AcceptLockJumpInput(object sender) => Jump.RaiseChangeStateEvent(JumpStates.Locked);
     }
 }

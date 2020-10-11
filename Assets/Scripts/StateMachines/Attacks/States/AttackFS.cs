@@ -21,7 +21,8 @@ namespace StateMachines.Attacks.States {
         protected InputLogger logger;
         protected GameObject hitbox;
 
-        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitMovementData movementDataValues) {
+        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
+            UnitMovementData movementDataValues) {
             animator = behaviour.GetComponent<Animator>();
             rig = behaviour.GetComponent<Rigidbody2D>();
             logger = behaviour.GetComponent<InputLogger>();
@@ -33,7 +34,7 @@ namespace StateMachines.Attacks.States {
 
         protected bool IsDashState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Dash");
-        
+
         protected bool IsJumpState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump") ||
@@ -48,7 +49,7 @@ namespace StateMachines.Attacks.States {
 
         public void AcceptAttackInput(InputAction.CallbackContext context) {
             if (context.phase != InputActionPhase.Performed) return;
-            
+
             _AcceptAttackInput(context);
         }
 
@@ -72,11 +73,9 @@ namespace StateMachines.Attacks.States {
         protected virtual void _EnableChaining() { }
         public void EnableAttackBuffer() => _EnableAttackBuffer();
 
-        protected virtual void _EnableAttackBuffer() {
-            
-        }
+        protected virtual void _EnableAttackBuffer() { }
         public void EnableHitbox() => _EnableHitbox();
-        
+
         protected virtual void _EnableHitbox() {
             if (hitbox != null) hitbox.SetActive(true);
         }
@@ -89,7 +88,7 @@ namespace StateMachines.Attacks.States {
         protected GameObject HitboxFromKit(Type fsType) => kit.attacks.Find(x => x?.AttckFS == fsType)?.HitboxObject;
 
         protected void HandleStateChange(AttackStates newState) => stateMachine.RaiseChangeStateEvent(newState);
-        
+
         public virtual void AttackConnected(HitBox hitBox, Collider2D other) {
             // other.transform.root.GetComponentInChildren<HealthComponent>()?.Damage(1);
         }
@@ -97,20 +96,31 @@ namespace StateMachines.Attacks.States {
         public virtual void AcceptJumpInput(InputAction.CallbackContext context) { }
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) { }
-        public virtual void HandleExitAnimation() {            
+
+        public virtual void HandleExitAnimation() {
             // animation clip reached end without interruption from player input,
             // return to idle
             HandleStateChange(AttackStates.Idle);
         }
 
-        protected void IdentifyAndTransitionToGroundedAttackState(AttackStates nextComboState = AttackStates.Idle) {
+        protected void IdentifyAndTransitionToGroundedAttackState(AttackStates? nextComboState) {
             if (logger.IsForwardAttack())
                 HandleStateChange(AttackStates.GroundedForwardAttack);
             else if (logger.IsUpAttack()) HandleStateChange(AttackStates.GroundedUpAttack);
             else {
-                if (nextComboState == AttackStates.Idle) return;
-                if (!logger.IsRecentInput()) return;
-                HandleStateChange(nextComboState);
+                if (nextComboState == null) return;
+                HandleStateChange((AttackStates) nextComboState);
+            }
+        }
+
+        protected void IdentifyAndTransitionToGroundedAttackState(AttackStates? nextComboState, bool inputWasBuffered) {
+            if (logger.IsForwardAttack())
+                HandleStateChange(AttackStates.GroundedForwardAttack);
+            else if (logger.IsUpAttack()) HandleStateChange(AttackStates.GroundedUpAttack);
+            else {
+                if (nextComboState == null) return;
+                if (!logger.IsRecentAttackInput(0.25f)) return;
+                HandleStateChange((AttackStates) nextComboState);
             }
         }
     }

@@ -27,6 +27,8 @@ namespace StateMachines.Movement.Horizontal.Run.States {
             if (!moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Idle, ViewId);
         }
 
+        protected override void _OnCollisionEnter2D_RPC() { }
+
         protected override void UpdateAnimations() {
             Transform.localScale = StateMachine.UnitMovementData.moveDir > 0 ? Vector3.one : new Vector3(-1, 1, 1);
 
@@ -42,12 +44,9 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         private float NormalMoveVelocity() => StateMachine.UnitMovementData.moveDir * Config.runVelocity;
         private bool HitSpeedCap(float rigX) => Mathf.Abs(rigX) >= Config.maxVelocity;
 
-        protected override void _OnCollisionEnter2D_RPC() {
-            // UpdateAnimations();
-        }
-
         public override void Update() {
-            HandleAnimations();
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run"))
+                Animator.Play("player_run");
             ExitIfIdle();
         }
 
@@ -55,12 +54,6 @@ namespace StateMachines.Movement.Horizontal.Run.States {
             if (StateMachine.UnitMovementData.moveDir == 0 && isMine) {
                 StateMachine.RaiseChangeRunStateEvent(RunStates.Idle, ViewId);
             }
-        }
-
-        private void HandleAnimations() {
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run")) return;
-
-            UpdateAnimations();
         }
 
         protected override Vector2 _Force() {

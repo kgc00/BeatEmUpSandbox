@@ -12,7 +12,7 @@ namespace StateMachines.Logger {
     public class InputLogger : MonoBehaviourPun, IAcceptRunInput,
         IAcceptAttackInput, IAcceptDashInput, IAcceptJumpInput,
         IAcceptModifierInput {
-        private float bufferDuration = 0.15f;
+        private const float BufferDuration = 0.15f;
         public const float EventTimeDeletionThreshold = 0.5f; // delete events older than this value
         public List<IAction> Actions { get; private set; } = new List<IAction>();
 
@@ -71,8 +71,8 @@ namespace StateMachines.Logger {
                                   Actions[1].EventData.Phase == InputActionPhase.Performed &&
                                   (Vector2) Actions[1].EventData.Value ==
                                   new Vector2(gameObject.transform.localScale.x, 0);
-            
-            var performedQuickly = CalcDifference(1) < bufferDuration;
+
+            var performedQuickly = CalcDifference(1) < BufferDuration;
 
             var isForwardAttack = didAttack && didPressForward && performedQuickly;
             if (isForwardAttack) {
@@ -95,7 +95,7 @@ namespace StateMachines.Logger {
             var didPressUp = Actions[1].EventData.ActionName == "Modify Action" &&
                              Actions[1].EventData.Phase == InputActionPhase.Performed &&
                              (Vector2) Actions[1].EventData.Value == new Vector2(0, 1);
-            var performedQuickly = CalcDifference(1) < bufferDuration;
+            var performedQuickly = CalcDifference(1) < BufferDuration;
 
             var isUpAttack = didAttack && didPressUp && performedQuickly;
 
@@ -106,8 +106,13 @@ namespace StateMachines.Logger {
             return isUpAttack;
         }
 
-        public bool IsRecentInput() {
-            return Actions.Count != 0 && CalcDifference(0) < bufferDuration;
+        public bool IsRecentAttackInput(float bufferLength = BufferDuration) {
+            return Actions.Count != 0
+                   && CalcDifference(0) < bufferLength
+                   // case where player lets go of attack and cancelled is recorded as most recent input
+                   && (Actions[0].EventData.Phase == InputActionPhase.Performed
+                       || Actions[0].EventData.Phase == InputActionPhase.Canceled)
+                   && Actions[0].EventData.ActionName == "Attack";
         }
     }
 }

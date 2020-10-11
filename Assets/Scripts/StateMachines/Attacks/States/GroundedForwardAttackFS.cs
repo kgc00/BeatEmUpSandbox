@@ -17,7 +17,7 @@ namespace StateMachines.Attacks.States {
             Debug.Log("Entering Grounded Forward ------");
             Debug.Log("Run State: " + Helpers.GetUniqueStateName(behaviour.GetComponent<MovementFSM>().Run.State.ToString()));
             Debug.Log("Jump State: " + Helpers.GetUniqueStateName(behaviour.GetComponent<MovementFSM>().Jump.State.ToString()));
-            animator.StopPlayback();
+            // animator.StopPlayback();
             animator.Play("ground-forward-attack");
         }
 

@@ -25,12 +25,12 @@ namespace StateMachines.Attacks.States {
         public override void Exit() { }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState();
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(null);
         }
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState();
+            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(null, true);
         }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,

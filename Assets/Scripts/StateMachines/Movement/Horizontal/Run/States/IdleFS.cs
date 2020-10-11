@@ -8,7 +8,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         public IdleFS(GameObject behaviour, RunConfig runConfig, RunFSM runFsm)
             : base(behaviour, runConfig, runFsm) { }
 
-        public override void Enter() => UpdateAnimations();
+        public override void Enter() => Animator.Play("player_idle");
 
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (IsJumpState()) return;
@@ -27,11 +27,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
 
             if (moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Moving, ViewId);
         }
-
-        protected override void UpdateAnimations() {
-            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle")) Animator.Play("player_idle");
-        }
-
+        
         protected override void _OnCollisionEnter2D_RPC() {
             // UpdateAnimations();
         }
