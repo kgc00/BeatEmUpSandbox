@@ -1,11 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace General {
     public static class Helpers {
         public static float GenerateTimeStamp() {
             return UnityEngine.Time.time;
         }
-        
+        public static string GetUniqueStateName(string fullyQualifiedStateName) {
+            try {
+                var spl = fullyQualifiedStateName.Split('.');
+                return spl[spl.Length - 1];
+            }
+            catch (Exception ex) {
+                Debug.Log("Caught some error: " + ex);
+                return "";
+            }
+        }
         public static void LogInfo(Animator animator) {
             Debug.Log(animator.GetNextAnimatorClipInfo(0));
             Debug.Log(animator.GetNextAnimatorClipInfo(0)[0].clip);

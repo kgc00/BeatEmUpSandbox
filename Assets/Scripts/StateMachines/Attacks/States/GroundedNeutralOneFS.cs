@@ -14,9 +14,9 @@ namespace StateMachines.Attacks.States {
         private bool bufferEnabled;
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
 
-        public GroundedNeutralOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues)
+        public GroundedNeutralOneFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitMovementData movementDataValues)
             : base(behaviour, stateMachine,
-                kit, stateValues) {
+                kit, movementDataValues) {
             hitbox = HitboxFromKit(GetType());
         }
 

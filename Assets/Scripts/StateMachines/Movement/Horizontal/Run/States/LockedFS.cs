@@ -19,7 +19,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         protected override void _AcceptLockInput() { }
 
         protected override void _AcceptUnlockInput() {
-            var moving = Math.Abs(StateMachine.UnitState.moveDir) > .01f;
+            var moving = Math.Abs(StateMachine.UnitMovementData.moveDir) > .01f;
 
             StateMachine.RaiseChangeRunStateEvent(moving ? RunStates.Moving : RunStates.Idle, ViewId);
         }

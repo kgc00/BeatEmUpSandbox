@@ -11,17 +11,17 @@ using LockedFS = StateMachines.Movement.Vertical.Jumping.States.LockedFS;
 namespace StateMachines.Network {
     public static class StateFactory {
         public static AttackFS AttackFSFromEnum(AttackStates state, AttackFSM fsm) {
-            if (state == AttackStates.Idle) return new IdleFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
+            if (state == AttackStates.Idle) return new IdleFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             if (state == AttackStates.GroundedNeutralOne)
-                return new GroundedNeutralOneFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
+                return new GroundedNeutralOneFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             if (state == AttackStates.GroundedNeutralTwo)
-                return new GroundedNeutralTwoFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
+                return new GroundedNeutralTwoFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             if (state == AttackStates.GroundedNeutralThree)
-                return new GroundedNeutralThreeFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
+                return new GroundedNeutralThreeFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             if (state == AttackStates.GroundedForwardAttack)
-                return new GroundedForwardAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
+                return new GroundedForwardAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             if (state == AttackStates.GroundedUpAttack)
-                return new GroundedUpAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitState);
+                return new GroundedUpAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             return null;
         }
 

@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks {
-    [RequireComponent(typeof(UnitStateStore))]
+    [RequireComponent(typeof(UnitDataStore))]
     [RequireComponent(typeof(Rigidbody2D))]
     public class AttackFSM : MonoBehaviourPun, IAcceptAttackInput,
         IChangeStatePun<AttackStates>, IHandleAttackAnimationEnter,
@@ -20,13 +20,13 @@ namespace StateMachines.Attacks {
         IAcceptJumpInput, IAcceptRunInput,
     IHandleExitAnimationEvents{
         public AttackFS State { get; private set; }
-        [SerializeField] private UnitStateStore stateStore;
-        public UnitState UnitState { get; private set; }
+        [SerializeField] private UnitDataStore dataStore;
+        public UnitMovementData UnitMovementData { get; private set; }
         [SerializeField] public AttackKit kit;
 
         private void Start() {
-            UnitState = stateStore.store;
-            State = new IdleFS(gameObject, this, kit, UnitState);
+            UnitMovementData = dataStore.store;
+            State = new IdleFS(gameObject, this, kit, UnitMovementData);
             State.Enter();
         }
 

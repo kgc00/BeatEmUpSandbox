@@ -19,8 +19,8 @@ namespace TestSandbox.PlayMode {
             var go2 = new GameObject("obj 2");
                 go2.AddComponent<Animator>();
                 
-            var run1 = new RunFSM(go1, ScriptableObject.CreateInstance<RunConfig>(), new UnitState());
-            var run2 = new RunFSM(go2, ScriptableObject.CreateInstance<RunConfig>(), new UnitState());
+            var run1 = new RunFSM(go1, ScriptableObject.CreateInstance<RunConfig>(), new UnitMovementData());
+            var run2 = new RunFSM(go2, ScriptableObject.CreateInstance<RunConfig>(), new UnitMovementData());
 
             yield return null;
             Assert.IsNotNull(go1);

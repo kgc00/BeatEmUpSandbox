@@ -16,19 +16,19 @@ namespace StateMachines.Attacks.States {
         protected readonly AttackFSM stateMachine;
         protected Animator animator;
         protected AttackKit kit;
-        protected UnitState stateValues;
+        protected UnitMovementData MovementDataValues;
         protected Rigidbody2D rig;
         protected InputLogger logger;
         protected GameObject hitbox;
 
-        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) {
+        protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitMovementData movementDataValues) {
             animator = behaviour.GetComponent<Animator>();
             rig = behaviour.GetComponent<Rigidbody2D>();
             logger = behaviour.GetComponent<InputLogger>();
             this.behaviour = behaviour;
             this.stateMachine = stateMachine;
             this.kit = kit;
-            this.stateValues = stateValues;
+            this.MovementDataValues = movementDataValues;
         }
 
         protected bool IsDashState() =>

@@ -17,14 +17,14 @@ namespace StateMachines.Movement.Vertical.Jumping {
         IHandleLockedMovementInput, IHandleLockedJumpInput, IOnEventCallback {
         public JumpFS State { get; private set; }
         public JumpConfig Config { get; private set; }
-        public UnitState UnitState { get; private set; }
+        public UnitMovementData UnitMovementData { get; private set; }
         public GameObject Behaviour { get; private set; }
         public int ViewId { get; private set; }
         public bool IsMine { get; set; }
 
-        public JumpFSM(GameObject behaviour, JumpConfig jumpConfig, UnitState state) {
+        public JumpFSM(GameObject behaviour, JumpConfig jumpConfig, UnitMovementData movementData) {
             Config = jumpConfig;
-            UnitState = state;
+            UnitMovementData = movementData;
             Behaviour = behaviour;
             ViewId = behaviour.GetPhotonView().ViewID;
             IsMine = behaviour.GetPhotonView().IsMine;
@@ -89,7 +89,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
         }
         
         public void SetMoveDir(float moveDir, Vector3 localScale) {
-            UnitState.moveDir = moveDir;
+            UnitMovementData.moveDir = moveDir;
             Behaviour.transform.localScale = localScale;
         }
 

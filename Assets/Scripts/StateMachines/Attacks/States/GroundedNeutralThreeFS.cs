@@ -13,8 +13,8 @@ namespace StateMachines.Attacks.States {
         private bool chainingEnabled;
 
         public GroundedNeutralThreeFS(GameObject behaviour, AttackFSM stateMachine, AttackKit attackKit,
-            UnitState stateValues) : base(behaviour,
-            stateMachine, attackKit, stateValues) {
+            UnitMovementData movementDataValues) : base(behaviour,
+            stateMachine, attackKit, movementDataValues) {
             hitbox = HitboxFromKit(GetType());
         }
 

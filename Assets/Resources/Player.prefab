@@ -468,7 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpConfig: {fileID: 11400000, guid: 2549337ff31fed64bad3f61046b55809, type: 2}
   runConfig: {fileID: 11400000, guid: 38f5abd834fe30740ae4f116700e7f9d, type: 2}
-  stateStore: {fileID: 5923090072797062290}
+  dataStore: {fileID: 5923090072797062290}
   rig: {fileID: 3391143012090137383}
 --- !u!114 &999955414
 MonoBehaviour:
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569363b427d7ba44a98b86713003db6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateStore: {fileID: 5923090072797062290}
+  dataStore: {fileID: 5923090072797062290}
   kit:
     attacks:
     - HitboxObject: {fileID: 3391143013175269646}
@@ -732,6 +732,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: eaa21ad8-ac9d-4703-9636-be134f9019a6
     m_ActionName: Gameplay/Modify Action[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a90760ed-69f4-4093-bb96-29575eca4599
+    m_ActionName: Gameplay/Buffer
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

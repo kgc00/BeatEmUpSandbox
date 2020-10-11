@@ -10,8 +10,6 @@ namespace StateMachines.Movement.Horizontal.Run.States {
 
         public override void Enter() => UpdateAnimations();
 
-        public override void Exit() => Animator.ResetTrigger(Idle);
-
         public override void AcceptDashInput(InputAction.CallbackContext context) {
             if (IsJumpState()) return;
 
@@ -21,11 +19,11 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         protected override void _AcceptMoveInput(InputAction.CallbackContext context) {
             var lookDir = context.ReadValue<Single>() == 0
                 ? Behaviour.transform.localScale.x
-                : StateMachine.UnitState.moveDir;
+                : StateMachine.UnitMovementData.moveDir;
             
             StateMachine.RaiseSetMoveDirEvent(context.ReadValue<Single>(), new Vector3(lookDir, 1, 1), ViewId);
             
-            var moving = Math.Abs(StateMachine.UnitState.moveDir) > .01f;
+            var moving = Math.Abs(StateMachine.UnitMovementData.moveDir) > .01f;
 
             if (moving) StateMachine.RaiseChangeRunStateEvent(RunStates.Moving, ViewId);
         }

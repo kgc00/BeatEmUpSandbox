@@ -9,14 +9,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement {
-    [RequireComponent(typeof(UnitStateStore))]
+    [RequireComponent(typeof(UnitDataStore))]
     [RequireComponent(typeof(Rigidbody2D))]
     public class MovementFSM : MonoBehaviourPunCallbacks, IAcceptRunInput,
         IAcceptJumpInput, IAcceptDashInput {
         [SerializeField] private JumpConfig jumpConfig;
         [SerializeField] private RunConfig runConfig;
-        [SerializeField] private UnitStateStore stateStore;
-        public UnitState UnitState { get; private set; }
+        [SerializeField] private UnitDataStore dataStore;
+        public UnitMovementData UnitMovementData { get; private set; }
         [SerializeField] private Rigidbody2D rig;
         public JumpFSM Jump { get; private set; }
         public RunFSM Run { get; private set; }
@@ -26,10 +26,10 @@ namespace StateMachines.Movement {
         private void Start() {
             jumpConfig = jumpConfig.CreateInstance();
             runConfig = runConfig.CreateInstance();
-            UnitState = stateStore.store;
+            UnitMovementData = dataStore.store;
             // ReSharper disable twice Unity.InefficientPropertyAccess
-            Jump = new JumpFSM(gameObject, jumpConfig, UnitState);
-            Run = new RunFSM(gameObject, runConfig, UnitState);
+            Jump = new JumpFSM(gameObject, jumpConfig, UnitMovementData);
+            Run = new RunFSM(gameObject, runConfig, UnitMovementData);
         }
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
@@ -78,7 +78,7 @@ namespace StateMachines.Movement {
         }
 
         [PunRPC]
-        void SetTouchingGround(bool isTouching) => UnitState.touchingGround = isTouching;
+        void SetTouchingGround(bool isTouching) => UnitMovementData.touchingGround = isTouching;
 
         public void RaiseTouchingWallEvent(bool isTouching) {
             if (!photonView.IsMine) return;
@@ -88,7 +88,7 @@ namespace StateMachines.Movement {
         }
 
         [PunRPC]
-        void SetTouchingWall(bool isTouching) => UnitState.touchingWall = isTouching;
+        void SetTouchingWall(bool isTouching) => UnitMovementData.touchingWall = isTouching;
 
         private void OnCollisionEnter2D(Collision2D other) {
             if (!photonView.IsMine) return;
@@ -102,18 +102,6 @@ namespace StateMachines.Movement {
         private void CollisionEnter2D_RPC() {
             Jump.OnCollisionEnter2D_RPC();
             Run.OnCollisionEnter2D_RPC();
-        }
-
-        private void OnGUI() {
-            if (!photonView.IsMine) return;
-
-            GUILayout.Box("moveDir: " + UnitState.moveDir);
-            GUILayout.Box("jumps left: " + UnitState.jumpsLeft);
-            GUILayout.Box("air dashes left: " + UnitState.dashesLeft);
-            GUILayout.Box("touching wall: " + UnitState.touchingWall);
-            GUILayout.Box("touching ground: " + UnitState.touchingGround);
-            GUILayout.Box("run: " + Run.State.GetType());
-            GUILayout.Box("jump: " + Jump.State.GetType());
         }
     }
 }

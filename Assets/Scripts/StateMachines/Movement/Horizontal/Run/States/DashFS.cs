@@ -14,7 +14,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
             runFsm) { }
 
         public override void Enter() {
-            dashDir = StateMachine.UnitState.moveDir == 0 ? Behaviour.transform.localScale.x : StateMachine.UnitState.moveDir;
+            dashDir = StateMachine.UnitMovementData.moveDir == 0 ? Behaviour.transform.localScale.x : StateMachine.UnitMovementData.moveDir;
             Animator.Play("player_dash");
         }
 
@@ -28,7 +28,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
 
             if (timeLapsed < Config.dashDuration) return;
 
-            var moving = Math.Abs(StateMachine.UnitState.moveDir) > .01f;
+            var moving = Math.Abs(StateMachine.UnitMovementData.moveDir) > .01f;
 
             StateMachine.RaiseChangeRunStateEvent(moving ? RunStates.Moving : RunStates.Idle, ViewId);
         }

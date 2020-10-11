@@ -10,8 +10,8 @@ namespace StateMachines.Attacks.States {
     public class IdleFS : AttackFS {
         private GameObject punch1;
 
-        public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(
-            behaviour, stateMachine, kit, stateValues) { }
+        public IdleFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitMovementData movementDataValues) : base(
+            behaviour, stateMachine, kit, movementDataValues) { }
 
         public override void Enter() => InputLockObserver.UnlockMovementInput(behaviour);
         public override void Exit() { }

@@ -2,7 +2,7 @@
 
 namespace StateMachines.State {
     [Serializable]
-    public class UnitState {
+    public class UnitMovementData {
         public float moveDir;
         public int jumpsLeft;
         public float jumpTimeLapsed;
@@ -11,9 +11,9 @@ namespace StateMachines.State {
         public bool touchingWall;
         public bool touchingGround;
     
-        public UnitState() { }
+        public UnitMovementData() { }
 
-        public UnitState(UnitState mv) {
+        public UnitMovementData(UnitMovementData mv) {
             moveDir = mv.moveDir;
             jumpsLeft = mv.jumpsLeft;
             jumpTimeLapsed = mv.jumpTimeLapsed;
@@ -23,7 +23,7 @@ namespace StateMachines.State {
             touchingGround = mv.touchingGround;
         }
 
-        public UnitState(float moveDir, int jumpsLeft, float jumpTimeLapsed, int dashesLeft, float dashTimeLapsed,
+        public UnitMovementData(float moveDir, int jumpsLeft, float jumpTimeLapsed, int dashesLeft, float dashTimeLapsed,
             bool touchingWall, bool touchingGround) {
             this.moveDir = moveDir;
             this.jumpsLeft = jumpsLeft;

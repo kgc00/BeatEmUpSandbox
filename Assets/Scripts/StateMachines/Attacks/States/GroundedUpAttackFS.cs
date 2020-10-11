@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace StateMachines.Attacks.States {
     public class GroundedUpAttackFS : AttackFS {
         public GroundedUpAttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
-            UnitState stateValues) : base(behaviour, stateMachine, kit, stateValues) {
+            UnitMovementData movementDataValues) : base(behaviour, stateMachine, kit, movementDataValues) {
             hitbox = HitboxFromKit(GetType()); }
 
         public override void Enter() {

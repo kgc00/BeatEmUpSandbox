@@ -15,8 +15,8 @@ namespace StateMachines.Attacks.States {
         private Queue<InputAction.CallbackContext> bufferedActions = new Queue<InputAction.CallbackContext>();
         private readonly GameObject hitbox;
 
-        public GroundedNeutralTwoFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitState stateValues) : base(behaviour, stateMachine,
-            kit, stateValues) {
+        public GroundedNeutralTwoFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit, UnitMovementData movementDataValues) : base(behaviour, stateMachine,
+            kit, movementDataValues) {
             hitbox = HitboxFromKit(GetType());
         }
 

@@ -21,14 +21,14 @@ namespace StateMachines.Movement.Horizontal.Run {
         public RunFS State { get; private set; }
         public GameObject Behaviour { get; }
         public RunConfig Config { get; }
-        public UnitState UnitState { get; private set; }
+        public UnitMovementData UnitMovementData { get; private set; }
         public int ViewId { get; private set; }
         public bool IsMine { get; set; }
-        public RunFSM(GameObject behaviour, RunConfig runConfig, UnitState unitState) {
+        public RunFSM(GameObject behaviour, RunConfig runConfig, UnitMovementData unitMovementData) {
             Behaviour = behaviour;
             ViewId = Behaviour.GetPhotonView().ViewID;
             IsMine = Behaviour.GetPhotonView().IsMine;
-            UnitState = unitState;
+            UnitMovementData = unitMovementData;
             Config = runConfig;
             animator = behaviour.GetComponent<Animator>();
             transform = behaviour.GetComponent<Transform>();
@@ -57,7 +57,7 @@ namespace StateMachines.Movement.Horizontal.Run {
         }
 
         public void SetMoveDir(float moveDir, Vector3 localScale) {
-            UnitState.moveDir = moveDir;
+            UnitMovementData.moveDir = moveDir;
             Behaviour.transform.localScale = localScale;
         }
 
