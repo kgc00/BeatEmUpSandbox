@@ -19,6 +19,10 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             InputLockObserver.UnlockRunInput(Behaviour);
         }
 
+        public override void Update() {
+            if (AnimatorStateFalling()) Animator.Play("player_idle");
+        }
+
         private void ResetMoveValues() {
             Jump.UnitMovementData.jumpsLeft = Config.maxJumps;
             Jump.UnitMovementData.dashesLeft = Config.maxDashes;

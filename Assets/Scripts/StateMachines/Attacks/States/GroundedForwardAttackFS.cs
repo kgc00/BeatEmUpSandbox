@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
     public class GroundedForwardAttackFS : AttackFS {
+        private bool chainingEnabled;
+
         public GroundedForwardAttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitMovementData movementDataValues) : base(behaviour, stateMachine, kit, movementDataValues) {
             hitbox = HitboxFromKit(GetType()); 
@@ -21,12 +23,18 @@ namespace StateMachines.Attacks.States {
             animator.Play("ground-forward-attack");
         }
 
+        protected override void _EnableChaining() {
+            chainingEnabled = true;
+            if (chainingEnabled) IdentifyAndTransitionToGroundedMovementOrAttackState( true);
+        }
+        
+        protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
+
+
         public override void Update() {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("ground-forward-attack"))
                 animator.Play("ground-forward-attack");
         }
-
-        protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex) { }

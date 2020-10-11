@@ -1,7 +1,12 @@
 ﻿using System;
+using Photon.Pun;
 using StateMachines.Attacks.Models;
 using StateMachines.Interfaces;
 using StateMachines.Logger;
+using StateMachines.Movement;
+using StateMachines.Movement.Horizontal.Run;
+using StateMachines.Movement.Models;
+using StateMachines.Movement.Vertical.Jumping;
 using StateMachines.Network;
 using StateMachines.State;
 using Stats;
@@ -14,6 +19,9 @@ namespace StateMachines.Attacks.States {
         IAcceptJumpInput, IAcceptRunInput, IHandleExitAnimationEvents {
         protected readonly GameObject behaviour;
         protected readonly AttackFSM stateMachine;
+        protected readonly JumpFSM jumpStateMachine;
+        protected readonly RunFSM runStateMachine;
+        protected readonly int viewId;
         protected Animator animator;
         protected AttackKit kit;
         protected UnitMovementData MovementDataValues;
@@ -26,10 +34,13 @@ namespace StateMachines.Attacks.States {
             animator = behaviour.GetComponent<Animator>();
             rig = behaviour.GetComponent<Rigidbody2D>();
             logger = behaviour.GetComponent<InputLogger>();
+            runStateMachine = behaviour.GetComponent<MovementFSM>().Run;
+            jumpStateMachine = behaviour.GetComponent<MovementFSM>().Jump;
+            viewId = behaviour.GetComponent<PhotonView>().ViewID;
             this.behaviour = behaviour;
             this.stateMachine = stateMachine;
             this.kit = kit;
-            this.MovementDataValues = movementDataValues;
+            MovementDataValues = movementDataValues;
         }
 
         protected bool IsDashState() =>
@@ -103,6 +114,18 @@ namespace StateMachines.Attacks.States {
             HandleStateChange(AttackStates.Idle);
         }
 
+        protected void IdentifyAndTransitionToGroundedMovementOrAttackState(bool inputWasBuffered) {
+            if (!inputWasBuffered) {
+                Debug.LogWarning("IdentifyAndTransitionToGroundedMovementOrAttackState without buffering is not implemented");
+                return;
+            }
+
+            if (logger.DidBufferDashInput()) runStateMachine.RaiseChangeRunStateEvent(RunStates.Dash, viewId);
+            if (logger.DidBufferMoveInput()) runStateMachine.RaiseChangeRunStateEvent(RunStates.Moving, viewId);
+            if (logger.DidBufferJumpInput()) jumpStateMachine.RaiseChangeStateEvent(JumpStates.Launching);
+            if (logger.DidBufferAttackInput()) HandleStateChange(AttackStates.GroundedNeutralOne);
+        }
+
         protected void IdentifyAndTransitionToGroundedAttackState(AttackStates? nextComboState) {
             if (logger.IsForwardAttack())
                 HandleStateChange(AttackStates.GroundedForwardAttack);
@@ -119,7 +142,7 @@ namespace StateMachines.Attacks.States {
             else if (logger.IsUpAttack()) HandleStateChange(AttackStates.GroundedUpAttack);
             else {
                 if (nextComboState == null) return;
-                if (!logger.IsRecentAttackInput(0.25f)) return;
+                if (!logger.DidBufferAttackInput(0.25f)) return;
                 HandleStateChange((AttackStates) nextComboState);
             }
         }

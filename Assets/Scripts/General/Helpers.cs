@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace General {
     public static class Helpers {
-        public static float GenerateTimeStamp() {
-            return UnityEngine.Time.time;
-        }
+        public static float GenerateTimeStamp() => UnityEngine.Time.time;
+
         public static string GetUniqueStateName(string fullyQualifiedStateName) {
             try {
                 var spl = fullyQualifiedStateName.Split('.');

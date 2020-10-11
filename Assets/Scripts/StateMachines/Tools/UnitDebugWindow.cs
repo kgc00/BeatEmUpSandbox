@@ -58,6 +58,7 @@ namespace StateMachines.Tools {
             GUILayout.Box("air dashes left: " + movementDataStore.store.dashesLeft);
             GUILayout.Box("touching wall: " + movementDataStore.store.touchingWall);
             GUILayout.Box("touching ground: " + movementDataStore.store.touchingGround);
+            GUILayout.Box("minJumpDuration: " + movementFSM.Jump.Config.minJumpDuration);
         }
     }
 }

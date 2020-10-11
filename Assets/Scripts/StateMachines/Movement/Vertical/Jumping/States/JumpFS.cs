@@ -1,6 +1,7 @@
 ﻿using System;
 using Photon.Pun;
 using StateMachines.Interfaces;
+using StateMachines.Logger;
 using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +19,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         protected readonly GameObject Behaviour;
         protected readonly JumpFSM Jump;
         protected readonly JumpConfig Config;
+        protected readonly InputLogger logger;
         protected readonly int Grounded = Animator.StringToHash("Grounded");
         protected readonly int Jumping = Animator.StringToHash("Jumping");
         protected readonly int DoubleJumping = Animator.StringToHash("DoubleJumping");
@@ -32,6 +34,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Config = jumpConfig;
             Animator = behaviour.GetComponent<Animator>();
             Rig = behaviour.GetComponent<Rigidbody2D>();
+            logger = behaviour.GetComponent<InputLogger>();
         }
 
 

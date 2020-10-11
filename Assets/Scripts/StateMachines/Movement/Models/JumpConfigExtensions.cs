@@ -19,6 +19,7 @@ namespace StateMachines.Movement.Models {
             instance.jumpsLeft = config.jumpsLeft;
             instance.maxDashes = config.maxDashes;
             instance.dashesLeft = config.dashesLeft;
+            instance.minJumpDuration = config.minJumpDuration;
             return instance;
         }
     }

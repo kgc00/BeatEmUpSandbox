@@ -6,6 +6,7 @@ namespace StateMachines.Movement.Models {
     [Serializable]
     public class JumpConfig : ScriptableObject {
         [SerializeField] public float jumpDuration;
+        [SerializeField] public float minJumpDuration;
         [SerializeField] public float jumpVelocity;
         [SerializeField] public float maxVelocity;
         [SerializeField] public float maxDashVelocity;

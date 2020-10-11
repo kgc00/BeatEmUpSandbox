@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: JumpConfig
   m_EditorClassIdentifier: 
   jumpDuration: 0.3
+  minJumpDuration: 0.1
   jumpVelocity: 60
   maxVelocity: 3.25
   maxDashVelocity: 5

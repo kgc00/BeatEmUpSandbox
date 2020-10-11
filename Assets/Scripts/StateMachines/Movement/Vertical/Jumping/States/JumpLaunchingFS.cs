@@ -1,10 +1,14 @@
-﻿using StateMachines.Movement.Models;
+﻿using StateMachines.Logger;
+using StateMachines.Messages;
+using StateMachines.Movement.Models;
 using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StateMachines.Movement.Vertical.Jumping.States {
     public class JumpLaunchingFS : JumpFS {
+        private bool exitWhenAble;
+
         public JumpLaunchingFS(GameObject behaviour, JumpFSM jump, JumpConfig jumpConfig) : base(
             behaviour, jump,
             jumpConfig) { }
@@ -14,6 +18,11 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
             HandleAnimation();
 
+            if (exitWhenAble) {
+                if (Jump.UnitMovementData.jumpTimeLapsed < Config.minJumpDuration) return;
+                Jump.RaiseChangeStateEvent(JumpStates.Launched);
+            }
+            
             if (Jump.UnitMovementData.jumpTimeLapsed < Config.jumpDuration) return;
 
             Jump.RaiseChangeStateEvent(JumpStates.Launched);
@@ -39,6 +48,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Rig.drag = Config.aerialLinearDrag;
             if (Jump.UnitMovementData.moveDir != 0)
                 Behaviour.transform.localScale = new Vector3((int) Jump.UnitMovementData.moveDir, 1, 1);
+            if (logger.QueryReleasedInputOfType(ActionNames.Jump)) exitWhenAble = true;
         }
 
         private void HandleAnimation() {

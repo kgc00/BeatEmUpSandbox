@@ -45,7 +45,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         private bool HitSpeedCap(float rigX) => Mathf.Abs(rigX) >= Config.maxVelocity;
 
         public override void Update() {
-            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run"))
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") && StateMachine.UnitMovementData.touchingGround)
                 Animator.Play("player_run");
             ExitIfIdle();
         }

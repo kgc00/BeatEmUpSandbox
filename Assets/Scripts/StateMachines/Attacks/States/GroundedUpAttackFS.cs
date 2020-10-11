@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 namespace StateMachines.Attacks.States {
     public class GroundedUpAttackFS : AttackFS {
+        private bool chainingEnabled;
+
         public GroundedUpAttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitMovementData movementDataValues) : base(behaviour, stateMachine, kit, movementDataValues) {
             hitbox = HitboxFromKit(GetType()); }
@@ -19,6 +21,11 @@ namespace StateMachines.Attacks.States {
                 animator.Play("ground-up-attack");
         }
 
+        protected override void _EnableChaining() {
+            chainingEnabled = true;
+            if (chainingEnabled) IdentifyAndTransitionToGroundedMovementOrAttackState( true);
+        }
+        
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) { }
 
         protected override void _HandleAttackAnimationEnter(Animator animator, AnimatorStateInfo stateInfo,
