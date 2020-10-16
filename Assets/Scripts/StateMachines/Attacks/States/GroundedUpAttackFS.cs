@@ -1,4 +1,5 @@
-﻿using General;
+﻿using System.Collections;
+using General;
 using StateMachines.Attacks.Models;
 using StateMachines.Movement;
 using StateMachines.Movement.Models;
@@ -32,9 +33,17 @@ namespace StateMachines.Attacks.States {
             var otherRig = other.transform.root.GetComponentInChildren<Rigidbody2D>();
             if (otherRig == null) return;
             
-            Helpers.AddForceY(otherRig, 300);
-            var jump = other.gameObject.transform.root.GetComponentInChildren<MovementFSM>()?.Jump;
-            jump?.RaiseChangeStateEvent(JumpStates.Falling);
+            stateMachine.DoCoroutine(LaunchOther(otherRig));
+            
+            // var jump = other.gameObject.transform.root.GetComponentInChildren<MovementFSM>()?.Jump;
+            // jump?.RaiseChangeStateEvent(JumpStates.Falling);
+        }
+
+        private IEnumerator LaunchOther(Rigidbody2D otherRig) {
+            for (int i = 0; i < 6; i++) {
+                Helpers.AddForceY(otherRig, 30);
+            }
+            yield break;
         }
 
         protected override void _EnableChaining() {

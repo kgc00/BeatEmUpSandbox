@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using General;
 using JetBrains.Annotations;
 using Photon.Pun;
@@ -98,26 +99,36 @@ namespace StateMachines.Attacks.States {
         public virtual void AttackConnected(int id) {
             var other = Helpers.GameObjectFromId(id);
             if (other == null) return;
-            
 
             if (isAerialState) {
-                // should do add force, but it applies too much force if you attack while jumping
-                rig.velocity = new Vector2(rig.velocity.x, 0.75f);
-                var enemyRig = other.transform.root.GetComponentInChildren<Rigidbody2D>();
-                if (enemyRig) Helpers.AddForceY(enemyRig, 120);
+                stateMachine.DoCoroutine(PopUpActors(other));
             }
-            
+
             // other.transform.root.GetComponentInChildren<HealthComponent>()?.Damage(1);
         }
 
-        
+        private IEnumerator PopUpActors(GameObject other) {
+            var enemyRig = other.transform.root.GetComponentInChildren<Rigidbody2D>();
+            Debug.Log("other: " + other);
+            if (enemyRig != null) Helpers.RemoveYVelocity(enemyRig);
+            Helpers.RemoveYVelocity(rig);
+
+            for (int i = 0; i < 4; i++) {
+                Helpers.RemoveYVelocity(rig);
+                Helpers.AddForceY(rig, 15);
+
+                if (enemyRig == null) continue;
+                Helpers.AddForceY(enemyRig, 35);
+            }
+            yield break;
+        }
+
 
         public virtual void AcceptJumpInput(InputAction.CallbackContext context) { }
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) { }
 
         public virtual void HandleExitAnimation() {
-            Debug.Log("Handling Exit Animation");
             // animation clip reached end without interruption from player input,
             // return to idle
             if (isAerialState)

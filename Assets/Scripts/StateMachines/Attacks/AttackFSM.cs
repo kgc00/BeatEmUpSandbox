@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -78,6 +79,8 @@ namespace StateMachines.Attacks {
             HandleAttackConnected(id.Value);
             photonView.RPC("HandleAttackConnected", RpcTarget.Others, id.Value);
         }
+
+        internal void DoCoroutine(IEnumerator cr) => StartCoroutine(cr);
         
         [PunRPC]
         void HandleAttackConnected(int id) => State.AttackConnected(id);

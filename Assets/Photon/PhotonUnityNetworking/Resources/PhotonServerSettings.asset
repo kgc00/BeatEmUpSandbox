@@ -49,6 +49,7 @@ MonoBehaviour:
   - TriggerExit2D_RPC
   - SetTouchingGround
   - SetTouchingWall
+  - HandleAttackConnected
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
