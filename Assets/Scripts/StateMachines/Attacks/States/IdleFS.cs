@@ -14,13 +14,13 @@ namespace StateMachines.Attacks.States {
             behaviour, stateMachine, kit, movementDataValues) { }
 
         public override void Enter() => InputLockObserver.UnlockMovementInput(behaviour);
-        public override void Exit() { }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (IsJumpState() || IsDashState()) return;
+            if (IsDashState()) return;
             InputLockObserver.LockMovementInput(behaviour);
 
-            IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralOne);
+            if (IsJumpState()) IdentifyAndTransitionToAerialAttackState(AttackStates.AerialNeutralOne, .15f);
+            else IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralOne);
         }
 
         public override void AcceptMoveInput(InputAction.CallbackContext context) { }

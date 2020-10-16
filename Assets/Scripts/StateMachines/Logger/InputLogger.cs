@@ -153,5 +153,19 @@ namespace StateMachines.Logger {
         public bool DidBufferDashInput(float bufferLength = BufferDuration) =>
             IsRecentInput(bufferLength)
             && IsInputOfType(ActionNames.Dash);
+
+        public bool IsDownAttack(float bufferLength = BufferDuration) {
+            if (Actions.Count < 2) return false;
+            var didAttack = IsPerformedInputOfType(ActionNames.Attack, 0);
+            var didPressDown = IsPerformedInputOfType(ActionNames.Modify, 1) &&
+                             (Vector2) Actions[1].EventData.Value == new Vector2(0, -1);
+            var didPerformQuickly = IsRecentInput(bufferLength);
+
+            var isDownAttack = didAttack && didPressDown && didPerformQuickly;
+
+            if (isDownAttack) ClearPerformedActions();
+
+            return isDownAttack;
+        }
     }
 }

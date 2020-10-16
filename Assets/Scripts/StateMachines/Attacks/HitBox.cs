@@ -7,7 +7,7 @@ namespace StateMachines.Attacks {
         [SerializeField] private AttackFSM parent;
 
         private void OnTriggerEnter2D(Collider2D other) {
-            parent.AttackConnected(this, other);
+            parent.AttackConnected(other);
         }
     }
 }

@@ -11,11 +11,14 @@ namespace StateMachines.Attacks.States {
         public AerialNeutralTwo(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitMovementData movementDataValues) :
             base(behaviour, stateMachine, kit, movementDataValues) {
-            hitbox = HitboxFromKit(GetType());
+            hitbox = HitboxFromKit(GetType());            
+            isAerialState = true;
+
         }
 
         public override void Enter() {
             animator.Play(aerial2);
+            EnterAerialAttackState();
         }
 
         public override void Update() {
@@ -23,13 +26,14 @@ namespace StateMachines.Attacks.States {
                 animator.Play(aerial2);
         }
 
+
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo, true);
+            if (chainingEnabled) IdentifyAndTransitionToAerialAttackState(null, .05f);
         }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo);
+            if (chainingEnabled) IdentifyAndTransitionToAerialAttackState(null, .05f);
         }
     }
 }

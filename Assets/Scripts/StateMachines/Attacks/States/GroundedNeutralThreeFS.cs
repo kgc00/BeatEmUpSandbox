@@ -20,8 +20,6 @@ namespace StateMachines.Attacks.States {
             animator.Play(attack3);
         }
 
-        public override void Exit() { }
-
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
             if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(null);
         }

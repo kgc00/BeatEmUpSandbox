@@ -1,8 +1,10 @@
 ﻿using System;
 using Photon.Pun;
+using StateMachines.Attacks;
 using StateMachines.Interfaces;
 using StateMachines.Logger;
 using StateMachines.Movement.Models;
+using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +25,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         protected readonly int Grounded = Animator.StringToHash("Grounded");
         protected readonly int Jumping = Animator.StringToHash("Jumping");
         protected readonly int DoubleJumping = Animator.StringToHash("DoubleJumping");
+        protected readonly AttackFSM attackStateMachine;
         public int ViewID { get; private set; }
         public bool PUNIsMine { get; private set; }
 
@@ -35,6 +38,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Animator = behaviour.GetComponent<Animator>();
             Rig = behaviour.GetComponent<Rigidbody2D>();
             logger = behaviour.GetComponent<InputLogger>();
+            attackStateMachine = behaviour.GetComponent<AttackFSM>();
         }
 
 
@@ -44,39 +48,23 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
         public virtual Vector2 Force() => Vector2.zero;
 
-        public virtual void OnCollisionEnter2D_RPC() { }
+        public virtual void OnCollisionEnter2D_RPC() {
+            if (attackStateMachine.State.isAerialState) attackStateMachine.RaiseChangeStateEvent(AttackStates.Idle);
+        }
 
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);
         public virtual void AcceptDashInput(InputAction.CallbackContext context) { }
-        public virtual void AcceptLockJumpInput(object sender) { }
+
+        public virtual void AcceptLockJumpInput(object sender) {
+            Jump.RaiseChangeStateEvent(JumpStates.Locked);
+        }
         public virtual void AcceptUnlockJumpInput(object sender) { }
         protected bool OutOfJumps() => Jump.UnitMovementData.jumpsLeft <= 0;
         protected bool OutOfDashes() => Jump.UnitMovementData.dashesLeft <= 0;
 
 
-        protected void RemoveXVelocity() {
-            /* remove horizontal velocity for case of
-             *  exiting dash state.
-            */
 
-            var vel = Rig.velocity;
-            vel.x = 0;
-
-            Rig.velocity = vel;
-        }
-
-        protected void RemoveYVelocity() {
-            /* remove downward velocity for case of
-             *  doing a double jump while falling at a great speed.
-             *  if we didn't do this, the jump would not raise the player up
-             * (all the negative y velocity would eat the movement)
-            */
-
-            var vel = Rig.velocity;
-            vel.y = 0;
-
-            Rig.velocity = vel;
-        }
+      
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) {
             if (context.phase == InputActionPhase.Performed)

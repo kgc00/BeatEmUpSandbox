@@ -20,7 +20,6 @@ namespace StateMachines.Attacks {
         [SerializeField] private UnitDataStore dataStore;
         public UnitMovementData UnitMovementData { get; private set; }
         [SerializeField] public AttackKit kit;
-
         private void Start() {
             UnitMovementData = dataStore.store;
             State = new IdleFS(gameObject, this, kit, UnitMovementData);
@@ -33,8 +32,10 @@ namespace StateMachines.Attacks {
 
         private void LateUpdate() => State.LateUpdate();
 
-        public void RaiseChangeStateEvent(AttackStates newState) =>
-            photonView.RPC("ChangeState", RpcTarget.All, newState);
+        public void RaiseChangeStateEvent(AttackStates newState) {
+            if (photonView.isActiveAndEnabled)
+                photonView.RPC("ChangeState", RpcTarget.All, newState);
+        }
 
         [PunRPC]
         public void ChangeState(AttackStates newState) {
@@ -63,11 +64,23 @@ namespace StateMachines.Attacks {
         [PunRPC]
         void DisableHitbox_RPC() => State.DisableHitbox();
 
-        public void AttackConnected(HitBox hitBox, Collider2D other) {
-            if (!other.gameObject.CompareTag("Enemy")) return;
+        public void AttackConnected(Collider2D other) {
+            if (!photonView.IsMine || other.gameObject == gameObject ||
+                !other.gameObject.CompareTag("Enemy") &&
+                !other.gameObject.CompareTag("Player")) return;
 
-            State.AttackConnected(hitBox, other);
+            var id = other.transform.root.GetComponentInChildren<PhotonView>()?.ViewID;
+            if (!id.HasValue) {
+                print("RETURNING");
+                return;
+            }
+            
+            HandleAttackConnected(id.Value);
+            photonView.RPC("HandleAttackConnected", RpcTarget.Others, id.Value);
         }
+        
+        [PunRPC]
+        void HandleAttackConnected(int id) => State.AttackConnected(id);
 
         public void AcceptMoveInput(InputAction.CallbackContext context) {
             if (!photonView.IsMine ||

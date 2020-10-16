@@ -78,7 +78,10 @@ namespace StateMachines.Movement {
         }
 
         [PunRPC]
-        void SetTouchingGround(bool isTouching) => UnitMovementData.touchingGround = isTouching;
+        void SetTouchingGround(bool isTouching) {
+            if (UnitMovementData == null) return;
+            UnitMovementData.touchingGround = isTouching;
+        }
 
         public void RaiseTouchingWallEvent(bool isTouching) {
             if (!photonView.IsMine) return;
@@ -88,14 +91,16 @@ namespace StateMachines.Movement {
         }
 
         [PunRPC]
-        void SetTouchingWall(bool isTouching) => UnitMovementData.touchingWall = isTouching;
+        void SetTouchingWall(bool isTouching) {
+            if (UnitMovementData == null) return;
+            UnitMovementData.touchingWall = isTouching;
+        }
 
         private void OnCollisionEnter2D(Collision2D other) {
             if (!photonView.IsMine) return;
 
             CollisionEnter2D_RPC();
             photonView.RPC("CollisionEnter2D_RPC", RpcTarget.Others);
-            
         }
 
         [PunRPC]

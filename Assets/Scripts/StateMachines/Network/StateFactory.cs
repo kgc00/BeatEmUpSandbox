@@ -22,6 +22,14 @@ namespace StateMachines.Network {
                 return new GroundedForwardAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             if (state == AttackStates.GroundedUpAttack)
                 return new GroundedUpAttackFS(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
+            if (state == AttackStates.AerialNeutralOne)
+                return new AerialNeutralOne(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
+            if (state == AttackStates.AerialNeutralTwo)
+                return new AerialNeutralTwo(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
+            if (state == AttackStates.AerialForwardAttack)
+                return new AerialForwardAttack(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
+            if (state == AttackStates.AerialDownAttack)
+                return new AerialDownAttack(fsm.gameObject, fsm, fsm.kit, fsm.UnitMovementData);
             return null;
         }
 

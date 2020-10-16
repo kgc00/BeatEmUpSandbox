@@ -1,4 +1,6 @@
 ﻿using System;
+using JetBrains.Annotations;
+using Photon.Pun;
 using UnityEngine;
 
 namespace General {
@@ -15,6 +17,65 @@ namespace General {
                 return "";
             }
         }
+        
+        public static void DampenXVelocity(Rigidbody2D rig) {
+            var vel = rig.velocity;
+            vel.x /= 4;
+
+            rig.velocity = vel;
+        }
+        
+        public static void RemoveXVelocity(Rigidbody2D rig) {
+            /* remove horizontal velocity for case of
+             *  exiting dash state.
+            */
+
+            var vel = rig.velocity;
+            vel.x = 0;
+
+            rig.velocity = vel;
+        }
+        
+        public static void RemovePositiveYVelocity(Rigidbody2D rig) {
+            var vel = rig.velocity;
+            vel.y = vel.y > 0 ? 0 : vel.y;
+
+            rig.velocity = vel;
+        }
+        
+        public static void AddForceY(Rigidbody2D rig, float force) {
+            rig.AddForce(new Vector2(0,force));
+        }
+        
+        public static void RemoveYVelocity(Rigidbody2D rig) {
+            /* remove downward velocity for case of
+             *  doing a double jump while falling at a great speed.
+             *  if we didn't do this, the jump would not raise the player up
+             * (all the negative y velocity would eat the movement)
+            */
+
+            var vel = rig.velocity;
+            vel.y = 0;
+
+            rig.velocity = vel;
+        }
+
+        public static void AddForceX(Rigidbody2D rig, int force) {            
+            rig.AddForce(new Vector2(force,0));
+        }
+
+        [CanBeNull]
+        public static GameObject GameObjectFromId(int photonViewId) {
+            var other = PhotonView.Find(photonViewId);
+
+            if (other == null) {
+                Debug.LogError("Unable to find object with id " + photonViewId);
+                return null;
+            }
+
+            return other.gameObject;
+        }
+        
         public static void LogInfo(Animator animator) {
             Debug.Log(animator.GetNextAnimatorClipInfo(0));
             Debug.Log(animator.GetNextAnimatorClipInfo(0)[0].clip);

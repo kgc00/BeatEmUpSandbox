@@ -1,4 +1,5 @@
-﻿using StateMachines.Logger;
+﻿using General;
+using StateMachines.Logger;
 using StateMachines.Messages;
 using StateMachines.Movement.Models;
 using StateMachines.Observer;
@@ -22,7 +23,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
                 if (Jump.UnitMovementData.jumpTimeLapsed < Config.minJumpDuration) return;
                 Jump.RaiseChangeStateEvent(JumpStates.Launched);
             }
-            
+
             if (Jump.UnitMovementData.jumpTimeLapsed < Config.jumpDuration) return;
 
             Jump.RaiseChangeStateEvent(JumpStates.Launched);
@@ -39,16 +40,23 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         }
 
         public override void Enter() {
-            Jump.UnitMovementData.jumpTimeLapsed = 0;
-            Jump.UnitMovementData.jumpsLeft = Mathf.Clamp(Jump.UnitMovementData.jumpsLeft - 1, 0, Config.maxDashes);
-            HandleAnimation();
-            InputLockObserver.LockRunInput(Behaviour);
-            RemoveYVelocity();
-            Rig.gravityScale = 1f;
-            Rig.drag = Config.aerialLinearDrag;
-            if (Jump.UnitMovementData.moveDir != 0)
-                Behaviour.transform.localScale = new Vector3((int) Jump.UnitMovementData.moveDir, 1, 1);
-            if (logger.QueryReleasedInputOfType(ActionNames.Jump)) exitWhenAble = true;
+            if (Jump.UnitMovementData.jumpsLeft == 0) {
+                Debug.LogWarning("Transitioned into launching state improperly- unit had no jumps... exiting");
+                Jump.RaiseChangeStateEvent(JumpStates.Falling);
+            }
+            else {
+                Jump.UnitMovementData.jumpTimeLapsed = 0;
+                Jump.UnitMovementData.jumpsLeft = Mathf.Clamp(Jump.UnitMovementData.jumpsLeft - 1, 0, Config.maxDashes);
+                HandleAnimation();
+                InputLockObserver.LockRunInput(Behaviour);
+                Helpers.RemoveYVelocity(Rig);
+                Rig.gravityScale = 1f;
+                Rig.drag = Config.aerialLinearDrag;
+                if (Jump.UnitMovementData.moveDir != 0)
+                    Behaviour.transform.localScale = new Vector3((int) Jump.UnitMovementData.moveDir, 1, 1);
+                // why was this in here? doesn't get replicated over network properly
+                // if (logger.QueryReleasedInputOfType(ActionNames.Jump)) exitWhenAble = true;
+            }
         }
 
         private void HandleAnimation() {

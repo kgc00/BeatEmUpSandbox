@@ -1,4 +1,6 @@
 ﻿using System;
+using General;
+using JetBrains.Annotations;
 using Photon.Pun;
 using StateMachines.Attacks.Models;
 using StateMachines.Interfaces;
@@ -28,6 +30,7 @@ namespace StateMachines.Attacks.States {
         protected InputLogger logger;
         protected GameObject hitbox;
         protected bool chainingEnabled;
+        public bool isAerialState { get; protected set; }
 
         protected AttackFS(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitMovementData movementDataValues) {
@@ -41,21 +44,27 @@ namespace StateMachines.Attacks.States {
             this.stateMachine = stateMachine;
             this.kit = kit;
             MovementDataValues = movementDataValues;
+            isAerialState = false;
+        }
+
+        public override void Exit() {
+            DisableHitbox();
         }
 
         protected bool IsDashState() =>
-            animator.GetCurrentAnimatorStateInfo(0).IsTag("Dash");
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Dash") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("AirDash");
 
         protected bool IsJumpState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("DoubleJump") ||
-            animator.GetCurrentAnimatorStateInfo(0).IsTag("AirDash") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Fall");
 
         protected bool IsExitingAttackState() =>
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Dash") ||
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("AirDash") ||
             animator.GetCurrentAnimatorStateInfo(0).IsTag("Jump");
 
         public void AcceptAttackInput(InputAction.CallbackContext context) {
@@ -86,23 +95,64 @@ namespace StateMachines.Attacks.States {
 
         protected void HandleStateChange(AttackStates newState) => stateMachine.RaiseChangeStateEvent(newState);
 
-        public virtual void AttackConnected(HitBox hitBox, Collider2D other) {
+        public virtual void AttackConnected(int id) {
+            var other = Helpers.GameObjectFromId(id);
+            if (other == null) return;
+            
+
+            if (isAerialState) {
+                // should do add force, but it applies too much force if you attack while jumping
+                rig.velocity = new Vector2(rig.velocity.x, 0.75f);
+                var enemyRig = other.transform.root.GetComponentInChildren<Rigidbody2D>();
+                if (enemyRig) Helpers.AddForceY(enemyRig, 120);
+            }
+            
             // other.transform.root.GetComponentInChildren<HealthComponent>()?.Damage(1);
         }
+
+        
 
         public virtual void AcceptJumpInput(InputAction.CallbackContext context) { }
 
         public virtual void AcceptMoveInput(InputAction.CallbackContext context) { }
 
         public virtual void HandleExitAnimation() {
+            Debug.Log("Handling Exit Animation");
             // animation clip reached end without interruption from player input,
             // return to idle
+            if (isAerialState)
+                jumpStateMachine.RaiseChangeStateEvent(jumpStateMachine.UnitMovementData.touchingGround
+                    ? JumpStates.Grounded
+                    : JumpStates.Falling);
             HandleStateChange(AttackStates.Idle);
+        }
+
+        protected void EnterAerialAttackState() {
+            Helpers.DampenXVelocity(rig);
+            Helpers.RemovePositiveYVelocity(rig);
+            rig.gravityScale = 0.66f;
+            // rig.AddForce(Vector2.up * 10f);
+        }
+
+        protected void IdentifyAndTransitionToAerialMovementOrAttackState(bool inputWasBuffered) {
+            if (!inputWasBuffered) {
+                Debug.LogWarning(
+                    "IdentifyAndTransitionToGroundedMovementOrAttackState without buffering is not implemented");
+                return;
+            }
+
+            if (logger.DidBufferDashInput()) jumpStateMachine.RaiseChangeStateEvent(JumpStates.Dashing);
+            else if (logger.DidBufferJumpInput()) {
+                if (jumpStateMachine.UnitMovementData.jumpsLeft > 0)
+                    jumpStateMachine.RaiseChangeStateEvent(JumpStates.Launching);
+            }
+            else if (logger.DidBufferAttackInput()) HandleStateChange(AttackStates.AerialNeutralOne);
         }
 
         protected void IdentifyAndTransitionToGroundedMovementOrAttackState(bool inputWasBuffered) {
             if (!inputWasBuffered) {
-                Debug.LogWarning("IdentifyAndTransitionToGroundedMovementOrAttackState without buffering is not implemented");
+                Debug.LogWarning(
+                    "IdentifyAndTransitionToGroundedMovementOrAttackState without buffering is not implemented");
                 return;
             }
 
@@ -130,6 +180,16 @@ namespace StateMachines.Attacks.States {
                 if (nextComboState == null) return;
                 if (!logger.DidBufferAttackInput(0.25f)) return;
                 HandleStateChange((AttackStates) nextComboState);
+            }
+        }
+
+        protected void IdentifyAndTransitionToAerialAttackState(AttackStates? nextComboState, float bufferLength) {
+            if (logger.IsForwardAttack())
+                HandleStateChange(AttackStates.AerialForwardAttack);
+            else if (logger.IsDownAttack()) HandleStateChange(AttackStates.AerialDownAttack);
+            else {
+                if (!logger.DidBufferAttackInput(bufferLength)) return;
+                HandleStateChange(nextComboState ?? AttackStates.Idle);
             }
         }
     }

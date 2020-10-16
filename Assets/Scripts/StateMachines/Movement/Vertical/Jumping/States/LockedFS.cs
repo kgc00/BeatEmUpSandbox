@@ -9,8 +9,11 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             base(behaviour, jump, jumpConfig) { }
 
         public override void AcceptJumpInput(InputAction.CallbackContext context) { }
-        public override void AcceptLockJumpInput(object sender) => Jump.RaiseChangeStateEvent(JumpStates.Grounded);
-        public override void AcceptUnlockJumpInput(object sender) => Jump.RaiseChangeStateEvent(JumpStates.Grounded);
+
+        public override void AcceptUnlockJumpInput(object sender) {
+            Jump.RaiseChangeStateEvent(Jump.UnitMovementData.touchingGround ? JumpStates.Grounded : JumpStates.Falling);
+        }
+
         public override void AcceptMoveInput(InputAction.CallbackContext context) {
             Jump.RaiseSetMoveDirEvent(context.ReadValue<Single>(), Behaviour.transform.localScale, Jump.ViewId);
         }

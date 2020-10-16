@@ -14,10 +14,6 @@ namespace StateMachines.Attacks.States {
         }
 
         public override void Enter() {
-            Debug.Log("Entering Grounded Forward ------");
-            Debug.Log("Run State: " + Helpers.GetUniqueStateName(behaviour.GetComponent<MovementFSM>().Run.State.ToString()));
-            Debug.Log("Jump State: " + Helpers.GetUniqueStateName(behaviour.GetComponent<MovementFSM>().Jump.State.ToString()));
-            // animator.StopPlayback();
             animator.Play("ground-forward-attack");
         }
 
@@ -32,6 +28,16 @@ namespace StateMachines.Attacks.States {
         public override void Update() {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("ground-forward-attack"))
                 animator.Play("ground-forward-attack");
+        }
+
+        public override void AttackConnected(int id) {
+            base.AttackConnected(id);
+            
+            var other = Helpers.GameObjectFromId(id);
+            if (other == null) return;
+            
+            var enemyRig = other.transform.root.GetComponentInChildren<Rigidbody2D>();
+            if (enemyRig) Helpers.AddForceX(enemyRig, -250);
         }
     }
 }

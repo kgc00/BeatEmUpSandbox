@@ -20,11 +20,6 @@ namespace StateMachines.Attacks.States {
             animator.Play(attack2);
         }
 
-        public override void Exit() { }
-
-        protected override void _EnableHitbox() => hitbox.SetActive(true);
-        protected override void _DisableHitbox() => hitbox.SetActive(false);
-
         protected override void _EnableChaining() {
             chainingEnabled = true;
             if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralThree, true);

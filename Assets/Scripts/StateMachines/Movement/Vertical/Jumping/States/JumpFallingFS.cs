@@ -1,4 +1,5 @@
 ﻿using StateMachines.Movement.Models;
+using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,9 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         }
 
         public override void Update() {
+            if (!AnimatorStateFalling())
+                Animator.Play("player_fall");
+            
             Rig.gravityScale = Rig.velocity.y < 0
                 ? Config.fallMultiplier
                 : Config.lowJumpMultiplier;

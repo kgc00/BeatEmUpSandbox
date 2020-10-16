@@ -35,3 +35,6 @@ move set:
 - - forward + attack triggers forwardAttack
 - - forward => wait => attack does not trigger forwardAttack
 - - forward => backward + attack triggers backwardAttack
+
+
+- horizontal knockback has to factor in player direction

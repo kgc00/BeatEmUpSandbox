@@ -1,4 +1,5 @@
 ﻿using System;
+using General;
 using StateMachines.Movement.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,13 +23,13 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
         public override void Enter() {
             Jump.UnitMovementData.dashesLeft = Mathf.Clamp(Jump.UnitMovementData.dashesLeft - 1, 0, Config.maxDashes);
             Rig.gravityScale = 0f;
-            RemoveYVelocity();
+            Helpers.RemoveYVelocity(Rig);
             dashDir = Jump.UnitMovementData.moveDir == 0 ? Behaviour.transform.localScale.x : Jump.UnitMovementData.moveDir;
             Animator.Play(AirDash);
         }
 
         public override void Exit() {
-            RemoveXVelocity();
+            Helpers.RemoveXVelocity(Rig);
             Jump.UnitMovementData.dashTimeLapsed = 0;
         }
 

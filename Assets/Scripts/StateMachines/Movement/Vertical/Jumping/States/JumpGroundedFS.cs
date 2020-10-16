@@ -1,4 +1,5 @@
 ﻿using StateMachines.Movement.Models;
+using StateMachines.Network;
 using StateMachines.Observer;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,6 +18,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
             Rig.drag = Config.groundedLinearDrag;
             ResetMoveValues();
             InputLockObserver.UnlockRunInput(Behaviour);
+            
         }
 
         public override void Update() {

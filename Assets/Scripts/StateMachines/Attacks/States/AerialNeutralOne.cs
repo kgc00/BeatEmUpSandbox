@@ -1,5 +1,6 @@
 ﻿using StateMachines.Attacks.Models;
 using StateMachines.Network;
+using StateMachines.Observer;
 using StateMachines.State;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,11 +12,15 @@ namespace StateMachines.Attacks.States {
         public AerialNeutralOne(GameObject behaviour, AttackFSM stateMachine, AttackKit kit,
             UnitMovementData movementDataValues) :
             base(behaviour, stateMachine, kit, movementDataValues) {
-            hitbox = HitboxFromKit(GetType());
+            hitbox = HitboxFromKit(GetType());            
+            isAerialState = true;
+
         }
 
         public override void Enter() {
             animator.Play(aerial1);
+            InputLockObserver.LockJumpInput(stateMachine);
+            EnterAerialAttackState();
         }
 
         public override void Update() {
@@ -25,11 +30,11 @@ namespace StateMachines.Attacks.States {
 
         protected override void _EnableChaining() {
             chainingEnabled = true;
-            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo, true);
+            if (chainingEnabled) IdentifyAndTransitionToAerialAttackState(AttackStates.AerialNeutralTwo, .05f);
         }
 
         protected override void _AcceptAttackInput(InputAction.CallbackContext context) {
-            if (chainingEnabled) IdentifyAndTransitionToGroundedAttackState(AttackStates.GroundedNeutralTwo);
+            if (chainingEnabled) IdentifyAndTransitionToAerialAttackState(AttackStates.AerialNeutralTwo, .05f);
         }
     }
 }
