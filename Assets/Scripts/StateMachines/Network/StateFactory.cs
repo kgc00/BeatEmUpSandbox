@@ -1,5 +1,7 @@
 ﻿using StateMachines.Attacks;
 using StateMachines.Attacks.States;
+using StateMachines.HurtStates;
+using StateMachines.HurtStates.States;
 using StateMachines.Movement.Horizontal.Run;
 using StateMachines.Movement.Horizontal.Run.States;
 using StateMachines.Movement.Models;
@@ -51,6 +53,10 @@ namespace StateMachines.Network {
             if (state == RunStates.Locked)
                 return new Movement.Horizontal.Run.States.LockedFS(fsm.Behaviour, fsm.Config, fsm);
             return null;
+        }
+
+        public static HurtFS HurtFSFromEnum(HurtStates.Model.HurtStates newState, HurtFSM hurtFSM) {
+            throw new System.NotImplementedException();
         }
     }
 }

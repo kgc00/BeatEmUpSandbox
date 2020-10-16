@@ -34,8 +34,10 @@ namespace StateMachines.Attacks {
         private void LateUpdate() => State.LateUpdate();
 
         public void RaiseChangeStateEvent(AttackStates newState) {
-            if (photonView.isActiveAndEnabled)
-                photonView.RPC("ChangeState", RpcTarget.All, newState);
+            if (photonView.isActiveAndEnabled) {
+                ChangeState(newState);
+                photonView.RPC("ChangeState", RpcTarget.Others, newState);
+            }
         }
 
         [PunRPC]
@@ -50,17 +52,26 @@ namespace StateMachines.Attacks {
             State.AcceptAttackInput(context);
         }
 
-        public void EnableChaining() => photonView.RPC("EnableChaining_RPC", RpcTarget.All);
+        public void EnableChaining() {
+            EnableChaining_RPC();
+            photonView.RPC("EnableChaining_RPC", RpcTarget.Others);
+        }
 
         [PunRPC]
         void EnableChaining_RPC() => State.EnableChaining();
 
-        public void EnableHitbox() => photonView.RPC("EnableHitbox_RPC", RpcTarget.All);
+        public void EnableHitbox() {
+            EnableHitbox_RPC();
+            photonView.RPC("EnableHitbox_RPC", RpcTarget.Others);
+        }
 
         [PunRPC]
         void EnableHitbox_RPC() => State.EnableHitbox();
 
-        public void DisableHitbox() => photonView.RPC("DisableHitbox_RPC", RpcTarget.All);
+        public void DisableHitbox() {
+            DisableHitbox_RPC();
+            photonView.RPC("DisableHitbox_RPC", RpcTarget.Others);
+        }
 
         [PunRPC]
         void DisableHitbox_RPC() => State.DisableHitbox();
