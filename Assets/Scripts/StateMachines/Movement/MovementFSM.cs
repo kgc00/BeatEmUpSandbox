@@ -1,4 +1,5 @@
 ﻿using System;
+using General;
 using Photon.Pun;
 using StateMachines.Interfaces;
 using StateMachines.Movement.Horizontal.Run;
@@ -99,14 +100,16 @@ namespace StateMachines.Movement {
         private void OnCollisionEnter2D(Collision2D other) {
             if (!photonView.IsMine) return;
 
-            CollisionEnter2D_RPC();
-            photonView.RPC("CollisionEnter2D_RPC", RpcTarget.Others);
+            var id = Helpers.GetIdFromObject(other.gameObject);
+            
+            CollisionEnter2D_RPC(id);
+            photonView.RPC("CollisionEnter2D_RPC", RpcTarget.Others, id);
         }
 
         [PunRPC]
-        private void CollisionEnter2D_RPC() {
-            Jump.OnCollisionEnter2D_RPC();
-            Run.OnCollisionEnter2D_RPC();
+        private void CollisionEnter2D_RPC(int? id) {
+            Jump.OnCollisionEnter2D_RPC(id);
+            Run.OnCollisionEnter2D_RPC(id);
         }
     }
 }

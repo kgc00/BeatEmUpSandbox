@@ -1,4 +1,5 @@
 ﻿using System;
+using General;
 using Photon.Pun;
 using StateMachines.Attacks;
 using StateMachines.Interfaces;
@@ -7,6 +8,7 @@ using StateMachines.Movement.Models;
 using StateMachines.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Debug = System.Diagnostics.Debug;
 
 namespace StateMachines.Movement.Vertical.Jumping.States {
     /// <summary>
@@ -48,8 +50,12 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
 
         public virtual Vector2 Force() => Vector2.zero;
 
-        public virtual void OnCollisionEnter2D_RPC() {
-            if (attackStateMachine.State.isAerialState) attackStateMachine.RaiseChangeStateEvent(AttackStates.Idle);
+        public virtual void OnCollisionEnter2D_RPC(int? id) {
+            if (!id.HasValue) return;
+            
+            var other = Helpers.GameObjectFromId(id.Value);
+            Debug.Assert(other != null, nameof(other) + " != null");
+            if (attackStateMachine.State.isAerialState  && other.CompareTag("Board")) attackStateMachine.RaiseChangeStateEvent(AttackStates.Idle);
         }
 
         public abstract void AcceptJumpInput(InputAction.CallbackContext context);

@@ -111,7 +111,7 @@ namespace StateMachines.Movement.Vertical.Jumping {
 
         public void Update() => State.Update();
         public void FixedUpdate() => State.FixedUpdate();
-        public void OnCollisionEnter2D_RPC() => State.OnCollisionEnter2D_RPC();
+        public void OnCollisionEnter2D_RPC(int? id) => State.OnCollisionEnter2D_RPC(id);
         public void AcceptJumpInput(InputAction.CallbackContext context) => State.AcceptJumpInput(context);
 
         public void AcceptLockMovementInput(object sender) {

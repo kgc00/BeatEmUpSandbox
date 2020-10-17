@@ -6,9 +6,12 @@ using StateMachines.Network;
 namespace StateMachines.HurtStates {
     public class HurtFSM : MonoBehaviourPun, IChangeStatePun<Model.HurtStates> {
         public HurtFS State { get; private set; }
+
         public void RaiseChangeStateEvent(Model.HurtStates newState) {
-            if (photonView.isActiveAndEnabled)
-                photonView.RPC("ChangeState", RpcTarget.All, newState);
+            if (!photonView.isActiveAndEnabled) return;
+
+            ChangeState(newState);
+            photonView.RPC("ChangeState", RpcTarget.Others, newState);
         }
 
         public void ChangeState(Model.HurtStates newState) {
@@ -16,5 +19,11 @@ namespace StateMachines.HurtStates {
             State = StateFactory.HurtFSFromEnum(newState, this);
             State.Enter();
         }
+        
+        private void Update() => State.Update();
+
+        private void FixedUpdate() => State.FixedUpdate();
+
+        private void LateUpdate() => State.LateUpdate();
     }
 }

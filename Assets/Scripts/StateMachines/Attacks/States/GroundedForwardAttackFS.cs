@@ -36,8 +36,10 @@ namespace StateMachines.Attacks.States {
             var other = Helpers.GameObjectFromId(id);
             if (other == null) return;
             
+            var dir = Helpers.GetDir(other, behaviour);
+            
             var enemyRig = other.transform.root.GetComponentInChildren<Rigidbody2D>();
-            if (enemyRig) Helpers.AddForceX(enemyRig, -250);
+            if (enemyRig) Helpers.AddForceX(enemyRig, dir * 250);
         }
     }
 }

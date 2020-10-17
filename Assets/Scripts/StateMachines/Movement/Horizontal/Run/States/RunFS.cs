@@ -38,7 +38,7 @@ namespace StateMachines.Movement.Horizontal.Run.States {
         public void AcceptMoveInput(InputAction.CallbackContext context) => _AcceptMoveInput(context);
 
         protected abstract void _AcceptMoveInput(InputAction.CallbackContext context);
-        public void OnCollisionEnter2D_RPC() => _OnCollisionEnter2D_RPC();
+        public void OnCollisionEnter2D_RPC(int? id) => _OnCollisionEnter2D_RPC();
 
         protected abstract void _OnCollisionEnter2D_RPC();
 

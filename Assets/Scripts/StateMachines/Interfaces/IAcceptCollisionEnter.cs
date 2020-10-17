@@ -2,6 +2,6 @@
 
 namespace StateMachines.Interfaces {
     public interface IAcceptCollisionEnter {
-        void OnCollisionEnter2D_RPC();
+        void OnCollisionEnter2D_RPC(int? id);
     }
 }

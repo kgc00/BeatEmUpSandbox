@@ -46,7 +46,9 @@ namespace General {
         public static void AddForceY(Rigidbody2D rig, float force) {
             rig.AddForce(new Vector2(0,force));
         }
-        
+
+        public static int GetDir(GameObject other, GameObject self) => Math.Sign(other.transform.position.x - self.transform.position.x);
+
         public static void RemoveYVelocity(Rigidbody2D rig) {
             /* remove downward velocity for case of
              *  doing a double jump while falling at a great speed.
@@ -106,6 +108,15 @@ namespace General {
             Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Jump"));
             Debug.Log("Logging Run");
             Debug.Log(animator.GetNextAnimatorStateInfo(0).IsTag("Run"));
+        }
+
+        public static int? GetIdFromObject(GameObject gameObject) {
+            var id = gameObject.transform.root.GetComponentInChildren<PhotonView>()?.ViewID;
+            if (!id.HasValue) {
+                Debug.LogWarning("Unable to get ID from " + gameObject.name);
+            }
+
+            return id;
         }
     }
 }

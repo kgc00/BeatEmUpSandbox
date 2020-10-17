@@ -109,17 +109,19 @@ namespace StateMachines.Attacks.States {
 
         private IEnumerator PopUpActors(GameObject other) {
             var enemyRig = other.transform.root.GetComponentInChildren<Rigidbody2D>();
-            Debug.Log("other: " + other);
-            if (enemyRig != null) Helpers.RemoveYVelocity(enemyRig);
+
+            if (enemyRig == null) Debug.Log("Unable to get Rigidbody 2D from " + other.name);
+            else Helpers.RemoveYVelocity(enemyRig);
+
             Helpers.RemoveYVelocity(rig);
 
             for (int i = 0; i < 4; i++) {
-                Helpers.RemoveYVelocity(rig);
-                Helpers.AddForceY(rig, 15);
+                Helpers.AddForceY(rig, 10);
 
                 if (enemyRig == null) continue;
-                Helpers.AddForceY(enemyRig, 35);
+                Helpers.AddForceY(enemyRig, 25);
             }
+
             yield break;
         }
 

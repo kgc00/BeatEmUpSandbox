@@ -33,7 +33,7 @@ namespace StateMachines.Movement.Vertical.Jumping.States {
                 : Config.lowJumpMultiplier;
         }
 
-        public override void OnCollisionEnter2D_RPC() {
+        public override void OnCollisionEnter2D_RPC(int? id) {
             if (!Jump.UnitMovementData.touchingGround) return;
 
             Rig.drag = Config.groundedLinearDrag;
